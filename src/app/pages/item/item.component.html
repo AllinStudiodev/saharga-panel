@@ -1,0 +1,104 @@
+<nb-card accent="info" [nbSpinner]="loading"
+             nbSpinnerStatus="primary"
+             nbSpinnerSize="large"
+             nbSpinnerMessage="">
+  <nb-card-header>List Item</nb-card-header>
+  <nb-card-body>
+
+  <div>
+    <button  class="margin" (click)="gotoform('new')" nbButton size="tiny"><nb-icon icon="plus" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Tambah Item</button>
+    <button class="margin" (click)="gotoform('new')" nbButton size="tiny"><nb-icon icon="upload-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Import Item</button>
+    <button class="margin"  (click)="gotoform('new')" status="success" nbButton size="tiny"><nb-icon icon="download-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Export Item Checklist</button>
+    <button class="margin"  (click)="gotoform('new')" status="success" nbButton size="tiny"><nb-icon icon="trash-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> jadikan FRONT Checklist</button>
+    <button class="margin"  (click)="gotoform('new')" status="danger" nbButton size="tiny"><nb-icon icon="trash-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Hapus Item Checklist</button>
+  </div>
+
+
+  <div style="text-align: right; padding-bottom:10px;">
+    <nb-select class="page" placeholder="Select Showcase" (selectedChange)="getRow()" [(ngModel)]="pagination.row" [(selected)]="selectedItem">
+      <nb-option value="250">2020</nb-option>
+      <nb-option value="500">2019</nb-option>
+    </nb-select>
+    <nb-select class="page" placeholder="Select Showcase" (selectedChange)="getRow()" [(ngModel)]="pagination.row" [(selected)]="selectedItem">
+      <nb-option value="250">Administrator</nb-option>
+      <nb-option value="500">Badan Kepegawean Dan Pengembangan Sumber Daya Manusia</nb-option>
+    </nb-select>
+    <input size="small" type="text" (keydown)="searchEnter($event)" [(ngModel)]="pagination.keyword" nbInput placeholder="Search">
+    <button size="small" nbButton class="button-search-barang" (click)="search()"><nb-icon icon="search"></nb-icon></button>
+  </div>
+
+
+  <div class="table-responsive">
+    <table class="table table-sm table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <!-- <th scope="col" style="cursor: pointer;">No. <nb-icon icon="arrow-ios-upward"></nb-icon></th> -->
+          <th scope="col" style="cursor: pointer;text-align: center;">
+            <nb-checkbox></nb-checkbox>
+          </th>
+          <th scope="col" style="cursor: pointer;">Tanggal Input</th>
+          <th scope="col" style="cursor: pointer;">Uraian</th>
+          <th scope="col" style="cursor: pointer;">Desksripsi</th>
+          <th scope="col" style="cursor: pointer;">Satuan</th>
+          <th scope="col" style="cursor: pointer;">Harga</th>
+          <th scope="col" style="cursor: pointer;">Lokasi Survey</th>
+          <th scope="col" style="cursor: pointer;">Diinput Oleh</th>
+          <th scope="col" style="cursor: pointer;">Level</th>
+          <th scope="col" style="text-align: center">Opsi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dt of data.data; let i = index;">
+          <th scope="row">{{ data.from + i }}.</th>
+          <th scope="row" style="text-align: center;" >
+            <nb-checkbox (checkedChange)="checklistChange(dt)"></nb-checkbox>
+          </th>
+          <td>{{ dt?.created_at | date: 'dd-MM-yyyy' }}</td>
+          <td>{{ dt?.uraian }}</td>
+          <td>{{ dt?.description }}</td>
+          <td>{{ dt?.satuan_id }}</td>
+          <td>{{ dt?.price | number }}</td>
+          <td>{{ dt?.survey_location }}</td>
+          <td>{{ dt?.user_id }}</td>
+          <td>{{ dt?.user_id }}</td>
+          <td style="text-align: center">
+            <button (click)="gotoform(dt.id)" nbButton size="tiny" ghost status="success"><nb-icon icon="edit"></nb-icon></button>
+            <button (click)="deletePembelian(dt.id)" nbButton size="tiny" ghost status="danger"><nb-icon icon="trash"></nb-icon></button>
+          </td>
+        </tr>
+    </table>
+    <ng-container *ngIf="data.data.length == 0">
+      <h5 class="center margin">Data tidak ada</h5>
+    </ng-container>
+  </div>
+
+  <div class="halaman">
+    <span class="page">Baris Perhalaman :</span>
+
+    <nb-select class="page" placeholder="Select Showcase" (selectedChange)="getRow()" [(ngModel)]="pagination.row" [(selected)]="selectedItem">
+      <nb-option value="250">250</nb-option>
+      <nb-option value="500">500</nb-option>
+    </nb-select>
+
+    <span class="page">{{ data.from }} - {{ data.to }} dari {{ data.total }} </span>
+
+    <button nbButton ghost status="primary" [disabled]="data.first_page_url == null" (click)="getData(data.first_page_url)">
+      <nb-icon icon="arrowhead-left-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+    </button>
+
+    <button nbButton ghost status="primary" [disabled]="data.prev_page_url == null" (click)="getData(data.prev_page_url)">
+      <nb-icon icon="arrow-ios-back-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+    </button>
+
+    <button nbButton ghost status="primary" [disabled]="data.next_page_url == null" (click)="getData(data.next_page_url)">
+      <nb-icon icon="arrow-ios-forward-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+    </button>
+
+    <button nbButton ghost status="primary" [disabled]="data.last_page_url == null" (click)="getData(data.last_page_url)">
+      <nb-icon icon="arrowhead-right-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+    </button>
+  </div>
+
+  </nb-card-body>
+</nb-card>

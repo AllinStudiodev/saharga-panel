@@ -27,9 +27,17 @@ export class APIService {
       return Promise.reject(error);
   }
 
-  // #region cabang
+  // #region menu
   async getMenu(): Promise<any> {
     return this.http.get(this.hostingUrl+ 'menucategory/', this.httpOptions)
+    .toPromise()
+    .then(response => response)
+    .catch(this.handleError);
+  }
+
+  // #region item
+  async getItemsByCategoiId(url, data): Promise<any> {
+    return this.http.post(url, data, this.httpOptions)
     .toPromise()
     .then(response => response)
     .catch(this.handleError);
