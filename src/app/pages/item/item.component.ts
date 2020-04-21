@@ -14,7 +14,8 @@ export class ItemComponent implements OnInit, OnDestroy {
   loading = false;
   url = '';
   navigationSubscription;
-  selectedItem = [];
+  selectedItem;
+  checkedItem = [];
 
   pagination = {
     row: '250',
@@ -72,7 +73,6 @@ export class ItemComponent implements OnInit, OnDestroy {
    * @memberof CabangComponent
    */
   getData(url) {
-    console.log('kadie ' , url)
     this.loading = true;
     this.pagination.categori_id = this.route.snapshot.paramMap.get("id")
     this.service.getItemsByCategoiId(url, this.pagination).then(
@@ -110,19 +110,35 @@ export class ItemComponent implements OnInit, OnDestroy {
     this.getData(this.url)
   }
 
-  checklistChange(item) {
-    if (this.selectedItem.length > 0) {
+  checklistChange($event, itemParam, indexParam) {
 
-      this.selectedItem = this.selectedItem.filter(data => {
-        return item.id != data.id
-      })
-
-      console.log(this.selectedItem)
+    if ($event) {
+      this.checkedItem.push(itemParam);
+      this.data.data[indexParam].selected = true;
     } else {
-      this.selectedItem.push(item)
+      let index = this.checkedItem.indexOf(itemParam);
+      if (index !== -1) this.checkedItem.splice(index, 1);
+      this.data.data[indexParam].selected = false;
     }
 
+    console.log(this.checkedItem)
+  }
 
-    console.log(this.selectedItem)
+  checkAll($event) {
+
+    if ($event) {
+      this.data.data.forEach(element => {
+        element.selected = true;
+      });
+
+      this.checkedItem = this.data.data;
+    } else {
+      this.data.data.forEach(element => {
+        element.selected = false;
+      });
+
+      this.checkedItem = [];
+    }
+
   }
 }

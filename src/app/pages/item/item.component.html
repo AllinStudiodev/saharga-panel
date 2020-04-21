@@ -8,9 +8,9 @@
   <div>
     <button  class="margin" (click)="gotoform('new')" nbButton size="tiny"><nb-icon icon="plus" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Tambah Item</button>
     <button class="margin" (click)="gotoform('new')" nbButton size="tiny"><nb-icon icon="upload-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Import Item</button>
-    <button class="margin"  (click)="gotoform('new')" status="success" nbButton size="tiny"><nb-icon icon="download-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Export Item Checklist</button>
-    <button class="margin"  (click)="gotoform('new')" status="success" nbButton size="tiny"><nb-icon icon="trash-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> jadikan FRONT Checklist</button>
-    <button class="margin"  (click)="gotoform('new')" status="danger" nbButton size="tiny"><nb-icon icon="trash-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Hapus Item Checklist</button>
+    <button class="margin" *ngIf="checkedItem.length > 0" (click)="gotoform('new')" status="success" nbButton size="tiny"><nb-icon icon="download-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Export Item Checklist</button>
+    <button class="margin" *ngIf="checkedItem.length > 0" (click)="gotoform('new')" status="success" nbButton size="tiny"><nb-icon icon="trash-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> jadikan FRONT Checklist</button>
+    <button class="margin" *ngIf="checkedItem.length > 0" (click)="gotoform('new')" status="danger" nbButton size="tiny"><nb-icon icon="trash-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Hapus Item Checklist</button>
   </div>
 
 
@@ -35,7 +35,7 @@
           <th scope="col">#</th>
           <!-- <th scope="col" style="cursor: pointer;">No. <nb-icon icon="arrow-ios-upward"></nb-icon></th> -->
           <th scope="col" style="cursor: pointer;text-align: center;">
-            <nb-checkbox></nb-checkbox>
+            <nb-checkbox (checkedChange)="checkAll($event)"></nb-checkbox>
           </th>
           <th scope="col" style="cursor: pointer;">Tanggal Input</th>
           <th scope="col" style="cursor: pointer;">Uraian</th>
@@ -52,7 +52,7 @@
         <tr *ngFor="let dt of data.data; let i = index;">
           <th scope="row">{{ data.from + i }}.</th>
           <th scope="row" style="text-align: center;" >
-            <nb-checkbox (checkedChange)="checklistChange(dt)"></nb-checkbox>
+            <nb-checkbox [checked]="dt.selected" (checkedChange)="checklistChange($event, dt, i)"></nb-checkbox>
           </th>
           <td>{{ dt?.created_at | date: 'dd-MM-yyyy' }}</td>
           <td>{{ dt?.uraian }}</td>
