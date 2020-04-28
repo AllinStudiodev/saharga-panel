@@ -8,7 +8,7 @@ import { Observable, Subject } from 'rxjs';
 })
 export class APIService {
 
-  public hostingUrl = 'http://localhost:81/saharga-api/api/v1/';
+  public hostingUrl = 'http://api.allinstudio.co.id/api/v1/';
   private httpOptions = {
     headers: new HttpHeaders({
       'Accept': 'application/json',
@@ -25,6 +25,14 @@ export class APIService {
 
   async handleError(error: Response | any) {
       return Promise.reject(error);
+  }
+
+   // #region menu
+   async getGroups(): Promise<any> {
+    return this.http.get(this.hostingUrl+ 'group/', this.httpOptions)
+    .toPromise()
+    .then(response => response)
+    .catch(this.handleError);
   }
 
   // #region menu

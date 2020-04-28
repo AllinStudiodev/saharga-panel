@@ -7,6 +7,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { PagesRoutingModule } from './pages-routing.module';
 
 import { ItemModule } from "./item/item.module";
+import { GroupModule } from './group/group.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { ItemModule } from "./item/item.module";
     ThemeModule,
     NbMenuModule,
     DashboardModule,
-    ItemModule
+    ItemModule,
+    GroupModule
   ],
   declarations: [
     PagesComponent,

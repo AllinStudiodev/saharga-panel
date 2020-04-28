@@ -141,4 +141,12 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
   }
+
+  gotoform() {
+    this.router.navigate(['pages/items-form/'])
+  }
+
+  gotoformimport() {
+    this.router.navigate(['pages/items-import/' + this.route.snapshot.paramMap.get("id")])
+  }
 }

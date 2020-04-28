@@ -25,6 +25,12 @@ export class PagesComponent {
       home: true,
     },
     {
+      title: 'Group',
+      icon: 'home-outline',
+      link: '/pages/group',
+      home: true,
+    },
+    {
       title: 'MAIN GOLONGAN',
       group: true,
     }

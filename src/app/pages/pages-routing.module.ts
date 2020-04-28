@@ -4,6 +4,9 @@ import { NgModule } from '@angular/core';
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ItemComponent } from "./item/item.component";
+import { GroupComponent } from './group/group.component';
+import { ItemImportComponent } from './item/item-import/item-import.component';
+import { ItemFormComponent } from './item/item-form/item-form.component';
 
 const routes: Routes = [{
   path: '',
@@ -12,6 +15,18 @@ const routes: Routes = [{
     {
       path: 'dashboard',
       component: DashboardComponent,
+    },
+    {
+      path: 'group',
+      component: GroupComponent,
+    },
+    {
+      path: 'items-form',
+      component: ItemFormComponent,
+    },
+    {
+      path: 'items-import/:categori_id',
+      component: ItemImportComponent,
     },
     {
       path: 'items/:id',

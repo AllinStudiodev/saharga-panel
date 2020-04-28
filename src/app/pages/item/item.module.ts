@@ -4,9 +4,11 @@ import { ItemComponent } from './item.component';
 import { NbCardModule, NbSelectModule, NbCheckboxModule, NbInputModule, NbDatepickerModule, NbIconModule, NbButtonModule, NbToastrModule, NbPopoverModule, NbListModule, NbSpinnerModule, NbDialogModule } from '@nebular/theme';
 import { ThemeModule } from '../../@theme/theme.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ItemImportComponent } from './item-import/item-import.component';
+import { ItemFormComponent } from './item-form/item-form.component';
 
 @NgModule({
-  declarations: [ItemComponent],
+  declarations: [ItemComponent, ItemImportComponent, ItemFormComponent],
   imports: [
     ThemeModule,
     FormsModule,
