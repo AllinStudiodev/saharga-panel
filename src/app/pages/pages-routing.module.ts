@@ -21,7 +21,7 @@ const routes: Routes = [{
       component: GroupComponent,
     },
     {
-      path: 'items-form',
+      path: 'items-form/:params/:categori_id',
       component: ItemFormComponent,
     },
     {

@@ -1,4 +1,25 @@
 import { Component, OnInit } from '@angular/core';
+import { APIService } from '../../../api.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2'
+
+/**
+ * interface Item
+ *
+ * @export
+ * @interface Item
+ */
+export class Item {
+  id: Number;
+  categori_id?: Number;
+  satuan_id?: Number;
+  user_id?: Number;
+  uraian?: String;
+  description?: String;
+  price?: String;
+  survey_location?: String;
+  is_front?: Boolean;
+}
 
 @Component({
   selector: 'item-form',
@@ -7,9 +28,187 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ItemFormComponent implements OnInit {
 
-  constructor() { }
+  item = new Item;
+  error = new Item;
+  satuans = [];
+  loading = false;
 
-  ngOnInit() {
+  constructor(
+    private service: APIService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
+
+  async ngOnInit() {
+    await this.getSatuan()
+
+    if (this.route.snapshot.paramMap.get("params") !== 'new') {
+      this.getItemByID(this.route.snapshot.paramMap.get("params"))
+    } else {
+      this.init()
+    }
   }
 
+   /**
+   * initial new cabang
+   *
+   * @memberof CabangFromComponent
+   */
+  init() {
+    this.item.id = null;
+    this.item.categori_id = Number(this.route.snapshot.paramMap.get("categori_id"));
+    this.item.satuan_id = null;
+    this.item.user_id = null;
+    this.item.uraian = null;
+    this.item.description = null;
+    this.item.price = null;
+    this.item.survey_location = null;
+    this.item.is_front = null;
+    this.item.user_id = 1;
+
+    this.error = new Item;
+  }
+
+  /**
+   * save new data cabang || update data cabang
+   *
+   * @memberof CabangFromComponent
+   */
+  save() {
+    if (this.route.snapshot.paramMap.get("params") !== 'new') {
+      this.loading = true;
+      this.service.updateItem(this.item, this.route.snapshot.paramMap.get("params")).then(
+        result => {
+          Swal.fire(
+            result.msg,
+            'Your file has been saved.',
+            'success'
+          )
+          this.loading = false;
+          this.goToList();
+        }
+      ).catch(
+        error => {
+          if (error.error == 'Unauthorized.') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Session login anda sudah habis silahkan login kembali',
+            })
+            this.loading = false;
+            this.router.navigate(['auth/login'])
+          } else {
+            this.error = error.error;
+            this.loading = false;
+          }
+        }
+      )
+    } else {
+      this.loading = true;
+      this.service.postItem(this.item).then(
+        result => {
+          Swal.fire(
+            result.msg,
+            'Your file has been saved.',
+            'success'
+          )
+          this.loading = false;
+          this.goToList();
+        }
+      ).catch(
+        error => {
+          if (error.error == 'Unauthorized.') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Session login anda sudah habis silahkan login kembali',
+            })
+            this.loading = false;
+            this.router.navigate(['auth/login'])
+          } else {
+            this.error = error.error;
+            this.loading = false;
+          }
+        }
+      )
+    }
+  }
+
+  /**
+   * fungsi cancel , kosongkan data
+   *
+   * @memberof CabangFromComponent
+   */
+  batal() {
+    this.init()
+  }
+
+  /**
+   * pergi ke list obat
+   *
+   * @memberof CabangFromComponent
+   */
+  goToList() {
+    this.router.navigate(['pages/items/'+ this.route.snapshot.paramMap.get("categori_id")])
+  }
+
+  getItemByID(id) {
+    this.loading = true;
+    setTimeout(() => {
+      this.service.getItemByID(id).then(
+        result => {
+          this.item = result.data
+          this.loading = false;
+        }
+      ).catch(
+        error => {
+          if (error.error == 'Unauthorized.') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Session login anda sudah habis silahkan login kembali',
+            })
+            this.loading = false;
+            this.router.navigate(['auth/login'])
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong!' + error.msg,
+            })
+            this.loading = false;
+          }
+        }
+      )
+    }, 700);
+  }
+
+  /**
+   *get tahun by items for combobox
+   *
+   * @memberof ItemComponent
+   */
+  getSatuan() {
+    this.service.getSatuan().then(
+      result => {
+        console.log(result)
+        this.satuans = result.data;
+        this.item.satuan_id = this.satuans[0].id
+      }
+    )
+  }
+
+  /**
+   * fungsi untuk check or uncheck barang aktif
+   *
+   * @param {boolean} checked
+   * @memberof BarangFromComponent
+   */
+  toggle(checked: boolean) {
+    if (checked) {
+      this.item.is_front = true
+    } else {
+      this.item.is_front = false
+    }
+  }
 }

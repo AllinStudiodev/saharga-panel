@@ -4,23 +4,19 @@
              nbSpinnerMessage="">
   <nb-card-header>Form Upload Excel Produk</nb-card-header>
   <nb-card-body>
-    <button  class="margin" (click)="gotoform()" nbButton size="tiny"><nb-icon icon="download-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Form Format Excel</button>
+    <a href="assets/format-import-excel.xlsx" class="margin" (click)="download()" nbButton size="tiny"><nb-icon icon="download-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Form Format Excel</a>
 
     <br /><br />
 
       <div class="form-group row">
         <div class="col-sm-12">
-          <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-          <!-- <ng-container class="col-sm-9">
-            <br /><br />
-            <p class="caption status-danger">
-              Error
-            </p>
-          </ng-container> -->
+          <input type="file" [(ngModel)]="file" name="file" (change)="upload($event)" required accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+          <br /><br />
+          <nb-progress-bar *ngIf="uploadProgress > 0" [value]="uploadProgress" status="primary">{{ uploadProgress }}%</nb-progress-bar>
         </div>
       </div>
 
-      <button  class="margin" (click)="download()" nbButton size="tiny"><nb-icon icon="save-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Submit</button>
+      <!-- <button  class="margin" (click)="uploadFileToActivity()" nbButton size="tiny"><nb-icon icon="save-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Submit</button> -->
       <button  class="margin" status="basic" (click)="refresh()" nbButton size="tiny"><nb-icon icon="refresh-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Muat Ulang</button>
       <button  class="margin" status="basic" (click)="back()" nbButton size="tiny"><nb-icon icon="undo-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Kembali</button>
 
