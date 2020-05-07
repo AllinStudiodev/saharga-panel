@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
-import { MENU_ITEMS } from './pages-menu';
+import { MENU_ITEMS } from "./pages-menu";
 import { APIService } from "../api.service";
+import { NbMenuItem } from "@nebular/theme";
 
 @Component({
-  selector: 'ngx-pages',
-  styleUrls: ['pages.component.scss'],
+  selector: "ngx-pages",
+  styleUrls: ["pages.component.scss"],
   template: `
     <ngx-one-column-layout>
       <nb-menu [items]="menu"></nb-menu>
@@ -14,43 +15,22 @@ import { APIService } from "../api.service";
   `,
 })
 export class PagesComponent {
+  menu: NbMenuItem[] = MENU_ITEMS;
 
-  // menu = MENU_ITEMS;
+  loading = false;
 
-  menu = [
-    {
-      title: 'Dashboard',
-      icon: 'home-outline',
-      link: '/pages/dashboard',
-      home: true,
-    },
-    {
-      title: 'Group',
-      icon: 'home-outline',
-      link: '/pages/group',
-      home: true,
-    },
-    {
-      title: 'MAIN GOLONGAN',
-      group: true,
-    }
-  ];
-
-  constructor(
-    private service: APIService,
-    ) {
-      console.log('ini service', this.service);
-      this.service.getMenu().then(
-        result => {
-          result.forEach(element => {
-            this.menu.push(element);
-          });
-          console.log(this.menu);
-        }
-      ).catch(
-        error => {
-          console.log(error);
-        }
-      )
-    }
+  constructor(private service: APIService) {
+    console.log("ini service", this.service);
+    this.service
+      .getMenu()
+      .then((result) => {
+        result.forEach((element) => {
+          this.menu.push(element);
+        });
+        console.log(this.menu);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 }

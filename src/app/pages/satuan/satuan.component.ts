@@ -4,11 +4,11 @@ import { Router } from "@angular/router";
 import Swal from "sweetalert2";
 
 @Component({
-  selector: "group",
-  templateUrl: "./group.component.html",
-  styleUrls: ["./group.component.scss"],
+  selector: "satuan",
+  templateUrl: "./satuan.component.html",
+  styleUrls: ["./satuan.component.scss"],
 })
-export class GroupComponent implements OnInit {
+export class SatuanComponent implements OnInit {
   selectedItem = "25";
   url = "";
   loading = false;
@@ -33,7 +33,7 @@ export class GroupComponent implements OnInit {
   };
 
   constructor(private service: APIService, private router: Router) {
-    this.url = this.service.hostingUrl + "getgroup?";
+    this.url = this.service.hostingUrl + "getsatuan?";
   }
 
   ngOnInit() {
@@ -41,15 +41,15 @@ export class GroupComponent implements OnInit {
   }
 
   /**
-   * get data by group from api
+   * get data by satuan from api
    *
    * @param {*} url
-   * @memberof GroupComponent
+   * @memberof SatuanComponent
    */
   getData(url) {
     this.loading = true;
     this.service
-      .getGroupWithPagination(url, this.pagination)
+      .getSatuanWithPagination(url, this.pagination)
       .then((result) => {
         console.log(result);
         //data from API json
@@ -81,7 +81,7 @@ export class GroupComponent implements OnInit {
   /**
    * fungsi pencarian ketika klik button search
    *
-   * @memberof GroupComponent
+   * @memberof SatuanComponent
    */
   search() {
     if (this.pagination.keyword.length > 1) {
@@ -96,7 +96,7 @@ export class GroupComponent implements OnInit {
    * fungsi pencarian ketika pencet enter
    *
    * @param {*} event
-   * @memberof GroupComponent
+   * @memberof SatuanComponent
    */
   searchEnter(event) {
     if (event.key === "Enter") {
@@ -109,10 +109,10 @@ export class GroupComponent implements OnInit {
   }
 
   gotoform(params) {
-    this.router.navigate(["pages/group-form/" + params]);
+    this.router.navigate(["pages/satuan-form/" + params]);
   }
 
-  deleteGroup(ID) {
+  deleteSatuan(ID) {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -125,7 +125,7 @@ export class GroupComponent implements OnInit {
       if (result.value) {
         this.loading = true;
         this.service
-          .deleteGroup(ID)
+          .deleteSatuan(ID)
           .then((result) => {
             Swal.fire(result.msg, "Your file has been deleted.", "success");
             this.loading = false;
@@ -153,47 +153,4 @@ export class GroupComponent implements OnInit {
       }
     });
   }
-
-  // exportToExcel() {
-  //   this.loadingExport = true;
-  //   this.service.DownloadData({}, "exportexcel").subscribe((result) => {
-  //     this.loadingExport = false;
-  //     this.downloadFile(
-  //       result,
-  //       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  //       "export.xls"
-  //     );
-  //   });
-  // }
-
-  // exportToPdf() {
-  //   this.loadingExport = true;
-  //   this.service.DownloadData({}, "exportpdf").subscribe((result) => {
-  //     this.loadingExport = false;
-  //     this.downloadFile(result, "application/pdf", "export.pdf");
-  //   });
-  // }
-
-  // downloadFile(blob: any, type: string, filename: string) {
-  //   var binaryData = [];
-  //   binaryData.push(blob);
-
-  //   const url = window.URL.createObjectURL(
-  //     new Blob(binaryData, { type: type })
-  //   ); // <-- work with blob directly
-
-  //   // create hidden dom element (so it works in all browsers)
-  //   const a = document.createElement("a");
-  //   a.setAttribute("style", "display:none;");
-  //   document.body.appendChild(a);
-
-  //   // create file, attach to hidden element and open hidden element
-  //   a.href = url;
-  //   a.download = filename;
-  //   a.click();
-  // }
-
-  // openPdf(url) {
-  //   window.open(url, "_blank");
-  // }
 }

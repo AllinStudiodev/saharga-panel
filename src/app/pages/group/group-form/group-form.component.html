@@ -1,0 +1,70 @@
+<form aria-labelledby="title">
+  <nb-card accent="info">
+    <nb-card-header>
+      <div class="row">
+        <div class="col">
+          Form Group
+        </div>
+        <div class="col" style="text-align:right">
+          <button *ngIf="!isModal" (click)="goToList()" nbButton size="tiny" ghost status="primary">
+            <nb-icon icon="arrow-back-outline"></nb-icon> Kembali
+          </button>
+        </div>
+      </div>
+    </nb-card-header>
+
+    <nb-card-body>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-group row">
+            <label for="namaGroup" class="label col-sm-3 col-form-label">Nama Group</label>
+            <div class="col-sm-9">
+              <input type="text" #group_name [(ngModel)]="group.name" [ngModelOptions]="{standalone: true}" nbInput
+                fullWidth id="namaGroup" placeholder="Input Nama Group" maxlength="100">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.name && !group_name.value">
+                  {{ error.name[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="descriptionGroup" class="label col-sm-3 col-form-label">Deskripsi</label>
+            <div class="col-sm-9">
+              <input type="text" #group_description [(ngModel)]="group.description"
+                [ngModelOptions]="{standalone: true}" nbInput fullWidth id="descriptionGroup"
+                placeholder="Input Deskripsi Group">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.description && !group_description.value">
+                  {{ error.description[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="orderGroup" class="label col-sm-3 col-form-label">Order</label>
+            <div class="col-sm-9">
+              <input type="number" #group_order [(ngModel)]="group.order" [ngModelOptions]="{standalone: true}" nbInput
+                fullWidth id="orderGroup" placeholder="Input Order Group">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.order && !group_order.value">
+                  {{ error.order[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </nb-card-body>
+
+    <nb-card-footer>
+      <button nbButton (click)="batal()" status="default">Batal</button>
+      <button nbButton [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" (click)="save()"
+        status="primary">Simpan</button>
+    </nb-card-footer>
+
+  </nb-card>
+</form>

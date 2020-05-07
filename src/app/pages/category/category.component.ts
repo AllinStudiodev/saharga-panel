@@ -4,11 +4,11 @@ import { Router } from "@angular/router";
 import Swal from "sweetalert2";
 
 @Component({
-  selector: "group",
-  templateUrl: "./group.component.html",
-  styleUrls: ["./group.component.scss"],
+  selector: "category",
+  templateUrl: "./category.component.html",
+  styleUrls: ["./category.component.scss"],
 })
-export class GroupComponent implements OnInit {
+export class CategoryComponent implements OnInit {
   selectedItem = "25";
   url = "";
   loading = false;
@@ -29,11 +29,11 @@ export class GroupComponent implements OnInit {
     row: "25",
     keyword: null,
     sortby: "created_at",
-    sorttype: "asc",
+    sorttype: "desc",
   };
 
   constructor(private service: APIService, private router: Router) {
-    this.url = this.service.hostingUrl + "getgroup?";
+    this.url = this.service.hostingUrl + "getcategory?";
   }
 
   ngOnInit() {
@@ -41,15 +41,15 @@ export class GroupComponent implements OnInit {
   }
 
   /**
-   * get data by group from api
+   * get data by category from api
    *
    * @param {*} url
-   * @memberof GroupComponent
+   * @memberof CategoryComponent
    */
   getData(url) {
     this.loading = true;
     this.service
-      .getGroupWithPagination(url, this.pagination)
+      .getCategoryWithPagination(url, this.pagination)
       .then((result) => {
         console.log(result);
         //data from API json
@@ -81,7 +81,7 @@ export class GroupComponent implements OnInit {
   /**
    * fungsi pencarian ketika klik button search
    *
-   * @memberof GroupComponent
+   * @memberof CategoryComponent
    */
   search() {
     if (this.pagination.keyword.length > 1) {
@@ -96,7 +96,7 @@ export class GroupComponent implements OnInit {
    * fungsi pencarian ketika pencet enter
    *
    * @param {*} event
-   * @memberof GroupComponent
+   * @memberof CategoryComponent
    */
   searchEnter(event) {
     if (event.key === "Enter") {
@@ -109,10 +109,10 @@ export class GroupComponent implements OnInit {
   }
 
   gotoform(params) {
-    this.router.navigate(["pages/group-form/" + params]);
+    this.router.navigate(["pages/category-form/" + params]);
   }
 
-  deleteGroup(ID) {
+  deleteCategory(ID) {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -125,7 +125,7 @@ export class GroupComponent implements OnInit {
       if (result.value) {
         this.loading = true;
         this.service
-          .deleteGroup(ID)
+          .deleteCategory(ID)
           .then((result) => {
             Swal.fire(result.msg, "Your file has been deleted.", "success");
             this.loading = false;

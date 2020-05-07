@@ -1,0 +1,42 @@
+<form aria-labelledby="title">
+  <nb-card accent="info">
+    <nb-card-header>
+      <div class="row">
+        <div class="col">
+          Form Satuan
+        </div>
+        <div class="col" style="text-align:right">
+          <button *ngIf="!isModal" (click)="goToList()" nbButton size="tiny" ghost status="primary">
+            <nb-icon icon="arrow-back-outline"></nb-icon> Kembali
+          </button>
+        </div>
+      </div>
+    </nb-card-header>
+
+    <nb-card-body>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-satuan row">
+            <label for="namaSatuan" class="label col-sm-3 col-form-label">Nama Satuan</label>
+            <div class="col-sm-9">
+              <input type="text" #satuan_name [(ngModel)]="satuan.name" [ngModelOptions]="{standalone: true}" nbInput
+                fullWidth id="namaSatuan" placeholder="Input Nama Satuan" maxlength="100">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.name && !satuan_name.value">
+                  {{ error.name[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+
+    <nb-card-footer>
+      <button nbButton (click)="batal()" status="default">Batal</button>
+      <button nbButton [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" (click)="save()"
+        status="primary">Simpan</button>
+    </nb-card-footer>
+
+  </nb-card>
+</form>

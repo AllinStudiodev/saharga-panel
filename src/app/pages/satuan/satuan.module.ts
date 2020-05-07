@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { GroupComponent } from "./group.component";
+import { SatuanComponent } from "./satuan.component";
 import {
   NbCardModule,
   NbLayoutModule,
@@ -18,10 +18,10 @@ import {
 
 import { ThemeModule } from "../../@theme/theme.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { GroupFormComponent } from "./group-form/group-form.component";
+import { SatuanFormComponent } from "./satuan-form/satuan-form.component";
 
 @NgModule({
-  declarations: [GroupComponent, GroupFormComponent],
+  declarations: [SatuanComponent, SatuanFormComponent],
   imports: [
     CommonModule,
     NbCardModule,
@@ -46,4 +46,4 @@ import { GroupFormComponent } from "./group-form/group-form.component";
     },
   ],
 })
-export class GroupModule {}
+export class SatuanModule {}

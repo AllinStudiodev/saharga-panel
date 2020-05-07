@@ -1,0 +1,104 @@
+<form aria-labelledby="title">
+  <nb-card accent="info">
+    <nb-card-header>
+      <div class="row">
+        <div class="col">
+          Form Category
+        </div>
+        <div class="col" style="text-align:right">
+          <button *ngIf="!isModal" (click)="goToList()" nbButton size="tiny" ghost status="primary">
+            <nb-icon icon="arrow-back-outline"></nb-icon> Kembali
+          </button>
+        </div>
+      </div>
+    </nb-card-header>
+
+    <nb-card-body>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-group row">
+            <label for="namaCategory" class="label col-sm-3 col-form-label">Nama Category</label>
+            <div class="col-sm-9">
+              <input type="text" #category_name [(ngModel)]="category.name" [ngModelOptions]="{standalone: true}"
+                nbInput fullWidth id="namaCategory" placeholder="Input Nama Category" maxlength="100">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.name && !category_name.value">
+                  {{ error.name[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="descriptionCategory" class="label col-sm-3 col-form-label">Deskripsi</label>
+            <div class="col-sm-9">
+              <input type="text" #category_description [(ngModel)]="category.description"
+                [ngModelOptions]="{standalone: true}" nbInput fullWidth id="descriptionCategory"
+                placeholder="Input Deskripsi Category">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.description && !category_description.value">
+                  {{ error.description[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <!-- <div class="form-group row">
+            <label for="imgCategory" class="label col-sm-3 col-form-label">Img Category</label>
+            <div class="col-sm-9">
+              <input type="text" #category_img [(ngModel)]="category.img" [ngModelOptions]="{standalone: true}" nbInput
+                fullWidth id="imgCategory" placeholder="Input Img Category" maxlength="100">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.img && !category_img.value">
+                  {{ error.name[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div> -->
+
+          <div class="form-group row">
+            <label for="jenisGroup" class="label col-sm-3 col-form-label">Grup</label>
+            <div class="col-sm-9">
+              <nb-select [(ngModel)]="category.group" [ngModelOptions]="{standalone: true}"
+                (selectedChange)="onChangeGroup(category.group)" fullWidth placeholder="Pilih group">
+                <nb-option [value]="group" *ngFor="let group of groups">{{ group?.name }}</nb-option>
+              </nb-select>
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.group_id && !category.group_id">
+                  {{ error.group_id[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="jenisCategory" class="label col-sm-3 col-form-label">Parent Category</label>
+            <div class="col-sm-9">
+              <nb-select [(ngModel)]="category.parent_id" [ngModelOptions]="{standalone: true}" fullWidth
+                placeholder="Pilih Category">
+                <nb-option [value]="0" selected>KELOMPOK UTAMA</nb-option>
+                <nb-option [value]="category.parent_id" *ngFor="let category of categories">{{ category?.name }}
+                </nb-option>
+              </nb-select>
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.parent_id && !category.parent_id">
+                  {{ error.parent_id[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+    </nb-card-body>
+
+    <nb-card-footer>
+      <button nbButton (click)="batal()" status="default">Batal</button>
+      <button nbButton [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" (click)="save()"
+        status="primary">Simpan</button>
+    </nb-card-footer>
+
+  </nb-card>
+</form>
