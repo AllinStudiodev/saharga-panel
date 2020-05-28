@@ -1,0 +1,100 @@
+<form aria-labelledby="title">
+  <nb-card accent="info">
+    <nb-card-header>
+      <div class="row">
+        <div class="col">
+          Form Usulan
+        </div>
+        <div class="col" style="text-align:right">
+          <button *ngIf="!isModal" (click)="goToList()" nbButton size="tiny" ghost status="primary">
+            <nb-icon icon="arrow-back-outline"></nb-icon> Kembali
+          </button>
+        </div>
+      </div>
+    </nb-card-header>
+
+    <nb-card-body>
+      <div class="row">
+        <div class="col-lg-12">
+
+          <a href="assets/format-usulan-ssh.docx" class="margin" (click)="download()" nbButton size="tiny"><nb-icon icon="download-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Form Format Usulan SSH</a>
+
+          <br /><br />
+
+          <div class="form-group row">
+            <label for="namaCategory" class="label col-sm-3 col-form-label">Judul</label>
+            <div class="col-sm-9">
+              <input type="text" #usulan_title [(ngModel)]="usulan.title" [ngModelOptions]="{standalone: true}"
+                nbInput fullWidth id="namaCategory" placeholder="Input judul usulan" maxlength="100">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.title && !usulan_title.value">
+                  {{ error.title[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="descriptionCategory" class="label col-sm-3 col-form-label">Keterangan</label>
+            <div class="col-sm-9">
+              <textarea row="3" type="text" #usulan_note [(ngModel)]="usulan.note"
+                [ngModelOptions]="{standalone: true}" nbInput fullWidth id="descriptionCategory"
+                placeholder="Input Keterangan Usulan"></textarea>
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.note && !usulan_note.value">
+                  {{ error.note[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="jenisCategory" class="label col-sm-3 col-form-label">Category</label>
+            <div class="col-sm-9">
+
+              <tag-input [(ngModel)]="usulan.usulan_details" [ngModelOptions]="{standalone: true}"
+                        [onlyFromAutocomplete]="true">
+                  <tag-input-dropdown [showDropdownIfEmpty]="true"
+                                      [autocompleteItems]="categories_fortrans">
+                  </tag-input-dropdown>
+              </tag-input>
+
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.usulan_details">
+                  {{ error.usulan_details[0] }}
+                </p>
+              </ng-container>
+
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="type" class="label col-sm-3 col-form-label">Upload File</label>
+            <div class="col-sm-9">
+              <input type="file" (change)="addFile($event.target.files[0])" accept="application/pdf">
+              <br /><br />
+              <nb-progress-bar *ngIf="progresUpload > 0" [value]="progresUpload" status="primary">{{ progresUpload }}%</nb-progress-bar>
+              <iframe *ngIf="usulan.file" [src]="usulan.file | safe" width="100%" height="375" type="application/pdf" frameborder="0" allowfullscreen></iframe>
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.file">
+                  {{ error.file[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+
+    <nb-card-footer>
+      <button nbButton *ngIf="usulan.status == 'PENDING'" (click)="batal()" status="default">Batal</button>
+      <button nbButton *ngIf="usulan.status == 'PENDING'" [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" (click)="save()"
+        status="primary">Simpan</button>
+      <button nbButton [nbSpinner]="loading" nbSpinnerStatus="success" nbSpinnerSize="large" (click)="save('APPROVED')"
+      status="success">Approve</button>
+      <button nbButton [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="large" (click)="save('REJECTED')"
+      status="danger">Reject</button>
+    </nb-card-footer>
+
+  </nb-card>
+</form>

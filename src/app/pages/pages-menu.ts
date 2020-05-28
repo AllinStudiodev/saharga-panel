@@ -29,6 +29,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: "MAIN GOLONGAN",
     group: true,
   },
+  {
+    title: "Usulan",
+    icon: "home-outline",
+    link: "/pages/usulan",
+    home: true,
+  },
 
   // {
   //   title: 'Dashboard',

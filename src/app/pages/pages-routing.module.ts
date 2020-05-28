@@ -12,6 +12,8 @@ import { ItemImportComponent } from "./item/item-import/item-import.component";
 import { ItemFormComponent } from "./item/item-form/item-form.component";
 import { SatuanComponent } from "./satuan/satuan.component";
 import { SatuanFormComponent } from "./satuan/satuan-form/satuan-form.component";
+import { UsulanComponent } from './usulan/usulan.component';
+import { UsulanFormComponent } from './usulan/usulan-form/usulan-form.component';
 
 const routes: Routes = [
   {
@@ -36,6 +38,14 @@ const routes: Routes = [
         component: GroupFormComponent,
       },
       {
+        path: "usulan",
+        component: UsulanComponent,
+      },
+      {
+        path: "usulan-form/:id",
+        component: UsulanFormComponent,
+      },
+      {
         path: "category",
         component: CategoryComponent,
       },
@@ -44,15 +54,15 @@ const routes: Routes = [
         component: CategoryFormComponent,
       },
       {
-        path: "items-form",
+        path: 'items-form/:params/:categori_id',
         component: ItemFormComponent,
       },
       {
-        path: "items-import/:categori_id",
+        path: 'items-import/:categori_id',
         component: ItemImportComponent,
       },
       {
-        path: "items/:id",
+        path: 'items/:id',
         component: ItemComponent,
       },
       {

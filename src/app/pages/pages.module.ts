@@ -10,6 +10,7 @@ import { ItemModule } from "./item/item.module";
 import { GroupModule } from "./group/group.module";
 import { CategoryModule } from "./category/category.module";
 import { SatuanModule } from "./satuan/satuan.module";
+import { UsulanModule } from "./usulan/usulan.module";
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { SatuanModule } from "./satuan/satuan.module";
     GroupModule,
     CategoryModule,
     SatuanModule,
+    UsulanModule
   ],
   declarations: [PagesComponent],
 })

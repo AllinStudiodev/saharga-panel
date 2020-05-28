@@ -21,6 +21,11 @@ import {
   NbWindowModule,
 } from '@nebular/theme';
 
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
+import * as firebase from 'firebase';
+
+firebase.initializeApp(environment.firebase);
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,7 +36,7 @@ import {
     AppRoutingModule,
 
     ThemeModule.forRoot(),
-
+    AngularFireModule.initializeApp(environment.firebase),
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbDatepickerModule.forRoot(),

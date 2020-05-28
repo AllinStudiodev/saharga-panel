@@ -1,3 +1,116 @@
-<p>
-  item-form works!
-</p>
+<div class="row">
+  <div class="col-lg-6">
+    <form  aria-labelledby="title">
+      <nb-card accent="info">
+        <nb-card-header>
+          <div class="row">
+            <div class="col">
+              Form Input Item
+            </div>
+            <div class="col" style="text-align:right">
+              <button  (click)="goToList()" nbButton size="tiny" ghost status="primary"><nb-icon icon="arrow-back-outline"></nb-icon> Kembali</button>
+            </div>
+          </div>
+        </nb-card-header>
+        <nb-card-body>
+
+          <div class="form-group row">
+            <label for="type" class="label col-sm-3 col-form-label">Jenis SSH</label>
+            <div class="col-sm-9">
+              <nb-select #type [(ngModel)]="item.type" [ngModelOptions]="{standalone: true}" placeholder="Pilih Jenis SSH">
+                <nb-option *ngFor="let type of types" [value]="type">{{ type }}</nb-option>
+              </nb-select>
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.type && !type.value">
+                  {{ error.type[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="Uraian" class="label col-sm-3 col-form-label">Uraian</label>
+            <div class="col-sm-9">
+              <input type="text" #uraian [(ngModel)]="item.uraian" [ngModelOptions]="{standalone: true}" nbInput fullWidth id="Uraian" placeholder="Input uraian">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.uraian && !uraian.value">
+                  {{ error.uraian[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="deskripsi" class="label col-sm-3 col-form-label">Deskripsi</label>
+            <div class="col-sm-9">
+              <textarea row=3 type="text" #deskripsi [(ngModel)]="item.description" [ngModelOptions]="{standalone: true}" nbInput fullWidth id="deskripsi" placeholder="Input deskripsi"></textarea>
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.description && !deskripsi.value">
+                  {{ error.description[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="price" class="label col-sm-3 col-form-label">Harga</label>
+            <div class="col-sm-9">
+              <input type="number" #price [(ngModel)]="item.price" [ngModelOptions]="{standalone: true}" nbInput fullWidth id="price" placeholder="Input price">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.price && !price.value">
+                  {{ error.price[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="merkObat" class="label col-sm-3 col-form-label">Lokasi Survey</label>
+            <div class="col-sm-9">
+              <input type="text" #survey_location [(ngModel)]="item.survey_location" [ngModelOptions]="{standalone: true}" nbInput fullWidth id="survey_location" placeholder="Input Survey location">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.survey_location && !survey_location.value">
+                  {{ error.survey_location[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="satuan" class="label col-sm-3 col-form-label">Satuan</label>
+            <div class="col-sm-9">
+              <nb-select #satuan [(ngModel)]="item.satuan_id" [ngModelOptions]="{standalone: true}" placeholder="Pilih Satuan">
+                <nb-option *ngFor="let satuan of satuans" [value]="satuan.id">{{ satuan?.name }}</nb-option>
+              </nb-select>
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.satuan_id && item.satuan_id == null">
+                  {{ error.satuan_id[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="merkObat" class="label col-sm-3 col-form-label">Front</label>
+            <div class="col-sm-9">
+              <nb-checkbox #is_front [value]="item.is_front" (checkedChange)="toggle($event)" >Aktif</nb-checkbox>
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.is_front && !is_front.value">
+                  {{ error.is_front[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+        </nb-card-body>
+
+        <nb-card-footer>
+          <button nbButton (click)="batal()" status="default">Batal</button>
+          <button nbButton [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" (click)="save()" status="primary">Simpan</button>
+        </nb-card-footer>
+
+      </nb-card>
+    </form>
+
+  </div>
+</div>
