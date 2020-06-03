@@ -1,0 +1,81 @@
+<form aria-labelledby="title">
+  <nb-card accent="info">
+    <nb-card-header>
+      <div class="row">
+        <div class="col">
+          Form User
+        </div>
+        <div class="col" style="text-align:right">
+          <button *ngIf="!isModal" (click)="goToList()" nbButton size="tiny" ghost status="primary">
+            <nb-icon icon="arrow-back-outline"></nb-icon> Kembali
+          </button>
+        </div>
+      </div>
+    </nb-card-header>
+
+    <nb-card-body>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-group row">
+            <label for="namaUser" class="label col-sm-3 col-form-label">Nama User</label>
+            <div class="col-sm-9">
+              <input type="text" #user_name [(ngModel)]="user.username" [ngModelOptions]="{standalone: true}" nbInput
+                fullWidth id="namaUser" placeholder="Input Nama User" maxlength="100">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.username && !user_name.value">
+                  {{ error.username[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="passwordUser" class="label col-sm-3 col-form-label">Password</label>
+            <div class="col-sm-9">
+              <input type="text" #user_password [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}"
+                nbInput fullWidth id="passwordUser" placeholder="Input Password User">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.password && !user_password.value">
+                  {{ error.password[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="typeuser_id" class="label col-sm-3 col-form-label">Tipe User</label>
+            <div class="col-sm-9">
+              <input type="text" #typeuser_id [(ngModel)]="user.typeuser_id" [ngModelOptions]="{standalone: true}"
+                nbInput fullWidth id="typeuser_id" placeholder="Input Tipe User">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.typeuser_id && !typeuser_id.value">
+                  {{ error.typeuser_id[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="positionUser" class="label col-sm-3 col-form-label">Posisi</label>
+            <div class="col-sm-9">
+              <input type="text" #user_position [(ngModel)]="user.position" [ngModelOptions]="{standalone: true}"
+                nbInput fullWidth id="positionUser" placeholder="Input Password User">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.position && !user_position.value">
+                  {{ error.position[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+
+    <nb-card-footer>
+      <button nbButton (click)="batal()" status="default">Batal</button>
+      <button nbButton [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" (click)="save()"
+        status="primary">Simpan</button>
+    </nb-card-footer>
+
+  </nb-card>
+</form>

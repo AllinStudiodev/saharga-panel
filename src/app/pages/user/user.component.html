@@ -1,0 +1,91 @@
+<nb-card accent="info" [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" nbSpinnerMessage="">
+  <nb-card-header>List User</nb-card-header>
+  <nb-card-body>
+
+    <div class="row header">
+      <div class="col">
+        <button (click)="gotoform('new')" nbButton size="small">
+          <nb-icon icon="plus" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Tambah User
+        </button>
+      </div>
+      <div class="col" style="text-align: right;display: flex;">
+        <input size="small" type="text" (keydown)="searchEnter($event)" [(ngModel)]="pagination.keyword" nbInput
+          placeholder="Search" class="input-search-item">
+        <button nbButton size="small" class="button-search-item" (click)="search()">
+          <nb-icon icon="search"></nb-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col" style="cursor: pointer;">Username</th>
+            <th scope="col" style="cursor: pointer;">Tipe User</th>
+            <th scope="col" style="cursor: pointer;">Posisi</th>
+            <th scope="col" style="text-align: center">Opsi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let dt of data.data; let i = index;">
+            <th scope="row">{{ data.from + i }}.</th>
+            <td>{{ dt?.username }}</td>
+            <td>{{ dt?.typeuser_id }}</td>
+            <td>{{ dt?.position }}</td>
+            <td style="text-align: center">
+              <button (click)="gotoform(dt.id)" nbButton size="tiny" ghost status="success">
+                <nb-icon icon="edit"></nb-icon>
+              </button>
+              <button (click)="deleteUser(dt.id)" nbButton size="tiny" ghost status="danger">
+                <nb-icon icon="trash"></nb-icon>
+              </button>
+            </td>
+          </tr>
+      </table>
+      <ng-container *ngIf="data.data.length == 0">
+        <h5 class="center margin">Data tidak ada</h5>
+      </ng-container>
+    </div>
+
+    <div class="halaman">
+      <span class="page">Baris Perhalaman :</span>
+
+      <nb-select class="page" placeholder="Select Showcase" (selectedChange)="getRow()" [(ngModel)]="pagination.row"
+        [(selected)]="selectedItem">
+        <nb-option value="25">25</nb-option>
+        <nb-option value="250">250</nb-option>
+        <nb-option value="500">500</nb-option>
+      </nb-select>
+
+      <span class="page">{{ data.from }} - {{ data.to }} dari {{ data.total }} </span>
+
+      <button nbButton ghost status="primary" [disabled]="data.first_page_url == null"
+        (click)="getData(data.first_page_url)">
+        <nb-icon icon="arrowhead-left-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+      </button>
+
+      <button nbButton ghost status="primary" [disabled]="data.prev_page_url == null"
+        (click)="getData(data.prev_page_url)">
+        <nb-icon icon="arrow-ios-back-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+      </button>
+
+      <button nbButton ghost status="primary" [disabled]="data.next_page_url == null"
+        (click)="getData(data.next_page_url)">
+        <nb-icon icon="arrow-ios-forward-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+      </button>
+
+      <button nbButton ghost status="primary" [disabled]="data.last_page_url == null"
+        (click)="getData(data.last_page_url)">
+        <nb-icon icon="arrowhead-right-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+      </button>
+    </div>
+
+    <!-- <button class="margin" status="success" nbButton size="small" [nbSpinner]="loadingExport" nbSpinnerStatus="primary"
+      nbSpinnerSize="large" (click)="exportToExcel()">
+      <nb-icon icon="download-outline"></nb-icon> Export Excel
+    </button> -->
+
+  </nb-card-body>
+</nb-card>

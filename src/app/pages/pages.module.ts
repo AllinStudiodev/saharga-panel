@@ -11,6 +11,7 @@ import { GroupModule } from "./group/group.module";
 import { CategoryModule } from "./category/category.module";
 import { SatuanModule } from "./satuan/satuan.module";
 import { UsulanModule } from "./usulan/usulan.module";
+import { UserModule } from "./user/user.module";
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { UsulanModule } from "./usulan/usulan.module";
     GroupModule,
     CategoryModule,
     SatuanModule,
-    UsulanModule
+    UsulanModule,
+    UserModule,
   ],
   declarations: [PagesComponent],
 })

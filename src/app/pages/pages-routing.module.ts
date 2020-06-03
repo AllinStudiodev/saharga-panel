@@ -3,6 +3,8 @@ import { NgModule } from "@angular/core";
 
 import { PagesComponent } from "./pages.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
+import { UserComponent } from "./user/user.component";
+import { UserFormComponent } from "./user/user-form/user-form.component";
 import { GroupComponent } from "./group/group.component";
 import { GroupFormComponent } from "./group/group-form/group-form.component";
 import { CategoryComponent } from "./category/category.component";
@@ -12,8 +14,8 @@ import { ItemImportComponent } from "./item/item-import/item-import.component";
 import { ItemFormComponent } from "./item/item-form/item-form.component";
 import { SatuanComponent } from "./satuan/satuan.component";
 import { SatuanFormComponent } from "./satuan/satuan-form/satuan-form.component";
-import { UsulanComponent } from './usulan/usulan.component';
-import { UsulanFormComponent } from './usulan/usulan-form/usulan-form.component';
+import { UsulanComponent } from "./usulan/usulan.component";
+import { UsulanFormComponent } from "./usulan/usulan-form/usulan-form.component";
 
 const routes: Routes = [
   {
@@ -29,6 +31,16 @@ const routes: Routes = [
         redirectTo: "dashboard",
         pathMatch: "full",
       },
+
+      {
+        path: "user",
+        component: UserComponent,
+      },
+      {
+        path: "user-form/:id",
+        component: UserFormComponent,
+      },
+
       {
         path: "group",
         component: GroupComponent,
@@ -54,15 +66,15 @@ const routes: Routes = [
         component: CategoryFormComponent,
       },
       {
-        path: 'items-form/:params/:categori_id',
+        path: "items-form/:params/:categori_id",
         component: ItemFormComponent,
       },
       {
-        path: 'items-import/:categori_id',
+        path: "items-import/:categori_id",
         component: ItemImportComponent,
       },
       {
-        path: 'items/:id',
+        path: "items/:id",
         component: ItemComponent,
       },
       {
