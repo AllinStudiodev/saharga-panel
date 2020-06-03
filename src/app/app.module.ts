@@ -24,6 +24,7 @@ import {
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import * as firebase from 'firebase';
+import { NbPasswordAuthStrategy, NbAuthModule, NbAuthJWTToken } from '@nebular/auth';
 
 firebase.initializeApp(environment.firebase);
 
@@ -34,7 +35,6 @@ firebase.initializeApp(environment.firebase);
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-
     ThemeModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     NbSidebarModule.forRoot(),
@@ -47,6 +47,35 @@ firebase.initializeApp(environment.firebase);
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
     CoreModule.forRoot(),
+    NbAuthModule.forRoot({
+      strategies: [
+        NbPasswordAuthStrategy.setup({
+          name: 'email',
+          token: {
+            class: NbAuthJWTToken,
+
+            key: 'token', // this parameter tells where to look for the token
+          },
+          baseEndpoint: 'http://localhost:81/saharga-api/api/v1',
+          login: {
+            // ...
+            endpoint: '/login',
+            method: 'post',
+            redirect: {
+              success: '/dashboard/',
+              failure: null, // stay on the same page
+            },
+
+          },
+          register: {
+            // ...
+            endpoint: '/register',
+            method: 'post',
+          },
+        }),
+      ],
+      forms: {},
+    }),
   ],
   bootstrap: [AppComponent],
 })
