@@ -16,6 +16,7 @@ import { SatuanComponent } from "./satuan/satuan.component";
 import { SatuanFormComponent } from "./satuan/satuan-form/satuan-form.component";
 import { UsulanComponent } from "./usulan/usulan.component";
 import { UsulanFormComponent } from "./usulan/usulan-form/usulan-form.component";
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const routes: Routes = [
   {
@@ -84,6 +85,10 @@ const routes: Routes = [
       {
         path: "satuan-form/:id",
         component: SatuanFormComponent,
+      },
+      {
+        path: "change-password",
+        component: ChangePasswordComponent,
       },
     ],
   },

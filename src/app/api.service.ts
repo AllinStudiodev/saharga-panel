@@ -1,16 +1,19 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpEventType } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, BehaviorSubject } from "rxjs";
 import { map } from "rxjs/operators";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root",
 })
 export class APIService {
   // public hostingUrl = "http://api.allinstudio.co.id/api/v1/";
-  //public hostingUrl = 'http://localhost:81/saharga-api/api/v1/';
+  public hostingUrl = 'http://localhost:81/saharga-api/api/v1/';
   //local echo
-  public hostingUrl = "http://192.168.10.10:8000/api/v1/";
+  //public hostingUrl = "http://192.168.10.10:8000/api/v1/";
+  public api_token = '';
+  public authenticationState = new BehaviorSubject(false);
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -18,7 +21,28 @@ export class APIService {
     }),
   };
 
-  constructor(public http: HttpClient) {}
+  constructor(public http: HttpClient, private router: Router) {}
+
+  async getToken() {
+    if (localStorage.getItem('auth_app_token')) {
+      this.api_token = JSON.parse(localStorage.getItem('auth_app_token')).value;
+      this.httpOptions = {
+        headers: new HttpHeaders({
+          'Accept': 'application/json',
+          'Authorization' : 'bearer ' + this.api_token,
+        })
+      }
+
+      let base64Url = this.api_token.split('.')[1];
+      let base64 = base64Url.replace('-', '+').replace('_', '/');
+      let payload = JSON.parse(window.atob(base64));
+      payload.token = this.api_token;
+
+      localStorage.setItem('USER_INFO', JSON.stringify(payload));
+    } else {
+      this.router.navigate(["auth/login"]);
+    }
+  }
 
   async extractData(res: Response) {
     let body = res.json();
@@ -31,8 +55,9 @@ export class APIService {
 
   // #region menu
   async getMenu(): Promise<any> {
+    await this.getToken();
     return this.http
-      .get(this.hostingUrl + "menucategory/", this.httpOptions)
+      .get(this.hostingUrl + "menucategory", this.httpOptions)
       .toPromise()
       .then((response) => response)
       .catch(this.handleError);
@@ -41,6 +66,7 @@ export class APIService {
 
   // #region item
   async getItemsByCategoiId(url, data): Promise<any> {
+    await this.getToken();
     return this.http
       .post(url, data, this.httpOptions)
       .toPromise()
@@ -50,6 +76,7 @@ export class APIService {
 
   //#region master user
   async getUser(keyword): Promise<any> {
+    await this.getToken();
     return this.http
       .get(this.hostingUrl + "getuser/" + keyword + "?", this.httpOptions)
       .toPromise()
@@ -58,6 +85,7 @@ export class APIService {
   }
 
   async getUserWithPagination(url, data): Promise<any> {
+    await this.getToken();
     return this.http
       .post(url, data, this.httpOptions)
       .toPromise()
@@ -66,6 +94,7 @@ export class APIService {
   }
 
   async getUserByID(ID): Promise<any> {
+    await this.getToken();
     return this.http
       .get(this.hostingUrl + "user/" + ID + "?", this.httpOptions)
       .toPromise()
@@ -74,6 +103,7 @@ export class APIService {
   }
 
   async updateUser(data, ID): Promise<any> {
+    await this.getToken();
     return this.http
       .post(this.hostingUrl + "user/" + ID + "?", data, this.httpOptions)
       .toPromise()
@@ -82,6 +112,7 @@ export class APIService {
   }
 
   async postUser(data): Promise<any> {
+    await this.getToken();
     return this.http
       .post(this.hostingUrl + "user?", data, this.httpOptions)
       .toPromise()
@@ -90,6 +121,7 @@ export class APIService {
   }
 
   async deleteUser(ID): Promise<any> {
+    await this.getToken();
     return this.http
       .delete(this.hostingUrl + "user/" + ID + "?", this.httpOptions)
       .toPromise()
@@ -100,6 +132,7 @@ export class APIService {
 
   //#region master group
   async getGroup(keyword): Promise<any> {
+    await this.getToken();
     return this.http
       .get(this.hostingUrl + "getgroup/" + keyword + "?", this.httpOptions)
       .toPromise()
@@ -108,6 +141,7 @@ export class APIService {
   }
 
   async getGroupWithPagination(url, data): Promise<any> {
+    await this.getToken();
     return this.http
       .post(url, data, this.httpOptions)
       .toPromise()
@@ -116,6 +150,7 @@ export class APIService {
   }
 
   async getGroupByID(ID): Promise<any> {
+    await this.getToken();
     return this.http
       .get(this.hostingUrl + "group/" + ID + "?", this.httpOptions)
       .toPromise()
@@ -124,6 +159,7 @@ export class APIService {
   }
 
   async updateGroup(data, ID): Promise<any> {
+    await this.getToken();
     return this.http
       .post(this.hostingUrl + "group/" + ID + "?", data, this.httpOptions)
       .toPromise()
@@ -132,6 +168,7 @@ export class APIService {
   }
 
   async postGroup(data): Promise<any> {
+    await this.getToken();
     return this.http
       .post(this.hostingUrl + "group?", data, this.httpOptions)
       .toPromise()
@@ -140,6 +177,7 @@ export class APIService {
   }
 
   async deleteGroup(ID): Promise<any> {
+    await this.getToken();
     return this.http
       .delete(this.hostingUrl + "group/" + ID + "?", this.httpOptions)
       .toPromise()
@@ -150,6 +188,7 @@ export class APIService {
 
   //#region master category
   async getGroupName(): Promise<any> {
+    await this.getToken();
     return this.http
       .get(this.hostingUrl + "group?", this.httpOptions)
       .toPromise()
@@ -159,6 +198,7 @@ export class APIService {
 
   //#region master category
   async getCategoryAll(): Promise<any> {
+    await this.getToken();
     return this.http
       .get(this.hostingUrl + "getallcategory?", this.httpOptions)
       .toPromise()
@@ -167,6 +207,7 @@ export class APIService {
   }
 
   async getCategoryName(): Promise<any> {
+    await this.getToken();
     return this.http
       .get(this.hostingUrl + "category?", this.httpOptions)
       .toPromise()
@@ -175,6 +216,7 @@ export class APIService {
   }
 
   async getCategory(keyword): Promise<any> {
+    await this.getToken();
     return this.http
       .get(this.hostingUrl + "getcategory/" + keyword + "?", this.httpOptions)
       .toPromise()
@@ -183,6 +225,7 @@ export class APIService {
   }
 
   async getCategoryWithPagination(url, data): Promise<any> {
+    await this.getToken();
     return this.http
       .post(url, data, this.httpOptions)
       .toPromise()
@@ -191,6 +234,7 @@ export class APIService {
   }
 
   async getCategoryByID(ID): Promise<any> {
+    await this.getToken();
     return this.http
       .get(this.hostingUrl + "category/" + ID + "?", this.httpOptions)
       .toPromise()
@@ -199,6 +243,7 @@ export class APIService {
   }
 
   async updateCategory(data, ID): Promise<any> {
+    await this.getToken();
     return this.http
       .post(this.hostingUrl + "category/" + ID + "?", data, this.httpOptions)
       .toPromise()
@@ -207,6 +252,7 @@ export class APIService {
   }
 
   async postCategory(data): Promise<any> {
+    await this.getToken();
     return this.http
       .post(this.hostingUrl + "category?", data, this.httpOptions)
       .toPromise()
@@ -215,6 +261,7 @@ export class APIService {
   }
 
   async deleteCategory(ID): Promise<any> {
+    await this.getToken();
     return this.http
       .delete(this.hostingUrl + "category/" + ID + "?", this.httpOptions)
       .toPromise()
@@ -225,14 +272,16 @@ export class APIService {
 
   //#region master satuan
   async getSatuan(): Promise<any> {
+    await this.getToken();
     return this.http
-      .get(this.hostingUrl + "getsatuan/", this.httpOptions)
+      .get(this.hostingUrl + "getsatuan", this.httpOptions)
       .toPromise()
       .then((response) => response)
       .catch(this.handleError);
   }
 
   async getSatuanWithPagination(url, data): Promise<any> {
+    await this.getToken();
     return this.http
       .post(url, data, this.httpOptions)
       .toPromise()
@@ -241,6 +290,7 @@ export class APIService {
   }
 
   async getSatuanByID(ID): Promise<any> {
+    await this.getToken();
     return this.http
       .get(this.hostingUrl + "satuan/" + ID + "?", this.httpOptions)
       .toPromise()
@@ -249,6 +299,7 @@ export class APIService {
   }
 
   async updateSatuan(data, ID): Promise<any> {
+    await this.getToken();
     return this.http
       .post(this.hostingUrl + "satuan/" + ID + "?", data, this.httpOptions)
       .toPromise()
@@ -257,6 +308,7 @@ export class APIService {
   }
 
   async postSatuan(data): Promise<any> {
+    await this.getToken();
     return this.http
       .post(this.hostingUrl + "satuan?", data, this.httpOptions)
       .toPromise()
@@ -265,6 +317,7 @@ export class APIService {
   }
 
   async deleteSatuan(ID): Promise<any> {
+    await this.getToken();
     return this.http
       .delete(this.hostingUrl + "satuan/" + ID + "?", this.httpOptions)
       .toPromise()
@@ -275,6 +328,7 @@ export class APIService {
 
   //#region master usulan
   async getUsulanWithPagination(url, data): Promise<any> {
+    await this.getToken();
     return this.http
       .post(url, data, this.httpOptions)
       .toPromise()
@@ -283,6 +337,7 @@ export class APIService {
   }
 
   async getUsulanByID(ID): Promise<any> {
+    await this.getToken();
     return this.http
       .get(this.hostingUrl + "usulan/" + ID + "?", this.httpOptions)
       .toPromise()
@@ -291,6 +346,7 @@ export class APIService {
   }
 
   async updateUsulan(data, ID): Promise<any> {
+    await this.getToken();
     return this.http
       .post(this.hostingUrl + "usulan/" + ID + "?", data, this.httpOptions)
       .toPromise()
@@ -299,6 +355,7 @@ export class APIService {
   }
 
   async postUsulan(data): Promise<any> {
+    await this.getToken();
     return this.http
       .post(this.hostingUrl + "usulan?", data, this.httpOptions)
       .toPromise()
@@ -307,6 +364,7 @@ export class APIService {
   }
 
   async deleteUsulan(ID): Promise<any> {
+    await this.getToken();
     return this.http
       .delete(this.hostingUrl + "usulan/" + ID + "?", this.httpOptions)
       .toPromise()
@@ -316,6 +374,7 @@ export class APIService {
   // #endregion
 
   DownloadData(data, url): Observable<any> {
+    this.getToken();
     return new Observable((obs) => {
       var oReq = new XMLHttpRequest();
       oReq.open("POST", this.hostingUrl + url + "?", true);
@@ -346,7 +405,7 @@ export class APIService {
     formData.append("type", type);
 
     return this.http
-      .post<any>(this.hostingUrl + "item/import/", formData, {
+      .post<any>(this.hostingUrl + "item/import", formData, {
         reportProgress: true,
         observe: "events",
       })
@@ -368,6 +427,7 @@ export class APIService {
 
   // get years item
   async getTahun(categori_id): Promise<any> {
+    await this.getToken();
     return this.http
       .get(this.hostingUrl + "item/gettahun/" + categori_id, this.httpOptions)
       .toPromise()
@@ -377,14 +437,16 @@ export class APIService {
 
   // get type user
   async getTypeUser(): Promise<any> {
+    await this.getToken();
     return this.http
-      .get(this.hostingUrl + "typeuser/", this.httpOptions)
+      .get(this.hostingUrl + "typeuser", this.httpOptions)
       .toPromise()
       .then((response) => response)
       .catch(this.handleError);
   }
 
   async getItemByID(ID): Promise<any> {
+    await this.getToken();
     return this.http
       .get(this.hostingUrl + "item/" + ID, this.httpOptions)
       .toPromise()
@@ -393,6 +455,7 @@ export class APIService {
   }
 
   async updateItem(data, ID): Promise<any> {
+    await this.getToken();
     return this.http
       .post(this.hostingUrl + "item/" + ID, data, this.httpOptions)
       .toPromise()
@@ -401,6 +464,7 @@ export class APIService {
   }
 
   async postItem(data): Promise<any> {
+    await this.getToken();
     return this.http
       .post(this.hostingUrl + "item", data, this.httpOptions)
       .toPromise()
@@ -409,6 +473,7 @@ export class APIService {
   }
 
   async deleteItem(ID): Promise<any> {
+    await this.getToken();
     return this.http
       .delete(this.hostingUrl + "item/" + ID, this.httpOptions)
       .toPromise()
@@ -417,6 +482,7 @@ export class APIService {
   }
 
   async deleteChecklistItem(data): Promise<any> {
+    await this.getToken();
     return this.http
       .post(
         this.hostingUrl + "checklist/item/delete",
@@ -429,6 +495,7 @@ export class APIService {
   }
 
   async aktifFrontend(data): Promise<any> {
+    await this.getToken();
     return this.http
       .post(
         this.hostingUrl + "checklist/item/aktiffrontend",
@@ -441,6 +508,7 @@ export class APIService {
   }
 
   async nonAktifFrontend(data): Promise<any> {
+    await this.getToken();
     return this.http
       .post(
         this.hostingUrl + "checklist/item/nonaktiffrontend",
@@ -454,14 +522,34 @@ export class APIService {
 
   // get years item
   getExcel(data): Observable<Blob> {
+    this.getToken();
     return this.http.post(this.hostingUrl + "item/exportexcel", data, {
       responseType: "blob",
     });
   }
 
   getPDF(data): Observable<Blob> {
+    this.getToken();
     return this.http.post(this.hostingUrl + "item/exportpdf", data, {
       responseType: "blob",
     });
+  }
+
+  async updatePassword(data): Promise<any> {
+    await this.getToken();
+    var dataUpload = new FormData();
+    dataUpload.append('username', data.username)
+    dataUpload.append('old_password', data.oldPassword)
+    dataUpload.append('new_password', data.password)
+    dataUpload.append('confirm_password', data.confirmationPassword)
+
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+
+    return this.http.post(this.hostingUrl + 'changepassword?' + this.api_token, dataUpload, { headers: headers }) // ...using post request
+      .toPromise()
+      .then(res => res)
+      .catch(this.handleError);
   }
 }

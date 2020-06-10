@@ -15,19 +15,58 @@ import { NbMenuItem } from "@nebular/theme";
   `,
 })
 export class PagesComponent {
-  menu: NbMenuItem[] = MENU_ITEMS;
+  menu =  [
+    {
+      title: "DASHBOARD",
+      icon: "home-outline",
+      link: "/pages/dashboard",
+      home: true,
+    },
+    {
+      title: "PENGELOLAAN USER",
+      icon: "people-outline",
+      link: "/pages/user",
+      home: true,
+    },
+    {
+      title: "PENGELOLAAN GROUP",
+      icon: "grid-outline",
+      link: "/pages/group",
+      home: true,
+    },
+    {
+      title: "PENGELOLAAN CATEGORY",
+      icon: "keypad-outline",
+      link: "/pages/category",
+      home: true,
+    },
+    {
+      title: "PENGELOLAAN SATUAN",
+      icon: "pantone-outline",
+      link: "/pages/satuan",
+      home: true,
+    },
+    {
+      title: "MAIN GOLONGAN",
+      group: true,
+    },
+    {
+      title: "PENGELOLAAN USULAN",
+      icon: "paper-plane-outline",
+      link: "/pages/usulan",
+      home: true,
+    },
+  ];
 
   loading = false;
 
   constructor(private service: APIService) {
-    console.log("ini service", this.service);
-    this.service
+      this.service
       .getMenu()
       .then((result) => {
         result.forEach((element) => {
           this.menu.push(element);
         });
-        console.log(this.menu);
       })
       .catch((error) => {
         console.log(error);

@@ -1,33 +1,31 @@
-import { NbMenuItem } from "@nebular/theme";
-
-export const MENU_ITEMS: NbMenuItem[] = [
+export const MENU_ITEMS = [
   {
-    title: "Dashboard",
+    title: "DASHBOARD",
     icon: "home-outline",
     link: "/pages/dashboard",
     home: true,
   },
   {
-    title: "User",
-    icon: "home-outline",
+    title: "PENGELOLAAN USER",
+    icon: "people-outline",
     link: "/pages/user",
     home: true,
   },
   {
-    title: "Group",
-    icon: "home-outline",
+    title: "PENGELOLAAN GROUP",
+    icon: "grid-outline",
     link: "/pages/group",
     home: true,
   },
   {
-    title: "Category",
-    icon: "home-outline",
+    title: "PENGELOLAAN CATEGORY",
+    icon: "keypad-outline",
     link: "/pages/category",
     home: true,
   },
   {
-    title: "Satuan",
-    icon: "home-outline",
+    title: "PENGELOLAAN SATUAN",
+    icon: "pantone-outline",
     link: "/pages/satuan",
     home: true,
   },
@@ -36,42 +34,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
     group: true,
   },
   {
-    title: "Usulan",
-    icon: "home-outline",
+    title: "PENGELOLAAN USULAN",
+    icon: "paper-plane-outline",
     link: "/pages/usulan",
     home: true,
   },
-
-  // {
-  //   title: 'Dashboard',
-  //   icon: 'home-outline',
-  //   link: '/pages/dashboard',
-  //   home: true,
-  // },
-  // {
-  //   title: 'FEATURES',
-  //   group: true,
-  // },
-  // {
-  //   title: 'Auth',
-  //   icon: 'lock-outline',
-  //   children: [
-  //     {
-  //       title: 'Login',
-  //       link: '/auth/login',
-  //     },
-  //     {
-  //       title: 'Register',
-  //       link: '/auth/register',
-  //     },
-  //     {
-  //       title: 'Request Password',
-  //       link: '/auth/request-password',
-  //     },
-  //     {
-  //       title: 'Reset Password',
-  //       link: '/auth/reset-password',
-  //     },
-  //   ],
-  // },
 ];

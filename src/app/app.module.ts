@@ -25,7 +25,6 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import * as firebase from 'firebase';
 import { NbPasswordAuthStrategy, NbAuthModule, NbAuthJWTToken } from '@nebular/auth';
-
 firebase.initializeApp(environment.firebase);
 
 @NgModule({
