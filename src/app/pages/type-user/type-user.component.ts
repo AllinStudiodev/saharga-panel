@@ -4,11 +4,11 @@ import { Router } from "@angular/router";
 import Swal from "sweetalert2";
 
 @Component({
-  selector: "user",
-  templateUrl: "./user.component.html",
-  styleUrls: ["./user.component.scss"],
+  selector: "type-user",
+  templateUrl: "./type-user.component.html",
+  styleUrls: ["./type-user.component.scss"],
 })
-export class UserComponent implements OnInit {
+export class TypeUserComponent implements OnInit {
   selectedItem = "25";
   url = "";
   loading = false;
@@ -33,7 +33,7 @@ export class UserComponent implements OnInit {
   };
 
   constructor(private service: APIService, private router: Router) {
-    this.url = this.service.hostingUrl + "getuser?";
+    this.url = this.service.hostingUrl + "gettypeuser?";
   }
 
   ngOnInit() {
@@ -44,12 +44,12 @@ export class UserComponent implements OnInit {
    * get data by user from api
    *
    * @param {*} url
-   * @memberof UserComponent
+   * @memberof TypeUserComponent
    */
   getData(url) {
     this.loading = true;
     this.service
-      .getUserWithPagination(url, this.pagination)
+      .getTypeUserWithPagination(url, this.pagination)
       .then((result) => {
         console.log(result);
         //data from API json
@@ -81,7 +81,7 @@ export class UserComponent implements OnInit {
   /**
    * fungsi pencarian ketika klik button search
    *
-   * @memberof UserComponent
+   * @memberof TypeUserComponent
    */
   search() {
     if (this.pagination.keyword.length > 1) {
@@ -96,7 +96,7 @@ export class UserComponent implements OnInit {
    * fungsi pencarian ketika pencet enter
    *
    * @param {*} event
-   * @memberof UserComponent
+   * @memberof TypeUserComponent
    */
   searchEnter(event) {
     if (event.key === "Enter") {
@@ -109,10 +109,10 @@ export class UserComponent implements OnInit {
   }
 
   gotoform(params) {
-    this.router.navigate(["pages/user-form/" + params]);
+    this.router.navigate(["pages/type-user-form/" + params]);
   }
 
-  deleteUser(ID) {
+  deleteTypeUser(ID) {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -125,7 +125,7 @@ export class UserComponent implements OnInit {
       if (result.value) {
         this.loading = true;
         this.service
-          .deleteUser(ID)
+          .deleteTypeUser(ID)
           .then((result) => {
             Swal.fire(result.msg, "Your file has been deleted.", "success");
             this.loading = false;
@@ -153,47 +153,4 @@ export class UserComponent implements OnInit {
       }
     });
   }
-
-  // exportToExcel() {
-  //   this.loadingExport = true;
-  //   this.service.DownloadData({}, "exportexcel").subscribe((result) => {
-  //     this.loadingExport = false;
-  //     this.downloadFile(
-  //       result,
-  //       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  //       "export.xls"
-  //     );
-  //   });
-  // }
-
-  // exportToPdf() {
-  //   this.loadingExport = true;
-  //   this.service.DownloadData({}, "exportpdf").subscribe((result) => {
-  //     this.loadingExport = false;
-  //     this.downloadFile(result, "application/pdf", "export.pdf");
-  //   });
-  // }
-
-  // downloadFile(blob: any, type: string, filename: string) {
-  //   var binaryData = [];
-  //   binaryData.push(blob);
-
-  //   const url = window.URL.createObjectURL(
-  //     new Blob(binaryData, { type: type })
-  //   ); // <-- work with blob directly
-
-  //   // create hidden dom element (so it works in all browsers)
-  //   const a = document.createElement("a");
-  //   a.setAttribute("style", "display:none;");
-  //   document.body.appendChild(a);
-
-  //   // create file, attach to hidden element and open hidden element
-  //   a.href = url;
-  //   a.download = filename;
-  //   a.click();
-  // }
-
-  // openPdf(url) {
-  //   window.open(url, "_blank");
-  // }
 }

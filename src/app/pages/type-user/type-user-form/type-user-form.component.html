@@ -1,0 +1,43 @@
+<form aria-labelledby="title">
+  <nb-card accent="info">
+    <nb-card-header>
+      <div class="row">
+        <div class="col">
+          Form Tipe User
+        </div>
+        <div class="col" style="text-align:right">
+          <button *ngIf="!isModal" (click)="goToList()" nbButton size="tiny" ghost status="primary">
+            <nb-icon icon="arrow-back-outline"></nb-icon> Kembali
+          </button>
+        </div>
+      </div>
+    </nb-card-header>
+
+    <nb-card-body>
+      <div class="row">
+        <div class="col-lg-6">
+
+          <div class="form-group row">
+            <label for="typeUser" class="label col-sm-3 col-form-label">Tipe user</label>
+            <div class="col-sm-9">
+              <input type="text" #user_type [(ngModel)]="type_user.type" [ngModelOptions]="{standalone: true}" nbInput
+                fullWidth id="typeUser" placeholder="Input tipe User">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.type && !user_type.value">
+                  {{ error.type[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+
+    <nb-card-footer>
+      <button nbButton (click)="batal()" status="default">Batal</button>
+      <button nbButton [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" (click)="save()"
+        status="primary">Simpan</button>
+    </nb-card-footer>
+
+  </nb-card>
+</form>

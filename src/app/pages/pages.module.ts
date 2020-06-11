@@ -12,6 +12,7 @@ import { CategoryModule } from "./category/category.module";
 import { SatuanModule } from "./satuan/satuan.module";
 import { UsulanModule } from "./usulan/usulan.module";
 import { UserModule } from "./user/user.module";
+import { TypeUserModule } from "./type-user/type-user.module";
 import { ChangePasswordModule } from './change-password/change-password.module';
 
 @NgModule({
@@ -26,6 +27,7 @@ import { ChangePasswordModule } from './change-password/change-password.module';
     SatuanModule,
     UsulanModule,
     UserModule,
+    TypeUserModule,
     ChangePasswordModule
   ],
   declarations: [PagesComponent],

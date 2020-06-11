@@ -5,6 +5,8 @@ import { PagesComponent } from "./pages.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { UserComponent } from "./user/user.component";
 import { UserFormComponent } from "./user/user-form/user-form.component";
+import { TypeUserComponent } from "./type-user/type-user.component";
+import { TypeUserFormComponent } from "./type-user/type-user-form/type-user-form.component";
 import { GroupComponent } from "./group/group.component";
 import { GroupFormComponent } from "./group/group-form/group-form.component";
 import { CategoryComponent } from "./category/category.component";
@@ -16,7 +18,7 @@ import { SatuanComponent } from "./satuan/satuan.component";
 import { SatuanFormComponent } from "./satuan/satuan-form/satuan-form.component";
 import { UsulanComponent } from "./usulan/usulan.component";
 import { UsulanFormComponent } from "./usulan/usulan-form/usulan-form.component";
-import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ChangePasswordComponent } from "./change-password/change-password.component";
 
 const routes: Routes = [
   {
@@ -41,7 +43,14 @@ const routes: Routes = [
         path: "user-form/:id",
         component: UserFormComponent,
       },
-
+      {
+        path: "type-user",
+        component: TypeUserComponent,
+      },
+      {
+        path: "type-user-form/:id",
+        component: TypeUserFormComponent,
+      },
       {
         path: "group",
         component: GroupComponent,

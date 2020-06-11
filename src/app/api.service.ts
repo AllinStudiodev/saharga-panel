@@ -9,10 +9,10 @@ import { Router } from "@angular/router";
 })
 export class APIService {
   // public hostingUrl = "http://api.allinstudio.co.id/api/v1/";
-  public hostingUrl = 'http://localhost:81/saharga-api/api/v1/';
+  //public hostingUrl = 'http://localhost:81/saharga-api/api/v1/';
   //local echo
-  //public hostingUrl = "http://192.168.10.10:8000/api/v1/";
-  public api_token = '';
+  public hostingUrl = "http://192.168.10.10:8000/api/v1/";
+  public api_token = "";
   public authenticationState = new BehaviorSubject(false);
 
   private httpOptions = {
@@ -24,21 +24,21 @@ export class APIService {
   constructor(public http: HttpClient, private router: Router) {}
 
   async getToken() {
-    if (localStorage.getItem('auth_app_token')) {
-      this.api_token = JSON.parse(localStorage.getItem('auth_app_token')).value;
+    if (localStorage.getItem("auth_app_token")) {
+      this.api_token = JSON.parse(localStorage.getItem("auth_app_token")).value;
       this.httpOptions = {
         headers: new HttpHeaders({
-          'Accept': 'application/json',
-          'Authorization' : 'bearer ' + this.api_token,
-        })
-      }
+          Accept: "application/json",
+          Authorization: "bearer " + this.api_token,
+        }),
+      };
 
-      let base64Url = this.api_token.split('.')[1];
-      let base64 = base64Url.replace('-', '+').replace('_', '/');
+      let base64Url = this.api_token.split(".")[1];
+      let base64 = base64Url.replace("-", "+").replace("_", "/");
       let payload = JSON.parse(window.atob(base64));
       payload.token = this.api_token;
 
-      localStorage.setItem('USER_INFO', JSON.stringify(payload));
+      localStorage.setItem("USER_INFO", JSON.stringify(payload));
     } else {
       this.router.navigate(["auth/login"]);
     }
@@ -124,6 +124,60 @@ export class APIService {
     await this.getToken();
     return this.http
       .delete(this.hostingUrl + "user/" + ID + "?", this.httpOptions)
+      .toPromise()
+      .then((response) => response)
+      .catch(this.handleError);
+  }
+
+  async getTypeUserPagination(keyword): Promise<any> {
+    await this.getToken();
+    return this.http
+      .get(this.hostingUrl + "gettypeuser/" + keyword + "?", this.httpOptions)
+      .toPromise()
+      .then((response) => response)
+      .catch(this.handleError);
+  }
+
+  async getTypeUserWithPagination(url, data): Promise<any> {
+    await this.getToken();
+    return this.http
+      .post(url, data, this.httpOptions)
+      .toPromise()
+      .then((response) => response)
+      .catch(this.handleError);
+  }
+
+  async getTypeUserByID(ID): Promise<any> {
+    await this.getToken();
+    return this.http
+      .get(this.hostingUrl + "typeuser/" + ID + "?", this.httpOptions)
+      .toPromise()
+      .then((response) => response)
+      .catch(this.handleError);
+  }
+
+  async updateTypeUser(data, ID): Promise<any> {
+    await this.getToken();
+    return this.http
+      .post(this.hostingUrl + "typeuser/" + ID + "?", data, this.httpOptions)
+      .toPromise()
+      .then((response) => response)
+      .catch(this.handleError);
+  }
+
+  async postTypeUser(data): Promise<any> {
+    await this.getToken();
+    return this.http
+      .post(this.hostingUrl + "typeuser?", data, this.httpOptions)
+      .toPromise()
+      .then((response) => response)
+      .catch(this.handleError);
+  }
+
+  async deleteTypeUser(ID): Promise<any> {
+    await this.getToken();
+    return this.http
+      .delete(this.hostingUrl + "typeuser/" + ID + "?", this.httpOptions)
       .toPromise()
       .then((response) => response)
       .catch(this.handleError);
@@ -538,18 +592,21 @@ export class APIService {
   async updatePassword(data): Promise<any> {
     await this.getToken();
     var dataUpload = new FormData();
-    dataUpload.append('username', data.username)
-    dataUpload.append('old_password', data.oldPassword)
-    dataUpload.append('new_password', data.password)
-    dataUpload.append('confirm_password', data.confirmationPassword)
+    dataUpload.append("username", data.username);
+    dataUpload.append("old_password", data.oldPassword);
+    dataUpload.append("new_password", data.password);
+    dataUpload.append("confirm_password", data.confirmationPassword);
 
     const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
+    headers.append("Content-Type", "application/json");
+    headers.append("Accept", "application/json");
 
-    return this.http.post(this.hostingUrl + 'changepassword?' + this.api_token, dataUpload, { headers: headers }) // ...using post request
+    return this.http
+      .post(this.hostingUrl + "changepassword?" + this.api_token, dataUpload, {
+        headers: headers,
+      }) // ...using post request
       .toPromise()
-      .then(res => res)
+      .then((res) => res)
       .catch(this.handleError);
   }
 }
