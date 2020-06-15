@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { UserComponent } from "./user.component";
+import { TypeUserComponent } from "./type-user.component";
 import {
   NbCardModule,
   NbLayoutModule,
@@ -18,10 +18,10 @@ import {
 
 import { ThemeModule } from "../../@theme/theme.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { UserFormComponent } from "./user-form/user-form.component";
+import { TypeUserFormComponent } from "./type-user-form/type-user-form.component";
 
 @NgModule({
-  declarations: [UserComponent, UserFormComponent],
+  declarations: [TypeUserComponent, TypeUserFormComponent],
   imports: [
     CommonModule,
     NbCardModule,
@@ -46,4 +46,4 @@ import { UserFormComponent } from "./user-form/user-form.component";
     },
   ],
 })
-export class UserModule {}
+export class TypeUserModule {}

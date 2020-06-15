@@ -16,7 +16,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   `,
 })
 export class PagesComponent {
-  menu =  [
+  menu = [
     {
       title: "DASHBOARD",
       icon: "home-outline",
@@ -27,6 +27,12 @@ export class PagesComponent {
       title: "PENGELOLAAN USER",
       icon: "people-outline",
       link: "/pages/user",
+      home: true,
+    },
+    {
+      title: "PENGELOLAAN TIPE USER",
+      icon: "people-outline",
+      link: "/pages/type-user",
       home: true,
     },
     {
@@ -84,7 +90,7 @@ export class PagesComponent {
   loading = false;
 
   constructor(private service: APIService) {
-      this.service
+    this.service
       .getMenu()
       .then((result) => {
         result.forEach((element) => {

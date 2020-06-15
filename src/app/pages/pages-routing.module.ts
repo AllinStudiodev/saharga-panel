@@ -5,6 +5,8 @@ import { PagesComponent } from "./pages.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { UserComponent } from "./user/user.component";
 import { UserFormComponent } from "./user/user-form/user-form.component";
+import { TypeUserComponent } from "./type-user/type-user.component";
+import { TypeUserFormComponent } from "./type-user/type-user-form/type-user-form.component";
 import { GroupComponent } from "./group/group.component";
 import { GroupFormComponent } from "./group/group-form/group-form.component";
 import { CategoryComponent } from "./category/category.component";
@@ -47,7 +49,14 @@ const routes: Routes = [
         path: "user-form/:id",
         component: UserFormComponent,
       },
-
+      {
+        path: "type-user",
+        component: TypeUserComponent,
+      },
+      {
+        path: "type-user-form/:id",
+        component: TypeUserFormComponent,
+      },
       {
         path: "group",
         component: GroupComponent,

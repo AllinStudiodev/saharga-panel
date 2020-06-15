@@ -45,10 +45,12 @@
           <div class="form-group row">
             <label for="typeuser_id" class="label col-sm-3 col-form-label">Tipe User</label>
             <div class="col-sm-9">
-              <input type="text" #typeuser_id [(ngModel)]="user.typeuser_id" [ngModelOptions]="{standalone: true}"
-                nbInput fullWidth id="typeuser_id" placeholder="Input Tipe User">
+              <nb-select [(ngModel)]="user.type_user" [ngModelOptions]="{standalone: true}"
+                (selectedChange)="onChangeTypeUser(user.type_user)" fullWidth placeholder="Pilih Tipe User">
+                <nb-option [value]="type_user" *ngFor="let type_user of type_users">{{ type_user?.type }}</nb-option>
+              </nb-select>
               <ng-container class="col-sm-9">
-                <p class="caption status-danger" *ngIf="error.typeuser_id && !typeuser_id.value">
+                <p class="caption status-danger" *ngIf="error.typeuser_id && !user.typeuser_id">
                   {{ error.typeuser_id[0] }}
                 </p>
               </ng-container>
@@ -59,7 +61,7 @@
             <label for="positionUser" class="label col-sm-3 col-form-label">Posisi</label>
             <div class="col-sm-9">
               <input type="text" #user_position [(ngModel)]="user.position" [ngModelOptions]="{standalone: true}"
-                nbInput fullWidth id="positionUser" placeholder="Input Password User">
+                nbInput fullWidth id="positionUser" placeholder="Input Posisi User">
               <ng-container class="col-sm-9">
                 <p class="caption status-danger" *ngIf="error.position && !user_position.value">
                   {{ error.position[0] }}

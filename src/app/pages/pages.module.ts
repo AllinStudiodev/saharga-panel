@@ -12,6 +12,7 @@ import { CategoryModule } from "./category/category.module";
 import { SatuanModule } from "./satuan/satuan.module";
 import { UsulanModule } from "./usulan/usulan.module";
 import { UserModule } from "./user/user.module";
+import { TypeUserModule } from "./type-user/type-user.module";
 import { ChangePasswordModule } from './change-password/change-password.module';
 import { LaporanUploadDataModule } from './laporan-upload-data/laporan-upload-data.module';
 import { LaporanUploadDataDetailModule } from './laporan-upload-data-detail/laporan-upload-data-detail.module';
