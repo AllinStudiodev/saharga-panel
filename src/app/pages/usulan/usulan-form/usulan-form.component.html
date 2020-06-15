@@ -6,7 +6,7 @@
           Form Usulan
         </div>
         <div class="col" style="text-align:right">
-          <button *ngIf="!isModal" (click)="goToList()" nbButton size="tiny" ghost status="primary">
+          <button (click)="goToList()" nbButton size="tiny" ghost status="primary">
             <nb-icon icon="arrow-back-outline"></nb-icon> Kembali
           </button>
         </div>
@@ -17,7 +17,7 @@
       <div class="row">
         <div class="col-lg-12">
 
-          <a href="assets/format-usulan-ssh.docx" class="margin" (click)="download()" nbButton size="tiny"><nb-icon icon="download-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Form Format Usulan SSH</a>
+          <a href="assets/format-usulan-ssh.docx" class="margin" nbButton size="tiny"><nb-icon icon="download-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Form Format Usulan SSH</a>
 
           <br /><br />
 
@@ -87,12 +87,12 @@
     </nb-card-body>
 
     <nb-card-footer>
-      <button nbButton *ngIf="usulan.status == 'PENDING'" (click)="batal()" status="default">Batal</button>
-      <button nbButton *ngIf="usulan.status == 'PENDING'" [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" (click)="save()"
+      <!-- <button nbButton *ngIf="usulan.status == 'PENDING' && usulan.user_id == user_id" (click)="batal()" status="default">Batal</button> -->
+      <button nbButton *ngIf="usulan.status == 'PENDING' && usulan.user_id == user_id" [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" (click)="save()"
         status="primary">Simpan</button>
-      <button nbButton [nbSpinner]="loading" nbSpinnerStatus="success" nbSpinnerSize="large" (click)="save('APPROVED')"
+      <button *ngIf="isAdministrator && usulan.id !== null" nbButton [nbSpinner]="loading" nbSpinnerStatus="success" nbSpinnerSize="large" (click)="save('APPROVED')"
       status="success">Approve</button>
-      <button nbButton [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="large" (click)="save('REJECTED')"
+      <button *ngIf="isAdministrator && usulan.id !== null" nbButton [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="large" (click)="save('REJECTED')"
       status="danger">Reject</button>
     </nb-card-footer>
 

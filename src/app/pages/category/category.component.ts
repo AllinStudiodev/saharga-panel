@@ -153,47 +153,4 @@ export class CategoryComponent implements OnInit {
       }
     });
   }
-
-  // exportToExcel() {
-  //   this.loadingExport = true;
-  //   this.service.DownloadData({}, "exportexcel").subscribe((result) => {
-  //     this.loadingExport = false;
-  //     this.downloadFile(
-  //       result,
-  //       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  //       "export.xls"
-  //     );
-  //   });
-  // }
-
-  // exportToPdf() {
-  //   this.loadingExport = true;
-  //   this.service.DownloadData({}, "exportpdf").subscribe((result) => {
-  //     this.loadingExport = false;
-  //     this.downloadFile(result, "application/pdf", "export.pdf");
-  //   });
-  // }
-
-  // downloadFile(blob: any, type: string, filename: string) {
-  //   var binaryData = [];
-  //   binaryData.push(blob);
-
-  //   const url = window.URL.createObjectURL(
-  //     new Blob(binaryData, { type: type })
-  //   ); // <-- work with blob directly
-
-  //   // create hidden dom element (so it works in all browsers)
-  //   const a = document.createElement("a");
-  //   a.setAttribute("style", "display:none;");
-  //   document.body.appendChild(a);
-
-  //   // create file, attach to hidden element and open hidden element
-  //   a.href = url;
-  //   a.download = filename;
-  //   a.click();
-  // }
-
-  // openPdf(url) {
-  //   window.open(url, "_blank");
-  // }
 }

@@ -2,11 +2,30 @@
              nbSpinnerStatus="primary"
              nbSpinnerSize="large"
              nbSpinnerMessage="">
-  <nb-card-header>Form Upload Excel Produk</nb-card-header>
+  <nb-card-header>
+    <div class="row">
+      <div class="col">
+        Form Upload Excel Produk
+      </div>
+      <div class="col" style="text-align:right">
+        <button  (click)="back()" nbButton size="tiny" ghost status="primary"><nb-icon icon="arrow-back-outline"></nb-icon> Kembali</button>
+      </div>
+    </div>
+  </nb-card-header>
   <nb-card-body>
-    <a href="assets/format-import-excel.xlsx" class="margin" (click)="download()" nbButton size="tiny"><nb-icon icon="download-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Form Format Excel</a>
+    <a href="assets/format-import-excel.xlsx" class="margin" nbButton size="tiny"><nb-icon icon="download-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Form Format Excel</a>
 
     <br /><br />
+
+      <div class="form-group row">
+        <label for="type" class="label col-sm-2 col-form-label">Usulan</label>
+        <div class="col-sm-9">
+          <nb-select *ngIf="usulans.length > 0" [(ngModel)]="usulan_id" [ngModelOptions]="{standalone: true}" placeholder="Pilih Usulan">
+            <nb-option *ngFor="let usulan of usulans" [value]="usulan.id">{{ usulan.title }} - {{ usulan.name }}</nb-option>
+          </nb-select>
+          <label class="label col-sm-6 col-form-label" *ngIf="usulans.length == 0">Tidak Ada Usulan</label>
+        </div>
+      </div>
 
       <div class="form-group row">
         <label for="type" class="label col-sm-2 col-form-label">Jenis SSH</label>
@@ -25,10 +44,10 @@
           <nb-progress-bar *ngIf="uploadProgress > 0" [value]="uploadProgress" status="primary">{{ uploadProgress }}%</nb-progress-bar>
         </div>
       </div>
-
-      <!-- <button  class="margin" (click)="uploadFileToActivity()" nbButton size="tiny"><nb-icon icon="save-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Submit</button> -->
-      <button  class="margin" status="basic" (click)="refresh()" nbButton size="tiny"><nb-icon icon="refresh-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Muat Ulang</button>
-      <button  class="margin" status="basic" (click)="back()" nbButton size="tiny"><nb-icon icon="undo-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Kembali</button>
-
   </nb-card-body>
+
+  <nb-card-footer>
+    <!-- <button  class="margin" (click)="uploadFileToActivity()" nbButton size="tiny"><nb-icon icon="save-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Submit</button> -->
+    <button  class="margin" status="basic" (click)="refresh()" nbButton size="tiny"><nb-icon icon="refresh-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Upload Ulang</button>
+  </nb-card-footer>
 </nb-card>

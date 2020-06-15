@@ -14,6 +14,16 @@
         </nb-card-header>
         <nb-card-body>
 
+        <div class="form-group row">
+          <label for="type" class="label col-sm-3 col-form-label">Usulan</label>
+          <div class="col-sm-9">
+            <nb-select *ngIf="usulans.length > 0" [(ngModel)]="item.usulan_id" [ngModelOptions]="{standalone: true}" placeholder="Pilih Usulan">
+              <nb-option *ngFor="let usulan of usulans" [value]="usulan.id">{{ usulan.title }} - {{ usulan.name }}</nb-option>
+            </nb-select>
+            <label class="label col-sm-6 col-form-label" *ngIf="usulans.length == 0">Tidak Ada Usulan</label>
+          </div>
+        </div>
+
           <div class="form-group row">
             <label for="type" class="label col-sm-3 col-form-label">Jenis SSH</label>
             <div class="col-sm-9">
@@ -105,12 +115,10 @@
         </nb-card-body>
 
         <nb-card-footer>
-          <button nbButton (click)="batal()" status="default">Batal</button>
           <button nbButton [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" (click)="save()" status="primary">Simpan</button>
         </nb-card-footer>
 
       </nb-card>
     </form>
-
   </div>
 </div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { APIService } from '../../../api.service';
 import Swal from 'sweetalert2'
+import { ItemService } from '../item.service';
 
 @Component({
   selector: 'item-import',
@@ -17,18 +18,34 @@ export class ItemImportComponent implements OnInit {
   user_id;
   types = ['UMUM', 'PARSIAL', 'OTHER'];
   type = 'UMUM';
+  usulan_id;
+  usulans = [];
+  loading: Boolean = false;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private service: APIService
+    private itemService: ItemService
     ) {
       this.categori_id = this.route.snapshot.paramMap.get("categori_id");
-      this.user_id = 1;
+      this.user_id = JSON.parse(localStorage.getItem('USER_INFO')).sub;
+
+     this.getUsulans();
   }
 
   ngOnInit() {
 
+  }
+
+
+  getUsulans() {
+    this.itemService.getUsulanForItem(this.user_id, this.categori_id).then(
+      result => {
+        this.usulans = result.data;
+        this.usulan_id = this.usulans[0].id;
+        console.log(this.usulans)
+      }
+    )
   }
 
   refresh() {
@@ -43,35 +60,52 @@ export class ItemImportComponent implements OnInit {
 
 
  upload($event) {
-    this.service.fileChange($event, this.categori_id, this.user_id, this.type).subscribe(
-      (res) => {
+    if (this.usulan_id || JSON.parse(localStorage.getItem('USER_INFO')).position == 'administrator') {
+      this.loading = true;
+      this.itemService.fileChange($event, this.categori_id, this.user_id, this.type, this.usulan_id).subscribe(
+        (res) => {
 
-        if (res.status == 200) {
+          if (res.status == 200) {
+            Swal.fire({
+              title: res.message,
+              type: 'success',
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'OK'
+            }).then((result) => {
+              if (result.value) {
+                this.uploadsFile = null;
+                this.uploadProgress = 0;
+                this.file = null;
+                this.loading = false;
+                this.getUsulans();
+              }
+            })
+          } else if (res.status == 'progress') {
+            this.uploadProgress = res.message;
+          }
+
+        },
+        (err) => {
           Swal.fire({
-            title: res.message,
-            type: 'success',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'OK'
-          }).then((result) => {
-            if (result.value) {
-              this.uploadsFile = null;
-              this.uploadProgress = 0;
-              this.file = null;
-            }
+            type: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!' + err.message,
           })
-        } else if (res.status == 'progress') {
-          this.uploadProgress = res.message;
+          this.loading = false;
         }
+      );
+    } else {
+      Swal.fire({
+        type: 'error',
+        title: 'Oops...',
+        text: 'Usulan Tidak Ada',
+      })
 
-      },
-      (err) => {
-        Swal.fire({
-          type: 'error',
-          title: 'Oops...',
-          text: 'Something went wrong!' + err.message,
-        })
-      }
-    );
+      this.uploadsFile = null;
+      this.uploadProgress = 0;
+      this.file = null;
+      this.loading = false;
+    }
   }
 
 

@@ -46,7 +46,7 @@
               <button (click)="gotoform(dt.id)" nbButton size="tiny" ghost status="success">
                 <nb-icon icon="eye-outline"></nb-icon>
               </button>
-              <button (click)="deleteUsulan(dt.id)" nbButton size="tiny" ghost status="danger" *ngIf="dt.status == 'PENDING'">
+              <button (click)="deleteUsulan(dt.id)" nbButton size="tiny" ghost status="danger" *ngIf="dt.status == 'PENDING' && (pagination.user_id == dt.user_id)">
                 <nb-icon icon="trash"></nb-icon>
               </button>
             </td>

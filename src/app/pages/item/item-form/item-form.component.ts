@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { APIService } from '../../../api.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2'
+import { ItemService } from '../item.service';
 
 /**
  * interface Item
@@ -20,6 +20,7 @@ export class Item {
   survey_location?: String;
   is_front?: Boolean;
   type?: String;
+  usulan_id?: number;
 }
 
 @Component({
@@ -34,12 +35,19 @@ export class ItemFormComponent implements OnInit {
   satuans = [];
   loading = false;
   types = ['UMUM', 'PARSIAL', 'OTHER'];
+  usulans = [];
+  categori_id;
+  user_id;
 
   constructor(
-    private service: APIService,
+    private service: ItemService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) {
+    this.categori_id = this.route.snapshot.paramMap.get("categori_id");
+    this.user_id = JSON.parse(localStorage.getItem('USER_INFO')).sub;
+    this.getUsulans();
+  }
 
   async ngOnInit() {
     await this.getSatuan()
@@ -68,6 +76,7 @@ export class ItemFormComponent implements OnInit {
     this.item.is_front = null;
     this.item.user_id = 1;
     this.item.type = this.types[0];
+    this.item.usulan_id = null;
 
     this.error = new Item;
   }
@@ -78,62 +87,70 @@ export class ItemFormComponent implements OnInit {
    * @memberof CabangFromComponent
    */
   save() {
-    if (this.route.snapshot.paramMap.get("params") !== 'new') {
-      this.loading = true;
-      this.service.updateItem(this.item, this.route.snapshot.paramMap.get("params")).then(
-        result => {
-          Swal.fire(
-            result.msg,
-            'Your file has been saved.',
-            'success'
-          )
-          this.loading = false;
-          this.goToList();
-        }
-      ).catch(
-        error => {
-          if (error.error == 'Unauthorized.') {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops...',
-              text: 'Session login anda sudah habis silahkan login kembali',
-            })
+    if (this.item.usulan_id || JSON.parse(localStorage.getItem('USER_INFO')).position == 'administrator') {
+      if (this.route.snapshot.paramMap.get("params") !== 'new') {
+        this.loading = true;
+        this.service.updateItem(this.item, this.route.snapshot.paramMap.get("params")).then(
+          result => {
+            Swal.fire(
+              result.msg,
+              'Your file has been saved.',
+              'success'
+            )
             this.loading = false;
-            this.router.navigate(['auth/login'])
-          } else {
-            this.error = error.error;
-            this.loading = false;
+            this.goToList();
           }
-        }
-      )
+        ).catch(
+          error => {
+            if (error.error == 'Unauthorized.') {
+              Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Session login anda sudah habis silahkan login kembali',
+              })
+              this.loading = false;
+              this.router.navigate(['auth/login'])
+            } else {
+              this.error = error.error;
+              this.loading = false;
+            }
+          }
+        )
+      } else {
+        this.loading = true;
+        this.service.postItem(this.item).then(
+          result => {
+            Swal.fire(
+              result.msg,
+              'Your file has been saved.',
+              'success'
+            )
+            this.loading = false;
+            this.goToList();
+          }
+        ).catch(
+          error => {
+            if (error.error == 'Unauthorized.') {
+              Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Session login anda sudah habis silahkan login kembali',
+              })
+              this.loading = false;
+              this.router.navigate(['auth/login'])
+            } else {
+              this.error = error.error;
+              this.loading = false;
+            }
+          }
+        )
+      }
     } else {
-      this.loading = true;
-      this.service.postItem(this.item).then(
-        result => {
-          Swal.fire(
-            result.msg,
-            'Your file has been saved.',
-            'success'
-          )
-          this.loading = false;
-          this.goToList();
-        }
-      ).catch(
-        error => {
-          if (error.error == 'Unauthorized.') {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops...',
-              text: 'Session login anda sudah habis silahkan login kembali',
-            })
-            this.loading = false;
-            this.router.navigate(['auth/login'])
-          } else {
-            this.error = error.error;
-            this.loading = false;
-          }
-        }
-      )
+      Swal.fire({
+        type: 'error',
+        title: 'Oops...',
+        text: 'Usulan Tidak Ada',
+      })
     }
   }
 
@@ -194,7 +211,7 @@ export class ItemFormComponent implements OnInit {
   getSatuan() {
     this.service.getSatuan().then(
       result => {
-        console.log(result)
+        console.log('hasil', result)
         this.satuans = result.data;
         this.item.satuan_id = this.satuans[0].id
       }
@@ -213,5 +230,15 @@ export class ItemFormComponent implements OnInit {
     } else {
       this.item.is_front = false
     }
+  }
+
+  getUsulans() {
+    this.service.getUsulanForItem(this.user_id, this.categori_id).then(
+      result => {
+        this.usulans = result.data;
+        this.item.usulan_id = this.usulans[0].id;
+        console.log(this.usulans)
+      }
+    )
   }
 }

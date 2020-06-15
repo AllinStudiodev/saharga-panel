@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col-lg-6">
+    <form  aria-labelledby="title">
+      <nb-card accent="info">
+        <nb-card-header>
+          <div class="row">
+            <div class="col">
+              Form Input Bukti Survey
+            </div>
+            <div class="col" style="text-align:right">
+              <button  (click)="goToList()" nbButton size="tiny" ghost status="primary"><nb-icon icon="arrow-back-outline"></nb-icon> Kembali</button>
+            </div>
+          </div>
+        </nb-card-header>
+        <nb-card-body>
+
+          <div class="form-group row">
+            <label for="type" class="label col-sm-3 col-form-label">Kategori</label>
+            <div class="col-sm-9">
+              <nb-select *ngIf="categories.length > 0" [(ngModel)]="store.categori_id" [ngModelOptions]="{standalone: true}" placeholder="Pilih Category">
+                <nb-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</nb-option>
+              </nb-select>
+              <label class="label col-sm-6 col-form-label" *ngIf="categories.length == 0">Tidak Kategori</label>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="Uraian" class="label col-sm-3 col-form-label">Nama Toko</label>
+            <div class="col-sm-9">
+              <input type="text" #name [(ngModel)]="store.name" [ngModelOptions]="{standalone: true}" nbInput fullWidth id="Uraian" placeholder="Input Nama Toko">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.name && !name.value">
+                  {{ error.name[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="address" class="label col-sm-3 col-form-label">Alamat</label>
+            <div class="col-sm-9">
+              <textarea row=3 type="text" #address [(ngModel)]="store.address" [ngModelOptions]="{standalone: true}" nbInput fullWidth id="address" placeholder="Input Alamat"></textarea>
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.address && !address.value">
+                  {{ error.address[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="type" class="label col-sm-3 col-form-label">Upload File</label>
+            <div class="col-sm-9">
+              <input type="file" (change)="addFile($event.target.files[0])">
+              <br /><br />
+              <nb-progress-bar *ngIf="progresUpload > 0" [value]="progresUpload" status="primary">{{ progresUpload }}%</nb-progress-bar>
+              <a target="_blank" *ngIf="store.photo_1 !== ''" [href]="store.photo_1">{{ filename  }}</a>
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.photo_1">
+                  {{ error.photo_1[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+        </nb-card-body>
+
+        <nb-card-footer>
+          <button nbButton [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" (click)="save()" status="primary">Simpan</button>
+        </nb-card-footer>
+
+      </nb-card>
+    </form>
+  </div>
+</div>

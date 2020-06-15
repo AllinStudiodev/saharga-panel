@@ -3,6 +3,7 @@ import { Component } from "@angular/core";
 import { MENU_ITEMS } from "./pages-menu";
 import { APIService } from "../api.service";
 import { NbMenuItem } from "@nebular/theme";
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: "ngx-pages",
@@ -47,8 +48,30 @@ export class PagesComponent {
       home: true,
     },
     {
+      title: "LAPORAN",
+      group: true,
+    },
+    {
+      title: "LAPORAN UPLOAD DATA",
+      icon: "file-text-outline",
+      link: "/pages/laporan-upload-data",
+      home: true,
+    },
+    {
+      title: "LAPORAN UPLOAD BUKTI SURVEY",
+      icon: "file-text-outline",
+      link: "/pages/laporan-upload-bukti-survey",
+      home: true,
+    },
+    {
       title: "MAIN GOLONGAN",
       group: true,
+    },
+    {
+      title: "PENGELOLAAN NASKAH PDF",
+      icon: "file-outline",
+      link: "/pages/naskah",
+      home: true,
     },
     {
       title: "PENGELOLAAN USULAN",

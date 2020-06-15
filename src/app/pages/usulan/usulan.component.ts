@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { APIService } from "../../api.service";
 import { Router } from "@angular/router";
 import Swal from "sweetalert2";
+import { UsulanService } from './usulan.service';
 
 @Component({
   selector: "usulan",
@@ -30,9 +30,10 @@ export class UsulanComponent implements OnInit {
     keyword: null,
     sortby: "created_at",
     sorttype: "desc",
+    user_id: JSON.parse(localStorage.getItem('USER_INFO')).sub
   };
 
-  constructor(private service: APIService, private router: Router) {
+  constructor(private service: UsulanService, private router: Router) {
     this.url = this.service.hostingUrl + "getusulan?";
   }
 

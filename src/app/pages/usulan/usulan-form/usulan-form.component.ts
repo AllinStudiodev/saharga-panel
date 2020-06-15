@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import Swal from "sweetalert2";
 import { NbDialogRef } from "@nebular/theme";
 import * as Firebase from 'firebase';
+import { UsulanService } from '../usulan.service';
 
 /**
  * interface Usulan
@@ -35,14 +36,20 @@ export class UsulanFormComponent implements OnInit {
   firestore = Firebase.storage();
   uploadInProgress: boolean = false;
   progresUpload = 0
+  isAdministrator = false;
+  user_id = JSON.parse(localStorage.getItem('USER_INFO')).sub;
 
   constructor(
-    private service: APIService,
+    private service: UsulanService,
     private router: Router,
     private route: ActivatedRoute,
     protected ref: NbDialogRef<UsulanFormComponent>,
   ) {
-    console.log(this.firestore);
+      if (JSON.parse(localStorage.getItem('USER_INFO')).position == 'administrator') {
+        this.isAdministrator = true;
+      } else {
+        this.isAdministrator = false;
+      }
   }
 
   ngOnInit() {
@@ -66,7 +73,7 @@ export class UsulanFormComponent implements OnInit {
     this.usulan.note = null;
     this.usulan.file = null;
     this.usulan.status = "PENDING";
-    this.usulan.user_id = 1;
+    this.usulan.user_id = JSON.parse(localStorage.getItem('USER_INFO')).sub;
     this.usulan.usulan_details = [];
 
     this.error = new Usulan();
@@ -257,24 +264,6 @@ export class UsulanFormComponent implements OnInit {
             this.progresUpload = 0;
           });
         });
-
-
-        // imageStore.put(file).then((res) => {
-        //     this.firestore.ref('/file-usulan').child(filename).getDownloadURL().then((url) => {
-        //         resolve(url);
-        //         console.log(url);
-        //         this.usulan.file = url;
-        //         this.uploadInProgress = false;
-        //     }).catch((err) => {
-        //         reject(err);
-        //         console.log(err);
-        //         alert(err)
-        //         this.uploadInProgress = false;
-        //     })
-        // }).catch((err) => {
-        //     reject(err);
-        //     this.uploadInProgress = false;
-        // })
     });
   }
 

@@ -13,6 +13,10 @@ import { SatuanModule } from "./satuan/satuan.module";
 import { UsulanModule } from "./usulan/usulan.module";
 import { UserModule } from "./user/user.module";
 import { ChangePasswordModule } from './change-password/change-password.module';
+import { LaporanUploadDataModule } from './laporan-upload-data/laporan-upload-data.module';
+import { LaporanUploadDataDetailModule } from './laporan-upload-data-detail/laporan-upload-data-detail.module';
+import { LaporanUploadBuktiSurveyModule } from './laporan-upload-bukti-survey/laporan-upload-bukti-survey.module';
+import { NaskahModule } from './naskah/naskah.module';
 
 @NgModule({
   imports: [
@@ -26,7 +30,11 @@ import { ChangePasswordModule } from './change-password/change-password.module';
     SatuanModule,
     UsulanModule,
     UserModule,
-    ChangePasswordModule
+    ChangePasswordModule,
+    LaporanUploadDataModule,
+    LaporanUploadDataDetailModule,
+    LaporanUploadBuktiSurveyModule,
+    NaskahModule
   ],
   declarations: [PagesComponent],
 })

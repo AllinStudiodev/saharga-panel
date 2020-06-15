@@ -17,6 +17,12 @@ import { SatuanFormComponent } from "./satuan/satuan-form/satuan-form.component"
 import { UsulanComponent } from "./usulan/usulan.component";
 import { UsulanFormComponent } from "./usulan/usulan-form/usulan-form.component";
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { LaporanUploadDataComponent } from './laporan-upload-data/laporan-upload-data.component';
+import { LaporanUploadDataDetailComponent } from './laporan-upload-data-detail/laporan-upload-data-detail.component';
+import { LaporanUploadBuktiSurveyComponent } from './laporan-upload-bukti-survey/laporan-upload-bukti-survey.component';
+import { BuktiSurveyFormComponent } from './laporan-upload-bukti-survey/bukti-survey-form/bukti-survey-form.component';
+import { NaskahComponent } from './naskah/naskah.component';
+import { NaskahFormComponent } from './naskah/naskah-form/naskah-form.component';
 
 const routes: Routes = [
   {
@@ -89,6 +95,30 @@ const routes: Routes = [
       {
         path: "change-password",
         component: ChangePasswordComponent,
+      },
+      {
+        path: "laporan-upload-data",
+        component: LaporanUploadDataComponent,
+      },
+      {
+        path: "laporan-upload-data-detail/:typeuser_id",
+        component: LaporanUploadDataDetailComponent,
+      },
+      {
+        path: "laporan-upload-bukti-survey",
+        component: LaporanUploadBuktiSurveyComponent,
+      },
+      {
+        path: "bukti-survey-form/:params",
+        component: BuktiSurveyFormComponent,
+      },
+      {
+        path: "naskah",
+        component: NaskahComponent,
+      },
+      {
+        path: "naskah-form/:id",
+        component: NaskahFormComponent,
       },
     ],
   },

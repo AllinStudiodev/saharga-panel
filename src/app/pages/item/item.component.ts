@@ -1,10 +1,9 @@
-import { Component, OnInit, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
-
-import { APIService } from "../../api.service";
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import Swal from 'sweetalert2'
 import { NbMenuService } from '@nebular/theme';
-import { filter, map, elementAt } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+import { ItemService } from './item.service';
 
 @Component({
   selector: 'item',
@@ -54,7 +53,7 @@ export class ItemComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private service: APIService,
+    private service: ItemService,
     private route: ActivatedRoute,
     private router: Router,
     private nbMenuService: NbMenuService,
@@ -103,6 +102,8 @@ export class ItemComponent implements OnInit, OnDestroy {
   async initialiseInvites() {
     // Set default values and re-fetch any data you need.
     this.url = this.service.hostingUrl + 'itembycategoriid?';
+    await this.getTahun();
+    await this.getTypeUser();
     await this.getData(this.url);
   }
 
@@ -234,7 +235,7 @@ export class ItemComponent implements OnInit, OnDestroy {
    * @memberof ItemComponent
    */
   getTahun() {
-    this.service.getTahun(this.pagination.categori_id).then(
+    this.service.getTahun(null).then(
       result => {
         this.years = result;
         this.pagination.year = this.years[0].tahun;
