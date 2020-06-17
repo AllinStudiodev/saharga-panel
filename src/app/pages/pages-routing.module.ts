@@ -25,6 +25,8 @@ import { LaporanUploadBuktiSurveyComponent } from './laporan-upload-bukti-survey
 import { BuktiSurveyFormComponent } from './laporan-upload-bukti-survey/bukti-survey-form/bukti-survey-form.component';
 import { NaskahComponent } from './naskah/naskah.component';
 import { NaskahFormComponent } from './naskah/naskah-form/naskah-form.component';
+import { TahunComponent } from './tahun/tahun.component';
+import { TahunFormComponent } from './tahun/tahun-form/tahun-form.component';
 
 const routes: Routes = [
   {
@@ -126,8 +128,16 @@ const routes: Routes = [
         component: NaskahComponent,
       },
       {
-        path: "naskah-form/:id",
+        path: "naskah-form/:params",
         component: NaskahFormComponent,
+      },
+      {
+        path: "tahun",
+        component: TahunComponent,
+      },
+      {
+        path: "tahun-form/:id",
+        component: TahunFormComponent,
       },
     ],
   },

@@ -26,8 +26,8 @@ const routes: Routes = [
 ];
 
 const config: ExtraOptions = {
-  useHash: false,
-  onSameUrlNavigation: "reload",
+  useHash: true,
+  // onSameUrlNavigation: "reload",
 };
 
 @NgModule({

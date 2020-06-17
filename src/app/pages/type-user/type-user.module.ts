@@ -14,6 +14,7 @@ import {
   NbSpinnerModule,
   NbDialogModule,
   NbDialogRef,
+  NbContextMenuModule,
 } from "@nebular/theme";
 
 import { ThemeModule } from "../../@theme/theme.module";
@@ -39,6 +40,7 @@ import { TypeUserFormComponent } from "./type-user-form/type-user-form.component
     NbToastrModule,
     NbSpinnerModule,
     NbDialogModule,
+    NbContextMenuModule
   ],
   providers: [
     {

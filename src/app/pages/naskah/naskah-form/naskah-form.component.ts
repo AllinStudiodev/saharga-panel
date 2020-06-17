@@ -17,6 +17,7 @@ export class Naskah {
   cover?: String;
   file?: String;
   user_id?: Number;
+  tahun?: Number;
 }
 
 
@@ -31,6 +32,7 @@ export class NaskahFormComponent implements OnInit {
   error = new Naskah;
   loading = false;
   user_id;
+  tahuns = [];
 
   firestore = Firebase.storage();
   uploadInProgressFile: boolean = false;
@@ -49,7 +51,8 @@ export class NaskahFormComponent implements OnInit {
   }
 
   async ngOnInit() {
-    console.log(this.route.snapshot.paramMap.get("params") );
+   await this.getTahun();
+    console.log(this.route.snapshot.paramMap.get("params"))
     if (this.route.snapshot.paramMap.get("params") !== 'new') {
       this.getNaskahByID(this.route.snapshot.paramMap.get("params"))
     } else {
@@ -69,6 +72,7 @@ export class NaskahFormComponent implements OnInit {
     this.naskah.cover = null
     this.naskah.file = null
     this.naskah.user_id = this.user_id;
+    this.naskah.tahun = null
 
     this.error = new Naskah;
   }
@@ -162,6 +166,7 @@ export class NaskahFormComponent implements OnInit {
       this.service.getNaskahByID(id).then(
         result => {
           this.naskah = result.data
+          console.log(this.naskah)
           this.loading = false;
         }
       ).catch(
@@ -186,7 +191,6 @@ export class NaskahFormComponent implements OnInit {
       )
     }, 700);
   }
-
 
   addFileNaskah(file: File) {
     this.progresUploadFile = 0;
@@ -258,6 +262,21 @@ export class NaskahFormComponent implements OnInit {
           });
         });
     });
+  }
+
+  /**
+   *get tahun by items for combobox
+   *
+   * @memberof ItemComponent
+   */
+  getTahun() {
+    this.service.getTahun().then(
+      result => {
+        console.log('hasil', result)
+        this.tahuns = result.data;
+        this.naskah.tahun = this.tahuns[0].tahun
+      }
+    )
   }
 
 }

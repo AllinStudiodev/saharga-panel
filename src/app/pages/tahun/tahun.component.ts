@@ -1,22 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { LaporanUploadDataDetailService } from './laporan-upload-data-detail.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from "@angular/router";
 import Swal from "sweetalert2";
+import { TahunService } from './tahun.service';
 
 @Component({
-  selector: 'laporan-upload-data-detail',
-  templateUrl: './laporan-upload-data-detail.component.html',
-  styleUrls: ['./laporan-upload-data-detail.component.scss']
+  selector: 'tahun',
+  templateUrl: './tahun.component.html',
+  styleUrls: ['./tahun.component.scss']
 })
-export class LaporanUploadDataDetailComponent implements OnInit {
+export class TahunComponent implements OnInit {
 
   selectedItem = "25";
   url = "";
   loading = false;
   loadingExport = false;
-
-  years = [];
-  types = ['UMUM', 'PARSIAL', 'OTHER'];
 
   data = {
     from: null,
@@ -30,41 +27,30 @@ export class LaporanUploadDataDetailComponent implements OnInit {
   };
 
   pagination = {
-    row: '250',
-    sortby: 'created_at',
-    sorttype: 'desc',
-    keyword: "",
-    year: null,
-    type: 'UMUM',
-    typeuser_id: this.route.snapshot.paramMap.get("typeuser_id")
-  }
+    row: "25",
+    keyword: null,
+    sortby: "created_at",
+    sorttype: "asc",
+  };
 
-  constructor(
-    private service: LaporanUploadDataDetailService,
-    private router: Router,
-    private route: ActivatedRoute,
-  ) {
-    this.url = this.service.hostingUrl + "laporan/laporan-upload-data-detail?";
+  constructor(private service: TahunService, private router: Router) {
+    this.url = this.service.hostingUrl + "gettahun?";
   }
 
   ngOnInit() {
-    this.getTahun();
-
-    setTimeout(() => {
-      this.getData(this.url);
-    }, 700);
+    this.getData(this.url);
   }
 
   /**
-   * get data by category from api
+   * get data by group from api
    *
    * @param {*} url
-   * @memberof CategoryComponent
+   * @memberof GroupComponent
    */
   getData(url) {
     this.loading = true;
     this.service
-      .getCategoryWithPagination(url, this.pagination)
+      .getTahunWithPagination(url, this.pagination)
       .then((result) => {
         console.log(result);
         //data from API json
@@ -96,7 +82,7 @@ export class LaporanUploadDataDetailComponent implements OnInit {
   /**
    * fungsi pencarian ketika klik button search
    *
-   * @memberof CategoryComponent
+   * @memberof GroupComponent
    */
   search() {
     if (this.pagination.keyword.length > 1) {
@@ -111,7 +97,7 @@ export class LaporanUploadDataDetailComponent implements OnInit {
    * fungsi pencarian ketika pencet enter
    *
    * @param {*} event
-   * @memberof CategoryComponent
+   * @memberof GroupComponent
    */
   searchEnter(event) {
     if (event.key === "Enter") {
@@ -123,11 +109,11 @@ export class LaporanUploadDataDetailComponent implements OnInit {
     this.getData(this.url);
   }
 
-  detail(params) {
-    this.router.navigate(["pages/laporan-upload-data-detail/" + params]);
+  gotoform(params) {
+    this.router.navigate(["pages/tahun-form/" + params]);
   }
 
-  deleteItemsByCategori(categori_id) {
+  deleteTahun(ID) {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -140,7 +126,7 @@ export class LaporanUploadDataDetailComponent implements OnInit {
       if (result.value) {
         this.loading = true;
         this.service
-          .deleteItemsByCategory(categori_id)
+          .deleteTahun(ID)
           .then((result) => {
             Swal.fire(result.msg, "Your file has been deleted.", "success");
             this.loading = false;
@@ -168,29 +154,4 @@ export class LaporanUploadDataDetailComponent implements OnInit {
       }
     });
   }
-
-  /**
-   *get tahun by items for combobox
-   *
-   * @memberof ItemComponent
-   */
-  getTahun() {
-    this.service.getTahun().then(
-      result => {
-        this.years = result.data;
-        this.pagination.year = this.years[0].tahun;
-        console.log(this.pagination.year)
-      }
-    )
-  }
-
-  /**
-   * pergi ke list category
-   *
-   * @memberof CategoryFromComponent
-   */
-  goToList() {
-    this.router.navigate(["pages/laporan-upload-data"]);
-  }
-
 }

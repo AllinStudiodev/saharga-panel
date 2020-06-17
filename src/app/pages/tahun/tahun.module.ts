@@ -1,6 +1,7 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { CategoryComponent } from "./category.component";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TahunComponent } from './tahun.component';
+import { TahunFormComponent } from './tahun-form/tahun-form.component';
 import {
   NbCardModule,
   NbLayoutModule,
@@ -14,15 +15,13 @@ import {
   NbSpinnerModule,
   NbDialogModule,
   NbDialogRef,
-  NbProgressBarModule,
 } from "@nebular/theme";
 
 import { ThemeModule } from "../../@theme/theme.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { CategoryFormComponent } from "./category-form/category-form.component";
 
 @NgModule({
-  declarations: [CategoryComponent, CategoryFormComponent],
+  declarations: [TahunComponent, TahunFormComponent],
   imports: [
     CommonModule,
     NbCardModule,
@@ -40,7 +39,6 @@ import { CategoryFormComponent } from "./category-form/category-form.component";
     NbToastrModule,
     NbSpinnerModule,
     NbDialogModule,
-    NbProgressBarModule
   ],
   providers: [
     {
@@ -48,4 +46,4 @@ import { CategoryFormComponent } from "./category-form/category-form.component";
     },
   ],
 })
-export class CategoryModule {}
+export class TahunModule { }

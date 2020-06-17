@@ -18,6 +18,7 @@ import { LaporanUploadDataModule } from './laporan-upload-data/laporan-upload-da
 import { LaporanUploadDataDetailModule } from './laporan-upload-data-detail/laporan-upload-data-detail.module';
 import { LaporanUploadBuktiSurveyModule } from './laporan-upload-bukti-survey/laporan-upload-bukti-survey.module';
 import { NaskahModule } from './naskah/naskah.module';
+import { TahunModule } from './tahun/tahun.module';
 
 @NgModule({
   imports: [
@@ -35,7 +36,9 @@ import { NaskahModule } from './naskah/naskah.module';
     LaporanUploadDataModule,
     LaporanUploadDataDetailModule,
     LaporanUploadBuktiSurveyModule,
-    NaskahModule
+    NaskahModule,
+    TypeUserModule,
+    TahunModule
   ],
   declarations: [PagesComponent],
 })

@@ -3,6 +3,7 @@ import { APIService } from "../../../api.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import Swal from "sweetalert2";
 import { NbDialogRef } from "@nebular/theme";
+import * as Firebase from 'firebase';
 
 /**
  * interface Category
@@ -34,6 +35,10 @@ export class CategoryFormComponent implements OnInit {
   groups = [];
   categories = [];
 
+  firestore = Firebase.storage();
+  uploadInProgress: boolean = false;
+  progresUpload = 0
+
   constructor(
     private service: APIService,
     private router: Router,
@@ -43,7 +48,7 @@ export class CategoryFormComponent implements OnInit {
 
   ngOnInit() {
     this.getGroupName();
-    this.getCategoryName();
+    this.getCategoryAll();
 
     if (this.route.snapshot.paramMap.get("id") !== "new") {
       this.getCategoryByID(this.route.snapshot.paramMap.get("id"));
@@ -62,10 +67,9 @@ export class CategoryFormComponent implements OnInit {
     this.category.name = null;
     this.category.description = null;
     this.category.group_id = null;
-    this.category.img = "no image";
-    this.category.parent_id = null;
-    this.category.user_id = 1;
-    //this.category.user_id = JSON.parse(localStorage.getItem('payload')).id;
+    this.category.img = null;
+    this.category.parent_id = 0;
+    this.category.user_id = JSON.parse(localStorage.getItem('USER_INFO')).sub;
 
     this.error = new Category();
   }
@@ -104,6 +108,7 @@ export class CategoryFormComponent implements OnInit {
         });
     } else {
       this.loading = true;
+      console.log('wkwkwk', this.category)
       this.service
         .postCategory(this.category)
         .then((result) => {
@@ -183,6 +188,7 @@ export class CategoryFormComponent implements OnInit {
       .then((result) => {
         console.log(result);
         this.groups = result.data;
+        this.category.group_id = this.groups[0].id;
       })
       .catch((error) => {
         if (error.error == "Unauthorized.") {
@@ -209,9 +215,9 @@ export class CategoryFormComponent implements OnInit {
     console.log(this.category);
   }
 
-  getCategoryName() {
+  getCategoryAll() {
     this.service
-      .getCategoryName()
+      .getCategoryAll()
       .then((result) => {
         console.log(result);
         this.categories = result.data;
@@ -234,5 +240,42 @@ export class CategoryFormComponent implements OnInit {
           this.loading = false;
         }
       });
+  }
+
+  addFile(file: File) {
+    this.progresUpload = 0;
+    let filename = 'category-' + new Date().getTime().toString();
+
+    if (!file) { return; }
+
+    let promise = new Promise((resolve, reject) => {
+        this.uploadInProgress = true;
+        var imageStore = this.firestore.ref('/category').child(filename).put(file);
+        imageStore.on('state_changed', (snapshot) => {
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          this.progresUpload = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + this.progresUpload + '% done');
+          switch (snapshot.state) {
+            case Firebase.storage.TaskState.PAUSED: // or 'paused'
+              console.log('Upload is paused');
+              break;
+            case Firebase.storage.TaskState.RUNNING: // or 'running'
+              console.log('Upload is running');
+              break;
+          }
+        }, (error) => {
+          // Handle unsuccessful uploads
+        }, () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+          imageStore.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            console.log('File available at', downloadURL);
+            this.category.img = downloadURL;
+            this.progresUpload = 0;
+          });
+        });
+    });
+
   }
 }

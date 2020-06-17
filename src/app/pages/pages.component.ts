@@ -54,6 +54,12 @@ export class PagesComponent {
       home: true,
     },
     {
+      title: "PENGELOLAAN TAHUN",
+      icon: "calendar-outline",
+      link: "/pages/tahun",
+      home: true,
+    },
+    {
       title: "LAPORAN",
       group: true,
     },

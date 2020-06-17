@@ -1,0 +1,41 @@
+<form aria-labelledby="title">
+  <nb-card accent="info">
+    <nb-card-header>
+      <div class="row">
+        <div class="col">
+          Form Tahun
+        </div>
+        <div class="col" style="text-align:right">
+          <button *ngIf="!isModal" (click)="goToList()" nbButton size="tiny" ghost status="primary">
+            <nb-icon icon="arrow-back-outline"></nb-icon> Kembali
+          </button>
+        </div>
+      </div>
+    </nb-card-header>
+
+    <nb-card-body>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-tahun row">
+            <label for="namaTahun" class="label col-sm-3 col-form-label">Tahun</label>
+            <div class="col-sm-9">
+              <input type="text" #tahun_tahun [(ngModel)]="tahun.tahun" [ngModelOptions]="{standalone: true}" nbInput
+                fullWidth id="namaTahun" placeholder="Input Nama Tahun" maxlength="100">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.tahun && !tahun_tahun.value">
+                  {{ error.tahun[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+
+    <nb-card-footer>
+      <button nbButton [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" (click)="save()"
+        status="primary">Simpan</button>
+    </nb-card-footer>
+
+  </nb-card>
+</form>

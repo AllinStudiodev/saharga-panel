@@ -32,7 +32,7 @@
           <tr *ngFor="let dt of data.data; let i = index;">
             <th scope="row">{{ data.from + i }}.</th>
             <td>{{ dt?.username }}</td>
-            <td>{{ dt?.typeuser_id }}</td>
+            <td>{{ dt?.type }}</td>
             <td>{{ dt?.position }}</td>
             <td style="text-align: center">
               <button (click)="gotoform(dt.id)" nbButton size="tiny" ghost status="success">

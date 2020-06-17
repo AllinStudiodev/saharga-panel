@@ -170,9 +170,9 @@ export class LaporanUploadDataComponent implements OnInit {
    * @memberof ItemComponent
    */
   getTahun() {
-    this.service.getTahun(null).then(
+    this.service.getTahun().then(
       result => {
-        this.years = result;
+        this.years = result.data;
         this.pagination.year = this.years[0].tahun;
         console.log(this.pagination.year)
       }

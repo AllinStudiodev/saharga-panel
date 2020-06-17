@@ -1,71 +1,72 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { APIService } from "../../../api.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import Swal from "sweetalert2";
 import { NbDialogRef } from "@nebular/theme";
+import { TahunService } from '../tahun.service';
 
 /**
- * interface User
+ * interface Tahun
  *
  * @export
- * @interface User
+ * @interface Tahun
  */
-export class User {
+export class Tahun {
   id: Number;
-  username?: String;
-  password?: String;
-  typeuser_id?: Number;
-  position?: String;
-  type_user?: any[];
+  tahun?: String;
+  user_id?: Number;
 }
 
 @Component({
-  selector: "user-form",
-  templateUrl: "./user-form.component.html",
-  styleUrls: ["./user-form.component.scss"],
+  selector: 'tahun-form',
+  templateUrl: './tahun-form.component.html',
+  styleUrls: ['./tahun-form.component.scss']
 })
-export class UserFormComponent implements OnInit {
-  user = new User();
-  error = new User();
+export class TahunFormComponent implements OnInit {
+
+  @Input() name: string = null;
+  tahun = new Tahun();
+  error = new Tahun();
   loading = false;
   isModal = false;
-  type_users = [];
 
   constructor(
-    private service: APIService,
+    private service: TahunService,
     private router: Router,
     private route: ActivatedRoute,
-    protected ref: NbDialogRef<UserFormComponent>
+    protected ref: NbDialogRef<TahunFormComponent>
   ) {}
 
   ngOnInit() {
-    this.getTypeUser();
-    if (this.route.snapshot.paramMap.get("id") !== "new") {
-      this.getUserByID(this.route.snapshot.paramMap.get("id"));
-    } else {
+    if (this.name) {
       this.init();
+      this.isModal = true;
+      this.tahun.tahun = this.name;
+    } else {
+      if (this.route.snapshot.paramMap.get("id") !== "new") {
+        this.getTahunByID(this.route.snapshot.paramMap.get("id"));
+      } else {
+        this.init();
+      }
     }
   }
 
   /**
-   * initial new user
+   * initial new tahun
    *
-   * @memberof UserFromComponent
+   * @memberof TahunFromComponent
    */
   init() {
-    this.user.id = null;
-    this.user.username = null;
-    this.user.password = null;
-    this.user.typeuser_id = null;
-    this.user.position = null;
+    this.tahun.id = null;
+    this.tahun.tahun = null;
+    this.tahun.user_id = JSON.parse(localStorage.getItem('USER_INFO')).sub;
 
-    this.error = new User();
+    this.error = new Tahun();
   }
 
   /**
-   * save new data user || update data user
+   * save new data tahun || update data tahun
    *
-   * @memberof UserFromComponent
+   * @memberof TahunFromComponent
    */
   save() {
     if (
@@ -74,7 +75,7 @@ export class UserFormComponent implements OnInit {
     ) {
       this.loading = true;
       this.service
-        .updateUser(this.user, this.route.snapshot.paramMap.get("id"))
+        .updateTahun(this.tahun, this.route.snapshot.paramMap.get("id"))
         .then((result) => {
           Swal.fire(result.msg, "Your file has been updated.", "success");
           this.loading = false;
@@ -97,7 +98,7 @@ export class UserFormComponent implements OnInit {
     } else {
       this.loading = true;
       this.service
-        .postUser(this.user)
+        .postTahun(this.tahun)
         .then((result) => {
           Swal.fire(result.msg, "Your file has been saved.", "success");
           this.loading = false;
@@ -127,27 +128,27 @@ export class UserFormComponent implements OnInit {
   /**
    * fungsi cancel , kosongkan data
    *
-   * @memberof UserFromComponent
+   * @memberof TahunFromComponent
    */
   batal() {
     this.init();
   }
 
   /**
-   * pergi ke list user
+   * pergi ke list tahun
    *
-   * @memberof UserFromComponent
+   * @memberof TahunFromComponent
    */
   goToList() {
-    this.router.navigate(["pages/user"]);
+    this.router.navigate(["pages/tahun"]);
   }
 
-  getUserByID(id) {
+  getTahunByID(id) {
     this.loading = true;
     this.service
-      .getUserByID(id)
+      .getTahunByID(id)
       .then((result) => {
-        this.user = result.data;
+        this.tahun = result.data;
         this.loading = false;
       })
       .catch((error) => {
@@ -170,36 +171,4 @@ export class UserFormComponent implements OnInit {
       });
   }
 
-  getTypeUser() {
-    this.service
-      .getTypeUser()
-      .then((result) => {
-        console.log(result);
-        this.type_users = result.data;
-        this.user.typeuser_id = this.type_users[0].id;
-      })
-      .catch((error) => {
-        if (error.error == "Unauthorized.") {
-          Swal.fire({
-            type: "error",
-            title: "Oops...",
-            text: "Session login anda sudah habis silahkan login kembali",
-          });
-          this.loading = false;
-          this.router.navigate(["auth/login"]);
-        } else {
-          Swal.fire({
-            type: "error",
-            title: "Oops...",
-            text: "Something went wrong!" + error.msg,
-          });
-          this.loading = false;
-        }
-      });
-  }
-
-  onChangeTypeUser(type_user) {
-    this.user.typeuser_id = type_user.id;
-    console.log(this.user);
-  }
 }

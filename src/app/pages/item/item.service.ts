@@ -37,7 +37,7 @@ export class ItemService extends APIService {
    * @returns
    * @memberof ItemService
    */
-  public fileChange(data, categori_id, user_id, type, usulan_id) {
+  public fileChange(data, categori_id, user_id, type, usulan_id, tahun) {
     console.log(categori_id, user_id, type);
 
     let fileList: FileList = data.target.files;
@@ -49,6 +49,7 @@ export class ItemService extends APIService {
     formData.append("user_id", user_id);
     formData.append("type", type);
     formData.append("usulan_id", usulan_id);
+    formData.append("tahun", tahun);
 
     return this.http
       .post<any>(this.hostingUrl + "item/import", formData, {

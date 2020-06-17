@@ -235,9 +235,10 @@ export class ItemComponent implements OnInit, OnDestroy {
    * @memberof ItemComponent
    */
   getTahun() {
-    this.service.getTahun(null).then(
+    this.service.getTahun().then(
       result => {
-        this.years = result;
+        console.log(result.data);
+        this.years = result.data;
         this.pagination.year = this.years[0].tahun;
         console.log(this.pagination.year)
       }
@@ -566,4 +567,6 @@ export class ItemComponent implements OnInit, OnDestroy {
         }, 100);
     });
   }
+
+
 }

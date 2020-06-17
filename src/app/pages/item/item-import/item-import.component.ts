@@ -18,8 +18,10 @@ export class ItemImportComponent implements OnInit {
   user_id;
   types = ['UMUM', 'PARSIAL', 'OTHER'];
   type = 'UMUM';
-  usulan_id;
+  usulan_id = 0;
   usulans = [];
+  tahuns = [];
+  tahun;
   loading: Boolean = false;
 
   constructor(
@@ -31,6 +33,7 @@ export class ItemImportComponent implements OnInit {
       this.user_id = JSON.parse(localStorage.getItem('USER_INFO')).sub;
 
      this.getUsulans();
+     this.getTahun();
   }
 
   ngOnInit() {
@@ -62,24 +65,23 @@ export class ItemImportComponent implements OnInit {
  upload($event) {
     if (this.usulan_id || JSON.parse(localStorage.getItem('USER_INFO')).position == 'administrator') {
       this.loading = true;
-      this.itemService.fileChange($event, this.categori_id, this.user_id, this.type, this.usulan_id).subscribe(
+      this.itemService.fileChange($event, this.categori_id, this.user_id, this.type, this.usulan_id, this.tahun).subscribe(
         (res) => {
 
           if (res.status == 200) {
-            Swal.fire({
-              title: res.message,
-              type: 'success',
-              confirmButtonColor: '#3085d6',
-              confirmButtonText: 'OK'
-            }).then((result) => {
-              if (result.value) {
-                this.uploadsFile = null;
-                this.uploadProgress = 0;
-                this.file = null;
-                this.loading = false;
-                this.getUsulans();
-              }
-            })
+            Swal.fire(
+              res.message,
+              'Your file has been saved.',
+              'success'
+            )
+
+            this.uploadsFile = null;
+            this.uploadProgress = 0;
+            this.file = null;
+            this.loading = false;
+            this.getUsulans();
+            this.back();
+
           } else if (res.status == 'progress') {
             this.uploadProgress = res.message;
           }
@@ -108,6 +110,19 @@ export class ItemImportComponent implements OnInit {
     }
   }
 
-
+  /**
+   *get tahun by items for combobox
+   *
+   * @memberof ItemComponent
+   */
+  getTahun() {
+    this.itemService.getTahun().then(
+      result => {
+        console.log('hasil', result)
+        this.tahuns = result.data;
+        this.tahun = this.tahuns[0].tahun
+      }
+    )
+  }
 
 }

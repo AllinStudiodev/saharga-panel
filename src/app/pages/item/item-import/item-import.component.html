@@ -18,6 +18,15 @@
     <br /><br />
 
       <div class="form-group row">
+        <label for="type" class="label col-sm-2 col-form-label">Tahun</label>
+        <div class="col-sm-9">
+          <nb-select [(ngModel)]="tahun" [ngModelOptions]="{standalone: true}" placeholder="Pilih Tahun">
+            <nb-option *ngFor="let tahun of tahuns" [value]="tahun.tahun">{{ tahun.tahun }}</nb-option>
+          </nb-select>
+        </div>
+      </div>
+
+      <div class="form-group row">
         <label for="type" class="label col-sm-2 col-form-label">Usulan</label>
         <div class="col-sm-9">
           <nb-select *ngIf="usulans.length > 0" [(ngModel)]="usulan_id" [ngModelOptions]="{standalone: true}" placeholder="Pilih Usulan">

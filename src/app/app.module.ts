@@ -11,6 +11,7 @@ import { CoreModule } from "./@core/core.module";
 import { ThemeModule } from "./@theme/theme.module";
 import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
+
 import {
   NbChatModule,
   NbDatepickerModule,
@@ -59,8 +60,8 @@ firebase.initializeApp(environment.firebase);
 
             key: "token", // this parameter tells where to look for the token
           },
-          // baseEndpoint: 'http://saharga.co.id/api/v1',
-          baseEndpoint: 'http://localhost:81/saharga-api/api/v1',
+          baseEndpoint: 'https://saharga.co.id/api/v1',
+          // baseEndpoint: 'http://localhost:81/saharga-api/api/v1',
           login: {
             // ...
             endpoint: "/login",

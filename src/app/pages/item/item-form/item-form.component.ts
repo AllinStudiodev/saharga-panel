@@ -21,6 +21,7 @@ export class Item {
   is_front?: Boolean;
   type?: String;
   usulan_id?: number;
+  tahun: number;
 }
 
 @Component({
@@ -38,6 +39,7 @@ export class ItemFormComponent implements OnInit {
   usulans = [];
   categori_id;
   user_id;
+  tahuns = [];
 
   constructor(
     private service: ItemService,
@@ -47,10 +49,12 @@ export class ItemFormComponent implements OnInit {
     this.categori_id = this.route.snapshot.paramMap.get("categori_id");
     this.user_id = JSON.parse(localStorage.getItem('USER_INFO')).sub;
     this.getUsulans();
+    this.getTahun();
   }
 
   async ngOnInit() {
     await this.getSatuan()
+    await this.getTahun();
 
     if (this.route.snapshot.paramMap.get("params") !== 'new') {
       this.getItemByID(this.route.snapshot.paramMap.get("params"))
@@ -77,6 +81,7 @@ export class ItemFormComponent implements OnInit {
     this.item.user_id = 1;
     this.item.type = this.types[0];
     this.item.usulan_id = null;
+    this.item.tahun = null
 
     this.error = new Item;
   }
@@ -214,6 +219,21 @@ export class ItemFormComponent implements OnInit {
         console.log('hasil', result)
         this.satuans = result.data;
         this.item.satuan_id = this.satuans[0].id
+      }
+    )
+  }
+
+  /**
+   *get tahun by items for combobox
+   *
+   * @memberof ItemComponent
+   */
+  getTahun() {
+    this.service.getTahun().then(
+      result => {
+        console.log('hasil', result)
+        this.tahuns = result.data;
+        this.item.tahun = this.tahuns[0].tahun
       }
     )
   }

@@ -45,9 +45,9 @@
           <div class="form-group row">
             <label for="typeuser_id" class="label col-sm-3 col-form-label">Tipe User</label>
             <div class="col-sm-9">
-              <nb-select [(ngModel)]="user.type_user" [ngModelOptions]="{standalone: true}"
-                (selectedChange)="onChangeTypeUser(user.type_user)" fullWidth placeholder="Pilih Tipe User">
-                <nb-option [value]="type_user" *ngFor="let type_user of type_users">{{ type_user?.type }}</nb-option>
+              <nb-select [(ngModel)]="user.typeuser_id" [ngModelOptions]="{standalone: true}"
+                 fullWidth placeholder="Pilih Tipe User">
+                <nb-option [value]="type_user.id" *ngFor="let type_user of type_users">{{ type_user?.type }}</nb-option>
               </nb-select>
               <ng-container class="col-sm-9">
                 <p class="caption status-danger" *ngIf="error.typeuser_id && !user.typeuser_id">

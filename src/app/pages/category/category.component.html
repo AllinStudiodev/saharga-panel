@@ -22,22 +22,25 @@
         <thead>
           <tr>
             <th scope="col">#</th>
+            <th scope="col" style="cursor: pointer;">Img</th>
             <th scope="col" style="cursor: pointer;">Nama</th>
             <th scope="col" style="cursor: pointer;">Deskripsi</th>
-            <th scope="col" style="cursor: pointer;">Img</th>
-            <th scope="col" style="cursor: pointer;">Group ID</th>
-            <th scope="col" style="cursor: pointer;">Parent ID</th>
+            <th scope="col" style="cursor: pointer;">Group</th>
+            <th scope="col" style="cursor: pointer;">Parent</th>
             <th scope="col" style="text-align: center">Opsi</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let dt of data.data; let i = index;">
             <th scope="row">{{ data.from + i }}.</th>
+            <td>
+              <div *ngIf="dt.img"><img *ngIf="dt.img !== 'no image'"  [src]="dt.img" width="100" height="100"></div>
+              <span *ngIf="!dt.img || dt.img == 'no image'">no image</span>
+            </td>
             <td>{{ dt?.name | titlecase }}</td>
             <td>{{ dt?.description | titlecase }}</td>
-            <td>{{ dt?.img }}</td>
-            <td>{{ dt?.group_id }}</td>
-            <td>{{ dt?.parent_id }}</td>
+            <td>{{ dt?.group.name }}</td>
+            <td>{{ dt.parent ? dt.parent.name : 'KELOMPOK UTAMA' }}</td>
             <td style="text-align: center">
               <button (click)="gotoform(dt.id)" nbButton size="tiny" ghost status="success">
                 <nb-icon icon="edit"></nb-icon>

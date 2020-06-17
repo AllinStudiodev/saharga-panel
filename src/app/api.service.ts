@@ -8,8 +8,8 @@ import { Router } from "@angular/router";
   providedIn: "root",
 })
 export class APIService {
-  // public hostingUrl = "http://saharga.co.id/api/v1/";
-   public hostingUrl = 'http://localhost:81/saharga-api/api/v1/';
+   public hostingUrl = "https://saharga.co.id/api/v1/";
+  // public hostingUrl = 'http://localhost:81/saharga-api/api/v1/';
   //local echo
   // public hostingUrl = "http://192.168.10.10:8000/api/v1/";
   public api_token = "";
@@ -404,10 +404,10 @@ export class APIService {
 
 
   // get years item
-  async getTahun(categori_id): Promise<any> {
+  async getTahun(): Promise<any> {
     await this.getToken();
     return this.http
-      .get(this.hostingUrl + "item/gettahun/" + categori_id, this.httpOptions)
+      .get(this.hostingUrl + "tahun", this.httpOptions)
       .toPromise()
       .then((response) => response)
       .catch(this.handleError);
@@ -443,4 +443,46 @@ export class APIService {
       .then((res) => res)
       .catch(this.handleError);
   }
+
+
+  /**
+   * fungsi untuk mengaktifkan frontend yang di ceklist
+   *
+   * @param {*} data
+   * @returns {Promise<any>}
+   * @memberof ItemService
+   */
+  async lockTypeUser(data): Promise<any> {
+    await this.getToken();
+    return this.http
+      .post(
+        this.hostingUrl + "checklist/typeuser/locktypeuser",
+        { data: data },
+        this.httpOptions
+      )
+      .toPromise()
+      .then((response) => response)
+      .catch(this.handleError);
+  }
+
+  /**
+   * fungsi untuk menonaktifkan frontend yang di ceklist
+   *
+   * @param {*} data
+   * @returns {Promise<any>}
+   * @memberof ItemService
+   */
+  async unlockTypeUser(data): Promise<any> {
+    await this.getToken();
+    return this.http
+      .post(
+        this.hostingUrl + "checklist/typeuser/unlocktypeuser",
+        { data: data },
+        this.httpOptions
+      )
+      .toPromise()
+      .then((response) => response)
+      .catch(this.handleError);
+  }
+
 }

@@ -23,7 +23,7 @@
            <tr>
             <th scope="col">#</th>
             <th scope="col" style="cursor: pointer;"></th>
-            <th scope="col" style="cursor: pointer;">Tanggal</th>
+            <th scope="col" style="cursor: pointer;">tahun</th>
             <th scope="col" style="cursor: pointer;">Judul</th>
             <th scope="col" style="cursor: pointer;">Keterangan</th>
             <th scope="col" style="cursor: pointer;text-align: center">File</th>
@@ -34,12 +34,15 @@
         <tbody>
           <tr *ngFor="let dt of data.data; let i = index;">
             <th scope="row">{{ data.from + i }}.</th>
-            <td>{{ dt?.cover }}</td>
-            <td>{{ dt?.created_at }}</td>
+            <td>
+              <img *ngIf="dt.cover"  [src]="dt.cover" width="100" height="100">
+              <span *ngIf="!dt.cover">no image</span>
+            </td>
+            <td>{{ dt?.tahun }}</td>
             <td>{{ dt?.title | titlecase }}</td>
             <td>{{ dt?.description | titlecase }}</td>
             <td style="text-align: center"><a  target="_blank" [href]="dt.file">Download</a></td>
-            <td>{{ dt?.username }}</td>
+            <td>{{ dt?.user.username }}</td>
             <td style="text-align: center">
               <button (click)="gotoform(dt.id)" nbButton size="tiny" ghost status="success">
                 <nb-icon icon="edit"></nb-icon>
