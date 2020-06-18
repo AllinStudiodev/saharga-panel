@@ -4,6 +4,7 @@ import Swal from 'sweetalert2'
 import { NbMenuService } from '@nebular/theme';
 import { filter, map } from 'rxjs/operators';
 import { ItemService } from './item.service';
+import { Category } from '../category/category-form/category-form.component';
 
 @Component({
   selector: 'item',
@@ -22,13 +23,20 @@ export class ItemComponent implements OnInit, OnDestroy {
   years = [];
   typeUsers = [];
   selectedAll;
+  category;
+
   checklist_menu = [
     { title: 'Export to Excel', icon: 'download-outline', },
     { title: 'Export to PDF', icon: 'download-outline' },
     { title: 'Aktikan Front', icon: 'eye-outline' },
     { title: 'Non Aktifkan Front', icon: 'eye-off-outline' },
+    { title: 'Antrian', icon: 'flag', hidden: JSON.parse(localStorage.getItem('USER_INFO')).position == 'administrator' ? false : true  },
+    { title: 'Approved By Kabid', icon: 'flag', hidden: JSON.parse(localStorage.getItem('USER_INFO')).position == 'administrator' ? false : true  },
+    { title: 'Uploaded Simcan', icon: 'flag', hidden: JSON.parse(localStorage.getItem('USER_INFO')).position == 'administrator' ? false : true  },
   ];
-  types = ['UMUM', 'PARSIAL', 'OTHER'];
+
+  types = [];
+  user = JSON.parse(localStorage.getItem('USER_INFO'));
 
   pagination = {
     row: '250',
@@ -38,7 +46,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     keyword: "",
     year: null,
     typeuser_id: null,
-    type: 'UMUM'
+    type: null
   }
 
   data = {
@@ -61,6 +69,8 @@ export class ItemComponent implements OnInit, OnDestroy {
       this.url = this.service.hostingUrl + 'itembycategoriid?';
       this.getTahun();
       this.getTypeUser();
+      this.getTypeSSH();
+      this.getCategoryByID(this.route.snapshot.paramMap.get("id"));
 
       setTimeout(() => {
         this.getData(this.url);
@@ -88,6 +98,12 @@ export class ItemComponent implements OnInit, OnDestroy {
           this.aktifFront()
         } else if (title == 'Non Aktifkan Front') {
           this.nonAktifFront()
+        } else if (title == 'Antrian') {
+          this.changeStatus('antrian');
+        } else if (title == 'Approved By Kabid') {
+          this.changeStatus('approved');
+        } else if (title == 'Uploaded Simcan') {
+          this.changeStatus('simcan');
         }
       });
 
@@ -104,6 +120,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     this.url = this.service.hostingUrl + 'itembycategoriid?';
     await this.getTahun();
     await this.getTypeUser();
+    await this.getCategoryByID(this.route.snapshot.paramMap.get("id"));
     await this.getData(this.url);
   }
 
@@ -569,4 +586,79 @@ export class ItemComponent implements OnInit, OnDestroy {
   }
 
 
+  getCategoryByID(id) {
+    this.service.getCategoryByID(id).then(
+      result => {
+        this.category = result.data;
+        console.log(this.category);
+      }
+    )
+  }
+
+  getTypeSSH() {
+    this.service.getTypeSsh().then(
+      result => {
+        this.types = result.data;
+        this.pagination.type = this.types[0].type;
+        console.log(this.pagination.type);
+      }
+    )
+  }
+
+  gotoformCategory(category) {
+    this.router.navigate(['pages/category-form/' + category.id + '/item']);
+  }
+
+  changeStatus(status) {
+    Swal.fire({
+      title: 'Edit Status Items',
+      text: "Apakah yakin akan merubah status ?",
+      type: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes!'
+    }).then((result) => {
+      if (result.value) {
+        this.loading = true;
+        this.loadingAction = true;
+        this.service.ubahStatusItems(this.checkedItem, status).then(
+          result => {
+            console.log(result);
+            Swal.fire(
+              result.msg,
+              'Your file has been updated.',
+              'success'
+            )
+            this.loading = false;
+            this.loadingAction = false;
+            this.checkedItem = [];
+            this.selectedAll = false;
+            this.getData(this.url);
+          }
+        ).catch(
+          error => {
+            if (error.error == 'Unauthorized.') {
+              Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Session login anda sudah habis silahkan login kembali',
+              })
+              this.loading = false;
+              this.router.navigate(['auth/login'])
+            } else {
+              Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!' + error.msg,
+              })
+              this.loading = false;
+              this.loadingAction = false;
+              this.getData(this.url);
+            }
+          }
+        )
+      }
+    })
+  }
 }

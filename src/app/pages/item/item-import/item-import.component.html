@@ -40,7 +40,7 @@
         <label for="type" class="label col-sm-2 col-form-label">Jenis SSH</label>
         <div class="col-sm-9">
           <nb-select [(ngModel)]="type" [ngModelOptions]="{standalone: true}" placeholder="Pilih Jenis SSH">
-            <nb-option *ngFor="let type_SSH of types" [value]="type_SSH">{{ type_SSH }}</nb-option>
+            <nb-option *ngFor="let type_SSH of types" [value]="type_SSH.type">{{ type_SSH.type }}</nb-option>
           </nb-select>
         </div>
       </div>

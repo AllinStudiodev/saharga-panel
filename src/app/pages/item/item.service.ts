@@ -239,4 +239,57 @@ export class ItemService extends APIService {
       responseType: "blob",
     });
   }
+
+  /**
+   * fungsi untuk memanggil satuan combobox
+   *
+   * @returns {Promise<any>}
+   * @memberof ItemService
+   */
+  async getTypeSshLock(): Promise<any> {
+    await this.getToken();
+    return this.http
+      .get(this.hostingUrl + "gettypesshlock", this.httpOptions)
+      .toPromise()
+      .then((response) => response)
+      .catch(this.handleError);
+  }
+
+  /**
+   * fungsi untuk memanggil satuan combobox
+   *
+   * @returns {Promise<any>}
+   * @memberof ItemService
+   */
+  async getTypeSsh(): Promise<any> {
+    await this.getToken();
+    return this.http
+      .get(this.hostingUrl + "typessh", this.httpOptions)
+      .toPromise()
+      .then((response) => response)
+      .catch(this.handleError);
+  }
+
+    // get years item
+    async getTahunLock(): Promise<any> {
+      await this.getToken();
+      return this.http
+        .get(this.hostingUrl + "tahunlock", this.httpOptions)
+        .toPromise()
+        .then((response) => response)
+        .catch(this.handleError);
+    }
+
+    async ubahStatusItems(data, status): Promise<any> {
+      await this.getToken();
+      return this.http
+        .post(
+          this.hostingUrl + "ubahstatusitems/" + status,
+          { data: data },
+          this.httpOptions
+        )
+        .toPromise()
+        .then((response) => response)
+        .catch(this.handleError);
+    }
 }

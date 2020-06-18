@@ -1,0 +1,243 @@
+<h1 id="title" class="title">Daftar</h1>
+
+<nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
+  <p class="alert-title">
+    <b>Gagal!</b>
+  </p>
+  <ul class="alert-message-list">
+    <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+  </ul>
+</nb-alert>
+
+<nb-alert *ngIf="showMessages.success && messages?.length && !submitted" outline="success" role="alert">
+  <p class="alert-title">
+    <b>Berhasil!</b>
+  </p>
+  <ul class="alert-message-list">
+    <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+  </ul>
+</nb-alert>
+
+<form (ngSubmit)="register()"  [nbSpinner]="submitted" nbSpinnerSize="xxlarge" #form="ngForm" aria-labelledby="title">
+  <div class="row">
+    <div class="col-lg-6">
+
+        <div class="form-control-group">
+            <label class="label" for="input-name">Nomor Hp:</label>
+            <input nbInput [(ngModel)]="user.noHp" #noHp="ngModel" id="input-name" name="noHp" placeholder="Nomor Hp" autofocus fullWidth
+              [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''" [required]="getConfigValue('forms.validation.noHp.required')"
+              pattern= "^(\d{3,4}-?){2}\d{3,4}$" [minlength]="getConfigValue('forms.validation.noHp.minLength')" [maxlength]="getConfigValue('forms.validation.noHp.maxLength')"
+              [attr.aria-invalid]="noHp.invalid && noHp.touched ? true : null">
+            <ng-container *ngIf="noHp.invalid && noHp.touched">
+              <p class="error-message" *ngIf="noHp.errors?.required">
+                Nomor HP harus di isi!
+              </p>
+              <p class="error-message" *ngIf="noHp.errors?.minlength || noHp.errors?.maxlength">
+                Nomor HP harus minimal {{getConfigValue('forms.validation.noHp.minLength')}} dan maksimal {{getConfigValue('forms.validation.noHp.maxLength')}}
+                karakter
+              </p>
+              <p class="error-message" *ngIf="noHp.errors?.pattern">
+                Nomor HP harus angka!
+              </p>
+            </ng-container>
+          </div>
+
+        <div class="form-control-group">
+            <label class="label" for="input-namaLengkap">Nama Lengkap (sesuai KTP) <span style="color:red">PENTING!</span>:</label>
+            <input nbInput [(ngModel)]="user.namaLengkap" #namaLengkap="ngModel" id="input-namaLengkap" name="namaLengkap" placeholder="Nama Lengkap (Untuk Validasi Hadiah)"
+              autofocus fullWidth [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''" [required]="getConfigValue('forms.validation.namaLengkap.required')"
+              [attr.aria-invalid]="namaLengkap.invalid && namaLengkap.touched ? true : null">
+            <ng-container *ngIf="namaLengkap.invalid && namaLengkap.touched">
+              <p class="error-message" *ngIf="namaLengkap.errors?.required">
+                Nama Lengkap harus di isi!
+              </p>
+            </ng-container>
+          </div>
+
+      <div class="form-control-group">
+          <label class="label" for="input-jenisKelamin">Jenis Kelamin:</label>
+            <select fullWidth class="form-control" [(ngModel)]="user.jenisKelamin" #jenisKelamin="ngModel"
+            name="jenisKelamin">
+                <option *ngFor="let x of jenisKelamins" [ngValue]="x.id">{{x.name}}</option>
+            </select>
+        </div>
+
+      <div class="form-control-group">
+          <label class="label" for="input-alamatktp">Alamat (Sesuai KTP):</label>
+          <textarea nbInput fullWidth [(ngModel)]="user.alamatktp" #alamatktp="ngModel" id="input-alamatktp" name="alamatktp" placeholder="Alamat (Sesuai KTP)"
+          [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''" [required]="getConfigValue('forms.validation.alamatktp.required')"
+           [attr.aria-invalid]="alamatktp.invalid && alamatktp.touched ? true : null">
+          </textarea>
+          <ng-container *ngIf="alamatktp.invalid && alamatktp.touched">
+            <p class="error-message" *ngIf="alamatktp.errors?.required">
+              Alamat harus di isi!
+            </p>
+          </ng-container>
+        </div>
+
+        <div class="form-control-group">
+            <label class="label" for="input-email">Alamat Email :</label>
+            <input nbInput [(ngModel)]="user.email" #email="ngModel" id="input-email" name="email" pattern=".+@.+..+" placeholder="Email address"
+              fullWidth [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''" [required]="getConfigValue('forms.validation.email.required')"
+              [attr.aria-invalid]="email.invalid && email.touched ? true : null">
+            <ng-container *ngIf="email.invalid && email.touched">
+              <p class="error-message" *ngIf="email.errors?.required">
+                Alamat Email harus di isi!
+              </p>
+              <p class="error-message" *ngIf="email.errors?.pattern">
+                Alamat Email harus benar!
+              </p>
+            </ng-container>
+          </div>
+
+      <div class="form-control-group">
+        <label class="label" for="input-password">Password:</label>
+        <input nbInput [(ngModel)]="user.password" #password="ngModel" type="password" id="input-password" name="password" placeholder="Password"
+          fullWidth [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''" [required]="getConfigValue('forms.validation.password.required')"
+          [minlength]="getConfigValue('forms.validation.password.minLength')" [maxlength]="getConfigValue('forms.validation.password.maxLength')"
+          [attr.aria-invalid]="password.invalid && password.touched ? true : null">
+        <ng-container *ngIf="password.invalid && password.touched">
+          <p class="error-message" *ngIf="password.errors?.required">
+            Password harus di isi!
+          </p>
+          <p class="error-message" *ngIf="password.errors?.minlength || password.errors?.maxlength">
+            Password harus minimal {{ getConfigValue('forms.validation.password.minLength') }}
+        dan maksimal {{ getConfigValue('forms.validation.password.maxLength') }}
+        karakter
+          </p>
+        </ng-container>
+      </div>
+
+      <div class="form-control-group">
+        <label class="label" for="input-re-password">Konfirmasi password:</label>
+        <input nbInput [(ngModel)]="user.confirmPassword" #rePass="ngModel" type="password" id="input-re-password" name="rePass"
+          placeholder="Confirm Password" fullWidth [status]="email.dirty ? (email.invalid || password.value != rePass.value  ? 'danger' : 'success') : ''"
+          [required]="getConfigValue('forms.validation.password.required')" [attr.aria-invalid]="rePass.invalid && rePass.touched ? true : null">
+        <ng-container *ngIf="rePass.invalid && rePass.touched">
+          <p class="error-message" *ngIf="rePass.errors?.required">
+            Konfirmasi Password harus di isi!
+          </p>
+          <p class="error-message" *ngIf="password.value != rePass.value && !rePass.errors?.required">
+            Password konfirmasi tidak sama dengan password.
+          </p>
+        </ng-container>
+      </div>
+
+    </div>
+
+    <div class="col-lg-6">
+
+      <div class="form-control-group">
+        <label class="label" for="input-namaToko">Nama Toko:</label>
+        <input nbInput [(ngModel)]="user.namaToko" #namaToko="ngModel" id="input-namaToko" name="namaToko" placeholder="Nama Toko"
+          autofocus fullWidth [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''" [required]="getConfigValue('forms.validation.namaToko.required')"
+          [attr.aria-invalid]="namaToko.invalid && namaToko.touched ? true : null">
+        <ng-container *ngIf="namaToko.invalid && namaToko.touched">
+          <p class="error-message" *ngIf="namaToko.errors?.required">
+            Nama Toko harus di isi!
+          </p>
+        </ng-container>
+      </div>
+
+      <!-- <div class="form-control-group">
+        <label class="label" for="input-jenisToko">Jenis Toko:</label>
+        <input nbInput [(ngModel)]="user.jenisToko" #jenisToko="ngModel" id="input-jenisToko" name="jenisToko" placeholder="Jenis Toko"
+          autofocus fullWidth [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''" [required]="getConfigValue('forms.validation.jenisToko.required')"
+          [attr.aria-invalid]="jenisToko.invalid && jenisToko.touched ? true : null">
+        <ng-container *ngIf="jenisToko.invalid && jenisToko.touched">
+          <p class="error-message" *ngIf="jenisToko.errors?.required">
+            Jenis Toko harus di isi!
+          </p>
+        </ng-container>
+      </div> -->
+
+      <div class="form-control-group">
+        <label class="label" for="input-jenisToko">Jenis Toko:</label>
+          <select fullWidth class="form-control" [(ngModel)]="user.jenisToko" #jenisToko="ngModel"
+          name="jenisToko">
+              <option *ngFor="let x of jenisTokos" [ngValue]="x.id">{{x.name}}</option>
+          </select>
+    </div>
+
+      <div class="form-control-group">
+        <label class="label" for="input-alamat">Alamat Toko:</label>
+        <textarea nbInput fullWidth [(ngModel)]="user.alamat" #alamat="ngModel" id="input-alamat" name="alamat" placeholder="Alamat"
+        [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''" [required]="getConfigValue('forms.validation.alamat.required')"
+         [attr.aria-invalid]="alamat.invalid && alamat.touched ? true : null">
+        </textarea>
+        <ng-container *ngIf="alamat.invalid && alamat.touched">
+          <p class="error-message" *ngIf="alamat.errors?.required">
+            Alamat Toko harus di isi!
+          </p>
+        </ng-container>
+      </div>
+
+      <div class="form-control-group">
+          <label class="label" for="input-provinsi">Provinsi:</label>
+            <select fullWidth class="form-control" [(ngModel)]="user.provinsi" #provinsi="ngModel"
+            name="provinsi">
+                <option *ngFor="let x of provinsis" [ngValue]="x.Kd_Provinsi">{{x.Nm_Provinsi}}</option>
+            </select>
+      </div>
+
+      <div class="form-control-group">
+        <label class="label" for="input-kota">Kota:</label>
+        <input nbInput [(ngModel)]="user.kota" #kota="ngModel" id="input-kota" name="kota" placeholder="Kota"
+          autofocus fullWidth [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''" [required]="getConfigValue('forms.validation.kota.required')"
+          [attr.aria-invalid]="kota.invalid && kota.touched ? true : null">
+        <ng-container *ngIf="kota.invalid && kota.touched">
+          <p class="error-message" *ngIf="kota.errors?.required">
+            Kota harus di isi!
+          </p>
+        </ng-container>
+      </div>
+
+      <div class="form-control-group">
+        <label class="label" for="input-namaPemilik">Nama Pemilik Toko:</label>
+        <input nbInput [(ngModel)]="user.namaPemilik" #namaPemilik="ngModel" id="input-namaPemilik" name="namaPemilik" placeholder="Nama Pemilik Toko"
+        autofocus fullWidth>
+        <!-- <input nbInput [(ngModel)]="user.namaPemilik" #namaPemilik="ngModel" id="input-namaPemilik" name="namaPemilik" placeholder="Nama Pemilik Toko"
+          autofocus fullWidth [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''" [required]="getConfigValue('forms.validation.namaPemilik.required')"
+          [attr.aria-invalid]="namaPemilik.invalid && namaPemilik.touched ? true : null"> -->
+        <!-- <ng-container *ngIf="namaPemilik.invalid && namaPemilik.touched">
+          <p class="error-message" *ngIf="namaPemilik.errors?.required">
+            Nama Pemilik harus di isi!
+          </p>
+        </ng-container> -->
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="btn-register">
+    <!-- <div class="form-control-group accept-group agreement" *ngIf="getConfigValue('forms.register.terms')">
+      <nb-checkbox name="terms" [(ngModel)]="user.terms" [required]="getConfigValue('forms.register.terms')">
+        Agree to
+        <a href="#" target="_blank">
+          <strong>Terms & Conditions</strong>
+        </a>
+      </nb-checkbox>
+    </div> -->
+
+    <button nbButton status="success" [disabled]="submitted || !form.valid" [class.btn-pulse]="submitted">
+      Daftar
+    </button>
+  </div>
+</form>
+
+<!-- <section *ngIf="socialLinks && socialLinks.length > 0" class="links" aria-label="Social sign in">
+  or enter with:
+  <div class="socials">
+    <ng-container *ngFor="let socialLink of socialLinks">
+      <a *ngIf="socialLink.link" [routerLink]="socialLink.link" [attr.target]="socialLink.target" [attr.class]="socialLink.icon"
+        [class.with-icon]="socialLink.icon">{{ socialLink.title }}</a>
+      <a *ngIf="socialLink.url" [attr.href]="socialLink.url" [attr.target]="socialLink.target" [attr.class]="socialLink.icon" [class.with-icon]="socialLink.icon">{{ socialLink.title }}</a>
+    </ng-container>
+  </div>
+</section> -->
+
+<section class="another-action" aria-label="Sign in">
+  Sudah punya akun?
+  <a class="text-link" routerLink="../login">Log in</a>
+</section>

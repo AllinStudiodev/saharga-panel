@@ -1,0 +1,59 @@
+@import '~@nebular/theme/styles/global/breakpoints';
+
+:host {
+  $auth-layout-padding: 2.5rem;
+
+  nb-card {
+    background-color: #ffffff78;
+    width: 500px;
+    margin: auto;
+    padding: 10px;
+    height: calc(100vh - 2 * #{$auth-layout-padding});
+  }
+
+  .navigation .link {
+    text-decoration: none;
+
+    .icon {
+      font-size: 2rem;
+    }
+  }
+
+  nb-card-body {
+    display: flex;
+    width: 100%;
+  }
+
+  nb-auth-block {
+    margin: auto;
+  }
+
+  @include media-breakpoint-down(sm) {
+    nb-card {
+      border-radius: 0;
+      height: 100vh;
+    }
+  }
+
+  /deep/ {
+    nb-layout .layout .layout-container .content .columns nb-layout-column {
+      padding: $auth-layout-padding;
+
+      @include media-breakpoint-down(sm) {
+        padding: 0;
+      }
+    }
+
+    nb-layout-column {
+      background-image: url("assets/bekronlogin.png");
+
+      /* Full height */
+      height: 100%;
+
+      /* Center and scale the image nicely */
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  }
+}

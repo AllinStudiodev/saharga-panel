@@ -7,6 +7,9 @@
         <button (click)="gotoform('new')" nbButton size="small">
           <nb-icon icon="plus" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Tambah Tahun
         </button>
+        <button style="margin-left: 10px" [nbSpinner]="loadingAction" status="success"  *ngIf="checkedItem.length > 0" nbButton size="small" nbContextMenuTag="my-context-menu" [nbContextMenu]="checklist_menu">
+          <nb-icon icon="checkmark-square-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Action Checklist
+        </button>
       </div>
       <div class="col" style="text-align: right;display: flex;">
         <input size="small" type="text" (keydown)="searchEnter($event)" [(ngModel)]="pagination.keyword" nbInput
@@ -22,6 +25,10 @@
         <thead>
           <tr>
             <th scope="col">#</th>
+            <th scope="col" style="cursor: pointer;text-align: center;">
+              <nb-checkbox (checkedChange)="checkAll($event)" [checked]="selectedAll"></nb-checkbox>
+            </th>
+            <th scope="col" style="cursor: pointer;">Is Lock</th>
             <th scope="col" style="cursor: pointer;">Tahun</th>
             <th scope="col" style="cursor: pointer;">Diinput Oleh</th>
             <th scope="col" style="text-align: center">Opsi</th>
@@ -30,6 +37,13 @@
         <tbody>
           <tr *ngFor="let dt of data.data; let i = index;">
             <th scope="row">{{ data.from + i }}.</th>
+            <th scope="row" style="text-align: center;" >
+              <nb-checkbox [checked]="dt.selected" (checkedChange)="checklistChange($event, dt, i)"></nb-checkbox>
+            </th>
+            <td>
+              <nb-icon *ngIf="dt.is_lock" icon="lock-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+              <nb-icon *ngIf="!dt.is_lock" icon="unlock-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+            </td>
             <td>{{ dt?.tahun }}</td>
             <td>{{ dt?.user.username | titlecase }}</td>
             <td style="text-align: center">

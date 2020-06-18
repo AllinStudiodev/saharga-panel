@@ -109,7 +109,7 @@ export class CategoryComponent implements OnInit {
   }
 
   gotoform(params) {
-    this.router.navigate(["pages/category-form/" + params]);
+    this.router.navigate(["pages/category-form/" + params + "/" + 'master']);
   }
 
   deleteCategory(ID) {
@@ -152,5 +152,13 @@ export class CategoryComponent implements OnInit {
           });
       }
     });
+  }
+
+  substring(text) {
+    if (text) {
+      return text.substring(0, 40) + '...';
+    } else {
+      return '';
+    }
   }
 }

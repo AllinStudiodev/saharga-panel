@@ -26,10 +26,14 @@ import { AngularFireModule } from "@angular/fire";
 import { environment } from "../environments/environment";
 import * as firebase from "firebase";
 import {
-  NbPasswordAuthStrategy,
-  NbAuthModule,
-  NbAuthJWTToken,
+
 } from "@nebular/auth";
+
+import { NbAuthModule } from './auth/auth.module';
+import { NbPasswordAuthStrategy } from './auth/strategies';
+import { NbAuthJWTToken } from './auth/services';
+
+
 firebase.initializeApp(environment.firebase);
 
 @NgModule({
@@ -60,8 +64,8 @@ firebase.initializeApp(environment.firebase);
 
             key: "token", // this parameter tells where to look for the token
           },
-          baseEndpoint: 'https://saharga.co.id/api/v1',
-          // baseEndpoint: 'http://localhost:81/saharga-api/api/v1',
+          //baseEndpoint: 'https://saharga.co.id/api/v1',
+           baseEndpoint: 'http://localhost:81/saharga-api/api/v1',
           login: {
             // ...
             endpoint: "/login",
@@ -70,6 +74,8 @@ firebase.initializeApp(environment.firebase);
               success: "/dashboard/",
               failure: null, // stay on the same page
             },
+            defaultErrors: ['Login salah, silahkan coba lagi.'],
+            defaultMessages: ['Anda Berhasil Login!.'],
           },
           register: {
             // ...

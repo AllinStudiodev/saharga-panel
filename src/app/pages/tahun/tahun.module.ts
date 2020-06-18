@@ -15,6 +15,7 @@ import {
   NbSpinnerModule,
   NbDialogModule,
   NbDialogRef,
+  NbContextMenuModule,
 } from "@nebular/theme";
 
 import { ThemeModule } from "../../@theme/theme.module";
@@ -39,6 +40,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     NbToastrModule,
     NbSpinnerModule,
     NbDialogModule,
+    NbContextMenuModule
   ],
   providers: [
     {

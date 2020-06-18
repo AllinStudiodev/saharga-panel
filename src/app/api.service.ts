@@ -8,8 +8,8 @@ import { Router } from "@angular/router";
   providedIn: "root",
 })
 export class APIService {
-   public hostingUrl = "https://saharga.co.id/api/v1/";
-  // public hostingUrl = 'http://localhost:81/saharga-api/api/v1/';
+  // public hostingUrl = "https://saharga.co.id/api/v1/";
+   public hostingUrl = 'http://localhost:81/saharga-api/api/v1/';
   //local echo
   // public hostingUrl = "http://192.168.10.10:8000/api/v1/";
   public api_token = "";
@@ -485,4 +485,20 @@ export class APIService {
       .catch(this.handleError);
   }
 
+  /**
+   * fungsi untuk mengambil laporan upload data
+   *
+   * @param {*} url
+   * @param {*} data
+   * @returns {Promise<any>}
+   * @memberof LaporanUploadDataService
+   */
+  async grafikUploadItems(url, data): Promise<any> {
+    await this.getToken();
+    return this.http
+      .post(url, data, this.httpOptions)
+      .toPromise()
+      .then((response) => response)
+      .catch(this.handleError);
+  }
 }

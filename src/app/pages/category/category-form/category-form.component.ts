@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { NbDialogRef } from "@nebular/theme";
 import * as Firebase from 'firebase';
 
+
 /**
  * interface Category
  *
@@ -152,7 +153,11 @@ export class CategoryFormComponent implements OnInit {
    * @memberof CategoryFromComponent
    */
   goToList() {
-    this.router.navigate(["pages/category"]);
+    if (this.route.snapshot.paramMap.get("type") !== "item") {
+      this.router.navigate(["pages/category"]);
+    } else {
+      this.router.navigate(["pages/items/" + this.route.snapshot.paramMap.get("id")]);
+    }
   }
 
   getCategoryByID(id) {
@@ -278,4 +283,5 @@ export class CategoryFormComponent implements OnInit {
     });
 
   }
+
 }

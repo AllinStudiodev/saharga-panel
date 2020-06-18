@@ -38,8 +38,8 @@
               <span *ngIf="!dt.img || dt.img == 'no image'">no image</span>
             </td>
             <td>{{ dt?.name | titlecase }}</td>
-            <td>{{ dt?.description | titlecase }}</td>
-            <td>{{ dt?.group.name }}</td>
+            <td>{{ substring(dt?.description) }}</td>
+            <td>{{ dt?.group?.name }}</td>
             <td>{{ dt.parent ? dt.parent.name : 'KELOMPOK UTAMA' }}</td>
             <td style="text-align: center">
               <button (click)="gotoform(dt.id)" nbButton size="tiny" ghost status="success">

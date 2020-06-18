@@ -19,6 +19,8 @@ import { LaporanUploadDataDetailModule } from './laporan-upload-data-detail/lapo
 import { LaporanUploadBuktiSurveyModule } from './laporan-upload-bukti-survey/laporan-upload-bukti-survey.module';
 import { NaskahModule } from './naskah/naskah.module';
 import { TahunModule } from './tahun/tahun.module';
+import { TypeSshModule } from './type-ssh/type-ssh.module';
+import { GalleryModule } from './gellery/gellery.module';
 
 @NgModule({
   imports: [
@@ -38,7 +40,9 @@ import { TahunModule } from './tahun/tahun.module';
     LaporanUploadBuktiSurveyModule,
     NaskahModule,
     TypeUserModule,
-    TahunModule
+    TahunModule,
+    TypeSshModule,
+    GalleryModule
   ],
   declarations: [PagesComponent],
 })

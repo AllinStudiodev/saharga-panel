@@ -30,6 +30,7 @@ export class UserFormComponent implements OnInit {
   loading = false;
   isModal = false;
   type_users = [];
+  positions = ['user', 'administrator'];
 
   constructor(
     private service: APIService,
@@ -57,7 +58,7 @@ export class UserFormComponent implements OnInit {
     this.user.username = null;
     this.user.password = null;
     this.user.typeuser_id = null;
-    this.user.position = null;
+    this.user.position = 'user';
 
     this.error = new User();
   }

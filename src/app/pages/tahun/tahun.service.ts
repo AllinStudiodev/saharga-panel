@@ -52,4 +52,44 @@ export class TahunService extends APIService {
       .catch(this.handleError);
   }
   // #endregion
+
+  /**
+   * fungsi untuk mengaktifkan frontend yang di ceklist
+   *
+   * @param {*} data
+   * @returns {Promise<any>}
+   * @memberof ItemService
+   */
+  async lockTahun(data): Promise<any> {
+    await this.getToken();
+    return this.http
+      .post(
+        this.hostingUrl + "checklist/tahun/locktahun",
+        { data: data },
+        this.httpOptions
+      )
+      .toPromise()
+      .then((response) => response)
+      .catch(this.handleError);
+  }
+
+  /**
+   * fungsi untuk menonaktifkan frontend yang di ceklist
+   *
+   * @param {*} data
+   * @returns {Promise<any>}
+   * @memberof ItemService
+   */
+  async unlockTahun(data): Promise<any> {
+    await this.getToken();
+    return this.http
+      .post(
+        this.hostingUrl + "checklist/tahun/unlocktahun",
+        { data: data },
+        this.httpOptions
+      )
+      .toPromise()
+      .then((response) => response)
+      .catch(this.handleError);
+  }
 }

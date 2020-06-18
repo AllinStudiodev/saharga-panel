@@ -13,7 +13,7 @@ import { NbDialogRef } from "@nebular/theme";
 export class TypeUser {
   id: Number;
   type?: String;
-  is_lock?: Number;
+  is_lock?: Boolean;
   user_id?: Number;
 }
 
@@ -51,9 +51,8 @@ export class TypeUserFormComponent implements OnInit {
   init() {
     this.type_user.id = null;
     this.type_user.type = null;
-    this.type_user.is_lock = 1;
-    this.type_user.user_id = 1;
-    //this.type_user.user_id = JSON.parse(localStorage.getItem('payload')).id;
+    this.type_user.is_lock = false;
+    this.type_user.user_id = JSON.parse(localStorage.getItem('USER_INFO')).sub;
 
     this.error = new TypeUser();
   }

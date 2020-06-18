@@ -2,23 +2,28 @@
              nbSpinnerStatus="primary"
              nbSpinnerSize="large"
              nbSpinnerMessage="">
-  <nb-card-header>List Item</nb-card-header>
+  <nb-card-header>{{ category?.name }}</nb-card-header>
   <nb-card-body>
 
+  <div [innerHTML]="category?.description"></div>
+
   <div>
-    <button  class="margin" (click)="gotoform('new')" nbButton size="tiny"><nb-icon icon="plus" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Tambah Item</button>
-    <button class="margin" (click)="gotoformimport()" nbButton size="tiny"><nb-icon icon="upload-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Import Item</button>
-    <button [nbSpinner]="loadingAction" status="success"  *ngIf="checkedItem.length > 0" nbButton size="tiny" nbContextMenuTag="my-context-menu" [nbContextMenu]="checklist_menu">
+    <button *ngIf="category?.description && user.position == 'administrator'" class="margin" (click)="gotoformCategory(category)" nbButton size="tiny" status="success"><nb-icon icon="edit" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Edit Deskripsi</button>
+    <button *ngIf="!category?.description && user.position == 'administrator'" class="margin" (click)="gotoformCategory(category)" nbButton size="tiny"><nb-icon icon="plus" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Tambah Deskripsi</button>
+    <button [disabled]="user.type_user.is_lock == 1"  class="margin" (click)="gotoform('new')" nbButton size="tiny"><nb-icon icon="plus" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Tambah Item</button>
+    <button [disabled]="user.type_user.is_lock == 1" class="margin" (click)="gotoformimport()" nbButton size="tiny"><nb-icon icon="upload-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Import Item</button>
+    <button [disabled]="user.type_user.is_lock == 1" [nbSpinner]="loadingAction" status="success"  *ngIf="checkedItem.length > 0" nbButton size="tiny" nbContextMenuTag="my-context-menu" [nbContextMenu]="checklist_menu">
       <nb-icon icon="checkmark-square-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Action Checklist
     </button>
-    <button class="margin" *ngIf="checkedItem.length > 0" (click)="deleteChecklist()" status="danger" nbButton size="tiny"><nb-icon icon="trash-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Hapus Item Checklist</button>
+
+    <button [disabled]="user.type_user.is_lock == 1" class="margin" *ngIf="checkedItem.length > 0" (click)="deleteChecklist()" status="danger" nbButton size="tiny"><nb-icon icon="trash-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Hapus Item Checklist</button>
   </div>
 
 
   <div style="text-align: right; padding-bottom:10px;">
 
     <nb-select class="page" placeholder="Pilih Type" (selectedChange)="getRow()" [(ngModel)]="pagination.type" [(selected)]="pagination.type">
-      <nb-option *ngFor="let type of types" [value]="type">{{ type }}</nb-option>
+      <nb-option *ngFor="let type of types" [value]="type.type">{{ type.type }}</nb-option>
     </nb-select>
 
     <nb-select class="page" placeholder="Pilih Tahun" (selectedChange)="getRow()" [(ngModel)]="pagination.year" [(selected)]="pagination.year">
@@ -68,8 +73,9 @@
             <nb-icon *ngIf="!dt.is_front" icon="eye-off-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
           </td>
           <td>
-            <nb-icon *ngIf="dt.status" icon="flag" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
-            <nb-icon style="color: #ffc94d" *ngIf="!dt.status" icon="flag" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+            <nb-icon style="color: #ffc94d" *ngIf="dt.status == 'antrian'" icon="flag" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+            <nb-icon style="color: #3366FD" *ngIf="dt.status == 'approved'" icon="flag" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+            <nb-icon style="color: #2ce69b" *ngIf="dt.status == 'simcan'" icon="flag" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
           </td>
           <td>{{ dt?.uraian }}</td>
           <td>{{ dt?.description }}</td>
@@ -79,8 +85,8 @@
           <td>{{ dt?.username }}</td>
           <td>{{ dt?.type }}</td>
           <td style="text-align: center">
-            <button (click)="gotoform(dt.id)" nbButton size="tiny" ghost status="success"><nb-icon icon="edit"></nb-icon></button>
-            <button (click)="delete(dt.id)" nbButton size="tiny" ghost status="danger"><nb-icon icon="trash"></nb-icon></button>
+            <button [disabled]="(user.type_user.is_lock == 1 || dt.user_id !== user.sub) || user.position !== 'administrator'" (click)="gotoform(dt.id)" nbButton size="tiny" ghost status="success"><nb-icon icon="edit"></nb-icon></button>
+            <button [disabled]="(user.type_user.is_lock == 1 || dt.user_id !== user.sub) || user.position !== 'administrator'" (click)="delete(dt.id)" nbButton size="tiny" ghost status="danger"><nb-icon icon="trash"></nb-icon></button>
           </td>
         </tr>
     </table>

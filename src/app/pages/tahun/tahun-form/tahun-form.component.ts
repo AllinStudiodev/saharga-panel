@@ -14,6 +14,7 @@ export class Tahun {
   id: Number;
   tahun?: String;
   user_id?: Number;
+  is_lock?: Boolean;
 }
 
 @Component({
@@ -59,6 +60,7 @@ export class TahunFormComponent implements OnInit {
     this.tahun.id = null;
     this.tahun.tahun = null;
     this.tahun.user_id = JSON.parse(localStorage.getItem('USER_INFO')).sub;
+    this.tahun.is_lock = false;
 
     this.error = new Tahun();
   }
@@ -169,6 +171,20 @@ export class TahunFormComponent implements OnInit {
           this.loading = false;
         }
       });
+  }
+
+    /**
+   * fungsi untuk check or uncheck barang aktif
+   *
+   * @param {boolean} checked
+   * @memberof BarangFromComponent
+   */
+  toggle(checked: boolean) {
+    if (checked) {
+      this.tahun.is_lock = true
+    } else {
+      this.tahun.is_lock = false
+    }
   }
 
 }

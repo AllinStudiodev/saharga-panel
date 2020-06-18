@@ -35,7 +35,7 @@ export class ItemFormComponent implements OnInit {
   error = new Item;
   satuans = [];
   loading = false;
-  types = ['UMUM', 'PARSIAL', 'OTHER'];
+  types = [];
   usulans = [];
   categori_id;
   user_id;
@@ -49,12 +49,13 @@ export class ItemFormComponent implements OnInit {
     this.categori_id = this.route.snapshot.paramMap.get("categori_id");
     this.user_id = JSON.parse(localStorage.getItem('USER_INFO')).sub;
     this.getUsulans();
-    this.getTahun();
+    this.getTahunLock();
+    this.getTypeSSHLock();
   }
 
   async ngOnInit() {
     await this.getSatuan()
-    await this.getTahun();
+    await this.getTahunLock();
 
     if (this.route.snapshot.paramMap.get("params") !== 'new') {
       this.getItemByID(this.route.snapshot.paramMap.get("params"))
@@ -218,7 +219,9 @@ export class ItemFormComponent implements OnInit {
       result => {
         console.log('hasil', result)
         this.satuans = result.data;
-        this.item.satuan_id = this.satuans[0].id
+        if (this.satuans.length > 0) {
+          this.item.satuan_id = this.satuans[0].id
+        }
       }
     )
   }
@@ -228,12 +231,14 @@ export class ItemFormComponent implements OnInit {
    *
    * @memberof ItemComponent
    */
-  getTahun() {
-    this.service.getTahun().then(
+  getTahunLock() {
+    this.service.getTahunLock().then(
       result => {
         console.log('hasil', result)
         this.tahuns = result.data;
-        this.item.tahun = this.tahuns[0].tahun
+        if (this.tahuns.length > 0) {
+          this.item.tahun = this.tahuns[0].tahun
+        }
       }
     )
   }
@@ -256,8 +261,22 @@ export class ItemFormComponent implements OnInit {
     this.service.getUsulanForItem(this.user_id, this.categori_id).then(
       result => {
         this.usulans = result.data;
-        this.item.usulan_id = this.usulans[0].id;
-        console.log(this.usulans)
+        if (this.usulans.length > 0) {
+          this.item.usulan_id = this.usulans[0].id;
+          console.log(this.usulans)
+        }
+      }
+    )
+  }
+
+  getTypeSSHLock() {
+    this.service.getTypeSshLock().then(
+      result => {
+        this.types = result.data;
+        if (this.types.length > 0) {
+          this.item.type = this.types[0].type;
+          console.log(this.usulans)
+        }
       }
     )
   }

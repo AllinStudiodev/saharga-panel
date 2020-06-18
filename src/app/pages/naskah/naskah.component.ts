@@ -14,6 +14,7 @@ export class NaskahComponent implements OnInit {
   url = "";
   loading = false;
   loadingExport = false;
+  user = JSON.parse(localStorage.getItem('USER_INFO'));
 
   data = {
     from: null,

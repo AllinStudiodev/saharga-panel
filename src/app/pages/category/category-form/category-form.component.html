@@ -15,7 +15,7 @@
 
     <nb-card-body>
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
           <div class="form-group row">
             <label for="namaCategory" class="label col-sm-3 col-form-label">Nama Category</label>
             <div class="col-sm-9">
@@ -32,11 +32,11 @@
           <div class="form-group row">
             <label for="descriptionCategory" class="label col-sm-3 col-form-label">Deskripsi</label>
             <div class="col-sm-9">
-              <textarea row="3" type="text" #category_description [(ngModel)]="category.description"
-                [ngModelOptions]="{standalone: true}" nbInput fullWidth id="descriptionCategory"
-                placeholder="Input Deskripsi Category"></textarea>
+              <ckeditor
+                [(ngModel)]="category.description" [ngModelOptions]="{standalone: true}">
+              </ckeditor>
               <ng-container class="col-sm-9">
-                <p class="caption status-danger" *ngIf="error.description && !category_description.value">
+                <p class="caption status-danger" *ngIf="error.description">
                   {{ error.description[0] }}
                 </p>
               </ng-container>

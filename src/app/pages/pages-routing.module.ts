@@ -27,6 +27,10 @@ import { NaskahComponent } from './naskah/naskah.component';
 import { NaskahFormComponent } from './naskah/naskah-form/naskah-form.component';
 import { TahunComponent } from './tahun/tahun.component';
 import { TahunFormComponent } from './tahun/tahun-form/tahun-form.component';
+import { TypeSshComponent } from './type-ssh/type-ssh.component';
+import { TypeSshFormComponent } from './type-ssh/type-ssh-form/type-ssh-form.component';
+import { GalleryComponent } from './gellery/gellery.component';
+import { GalleryFormComponent } from './gellery/gellery-form/gellery-form.component';
 
 const routes: Routes = [
   {
@@ -80,7 +84,7 @@ const routes: Routes = [
         component: CategoryComponent,
       },
       {
-        path: "category-form/:id",
+        path: "category-form/:id/:type",
         component: CategoryFormComponent,
       },
       {
@@ -138,6 +142,22 @@ const routes: Routes = [
       {
         path: "tahun-form/:id",
         component: TahunFormComponent,
+      },
+      {
+        path: "type-ssh",
+        component: TypeSshComponent,
+      },
+      {
+        path: "type-ssh-form/:id",
+        component: TypeSshFormComponent,
+      },
+      {
+        path: "gallery",
+        component: GalleryComponent,
+      },
+      {
+        path: "gallery-form/:params",
+        component: GalleryFormComponent,
       },
     ],
   },

@@ -60,8 +60,12 @@
           <div class="form-group row">
             <label for="positionUser" class="label col-sm-3 col-form-label">Posisi</label>
             <div class="col-sm-9">
-              <input type="text" #user_position [(ngModel)]="user.position" [ngModelOptions]="{standalone: true}"
-                nbInput fullWidth id="positionUser" placeholder="Input Posisi User">
+             <nb-select [(ngModel)]="user.position" [ngModelOptions]="{standalone: true}"
+                 fullWidth placeholder="Pilih Posisi User">
+                <nb-option [value]="position" *ngFor="let position of positions">{{ position }}</nb-option>
+              </nb-select>
+              <!-- <input type="text" #user_position [(ngModel)]="user.position" [ngModelOptions]="{standalone: true}"
+                nbInput fullWidth id="positionUser" placeholder="Input Posisi User"> -->
               <ng-container class="col-sm-9">
                 <p class="caption status-danger" *ngIf="error.position && !user_position.value">
                   {{ error.position[0] }}

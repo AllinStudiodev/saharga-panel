@@ -4,7 +4,7 @@
 
     <div class="row header">
       <div class="col">
-        <button (click)="gotoform('new')" nbButton size="small">
+        <button [disabled]="user.position !== 'administrator'" (click)="gotoform('new')" nbButton size="small">
           <nb-icon icon="plus" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Tambah Naskah PDF Baru
         </button>
       </div>
@@ -44,10 +44,10 @@
             <td style="text-align: center"><a  target="_blank" [href]="dt.file">Download</a></td>
             <td>{{ dt?.user.username }}</td>
             <td style="text-align: center">
-              <button (click)="gotoform(dt.id)" nbButton size="tiny" ghost status="success">
+              <button [disabled]="user.position !== 'administrator'" (click)="gotoform(dt.id)" nbButton size="tiny" ghost status="success">
                 <nb-icon icon="edit"></nb-icon>
               </button>
-              <button (click)="deleteGroup(dt.id)" nbButton size="tiny" ghost status="danger">
+              <button [disabled]="user.position !== 'administrator'" (click)="deleteGroup(dt.id)" nbButton size="tiny" ghost status="danger">
                 <nb-icon icon="trash"></nb-icon>
               </button>
             </td>

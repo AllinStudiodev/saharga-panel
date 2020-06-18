@@ -1,0 +1,61 @@
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+@import '../../@theme/styles/themes';
+
+chart {
+  height: 350px !important;
+}
+
+@include nb-install-component() {
+  table {
+    color: nb-theme(text-basic-color);
+    font-size: small !important;
+    margin-bottom: 0rem;
+  }
+
+  .page {
+    color: nb-theme(text-basic-color);
+    margin: 5px;
+  }
+
+  .header {
+    color: nb-theme(text-basic-color);
+    margin-bottom: 10px;
+  }
+
+  .input-search-barang {
+    margin-left: auto;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+    border-top-right-radius: 0rem;
+    border-bottom-right-radius: 0rem;
+  }
+
+  .button-search-barang {
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    border-top-left-radius: 0rem;
+    border-bottom-left-radius: 0rem;
+  }
+
+  nb-card-footer {
+    text-align: right !important;
+
+    button {
+      margin: 5px !important;
+    }
+  }
+
+  .halaman {
+    text-align: right !important;
+    margin-left: auto;
+  }
+
+  .margin {
+    margin: 5px !important;
+  }
+
+  .center {
+    text-align: center !important
+  }
+}

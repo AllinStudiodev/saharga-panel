@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { APIService } from '../../../api.service';
 import Swal from 'sweetalert2'
 import { ItemService } from '../item.service';
 
@@ -16,8 +15,8 @@ export class ItemImportComponent implements OnInit {
   file = null;
   categori_id;
   user_id;
-  types = ['UMUM', 'PARSIAL', 'OTHER'];
-  type = 'UMUM';
+  types = [];
+  type;
   usulan_id = 0;
   usulans = [];
   tahuns = [];
@@ -33,7 +32,8 @@ export class ItemImportComponent implements OnInit {
       this.user_id = JSON.parse(localStorage.getItem('USER_INFO')).sub;
 
      this.getUsulans();
-     this.getTahun();
+     this.getTahunLock();
+     this.getTypeSSHLock();
   }
 
   ngOnInit() {
@@ -45,8 +45,10 @@ export class ItemImportComponent implements OnInit {
     this.itemService.getUsulanForItem(this.user_id, this.categori_id).then(
       result => {
         this.usulans = result.data;
-        this.usulan_id = this.usulans[0].id;
-        console.log(this.usulans)
+        if (this.usulans.length > 0) {
+          this.usulan_id = this.usulans[0].id;
+          console.log(this.usulans)
+        }
       }
     )
   }
@@ -115,12 +117,26 @@ export class ItemImportComponent implements OnInit {
    *
    * @memberof ItemComponent
    */
-  getTahun() {
-    this.itemService.getTahun().then(
+  getTahunLock() {
+    this.itemService.getTahunLock().then(
       result => {
         console.log('hasil', result)
         this.tahuns = result.data;
-        this.tahun = this.tahuns[0].tahun
+        if (this.tahuns.length > 0) {
+          this.tahun = this.tahuns[0].tahun
+        }
+      }
+    )
+  }
+
+  getTypeSSHLock() {
+    this.itemService.getTypeSshLock().then(
+      result => {
+        this.types = result.data;
+        if (this.types.length > 0) {
+          this.type = this.types[0].type;
+          console.log(this.usulans)
+        }
       }
     )
   }

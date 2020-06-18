@@ -1,0 +1,56 @@
+<form aria-labelledby="title">
+  <nb-card accent="info">
+    <nb-card-header>
+      <div class="row">
+        <div class="col">
+          Form Tipe Ssh
+        </div>
+        <div class="col" style="text-align:right">
+          <button *ngIf="!isModal" (click)="goToList()" nbButton size="tiny" ghost status="primary">
+            <nb-icon icon="arrow-back-outline"></nb-icon> Kembali
+          </button>
+        </div>
+      </div>
+    </nb-card-header>
+
+    <nb-card-body>
+      <div class="row">
+        <div class="col-lg-6">
+
+          <div class="form-group row">
+            <label for="typeSsh" class="label col-sm-3 col-form-label">Tipe user</label>
+            <div class="col-sm-9">
+              <input type="text" #user_type [(ngModel)]="type_ssh.type" [ngModelOptions]="{standalone: true}" nbInput
+                fullWidth id="typeSsh" placeholder="Input tipe Ssh">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.type && !user_type.value">
+                  {{ error.type[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="merkObat" class="label col-sm-3 col-form-label">Is Lock</label>
+            <div class="col-sm-9">
+              <nb-checkbox #is_lock [value]="type_ssh.is_lock" (checkedChange)="toggle($event)" >is lock</nb-checkbox>
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.is_lock && !is_lock.value">
+                  {{ error.is_lock[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </nb-card-body>
+
+    <nb-card-footer>
+      <!-- <button nbButton (click)="batal()" status="default">Batal</button> -->
+      <button nbButton [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" (click)="save()"
+        status="primary">Simpan</button>
+    </nb-card-footer>
+
+  </nb-card>
+</form>
