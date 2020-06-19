@@ -1,28 +1,86 @@
-<!-- <div class="row">
-  <nb-card>
-    <nb-card-body>Dashboard</nb-card-body>
-  </nb-card>
-</div> -->
+<div class="row">
+  <div class="col" *ngFor="let group of groups">
+    <nb-card accent="primary">
+      <nb-card-header>{{ group?.name }}</nb-card-header>
+      <nb-card-body>
+        <div style="display: flex;justify-content: space-between;">
+          <div>Kategory</div>
+          <div><h6>{{ group?.categories.length ? group?.categories.length : 0 | number}}</h6></div>
+        </div>
+        <div style="display: flex;justify-content: space-between;">
+          <div>Item Terupload</div>
+          <div *ngIf="group.categories">
+            <div><h6>{{ sum(group?.categories ? group?.categories : []) | number }}</h6></div>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
 
-<nb-card accent="info" [nbSpinner]="loading_topten"
+<nb-card accent="primary" [nbSpinner]="loading_topten"
   nbSpinnerStatus="primary"
   nbSpinnerSize="large"
   nbSpinnerMessage="">
   <nb-card-header>
     <div class="row">
-      <div class="col-9">
+      <div class="col-6">
           Grafik Upload Data
       </div>
       <div class="col-3" style="text-align:right">
         <div class="form-group">
+          <select *ngIf="types"  [(ngModel)]="pagination.type" class="margin form-control" (change)='onOptionsSelectedType()'>
+            <option  [value]="type.type" *ngFor="let type of types">{{ type?.type }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-3" style="text-align:right">
+        <div class="form-group">
           <select [(ngModel)]="pagination.year" class="margin form-control" (change)='onOptionsSelected()'>
-            <option [value]="tahun.tahun" *ngFor="let tahun of years">{{ tahun?.tahun }}</option>
+            <option  [value]="tahun.tahun" *ngFor="let tahun of years">{{ tahun?.tahun }}</option>
           </select>
         </div>
       </div>
     </div>
   </nb-card-header>
   <nb-card-body>
-    <chart *ngIf="data_topten" type="bar" [data]="data_topten" [options]="options_topten"></chart>
+    <chart type="bar" [data]="data_topten" [options]="options_topten"></chart>
+  </nb-card-body>
+</nb-card>
+
+<nb-card accent="primary" [nbSpinner]="loading_topten_detail"
+  nbSpinnerStatus="primary"
+  nbSpinnerSize="large"
+  nbSpinnerMessage="">
+  <nb-card-header>
+    <div class="row">
+      <div class="col-3">
+          Grafik Upload Data Detail
+      </div>
+      <div class="col-3" style="text-align:right">
+        <div class="form-group">
+          <select [(ngModel)]="pagination_detail.typeuser_id" class="margin form-control" (change)='onOptionsSelectedDetailType()'>
+            <option  [value]="type.id" *ngFor="let type of typeUsers">{{ type?.type }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-3" style="text-align:right">
+        <div class="form-group">
+          <select [(ngModel)]="pagination_detail.type" class="margin form-control" (change)='onOptionsSelectedDetailType()'>
+            <option  [value]="type.type" *ngFor="let type of types">{{ type?.type }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-3" style="text-align:right">
+        <div class="form-group">
+          <select [(ngModel)]="pagination_detail.year" class="margin form-control" (change)='onOptionsSelectedDetail()'>
+            <option  [value]="tahun.tahun" *ngFor="let tahun of years">{{ tahun?.tahun }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <chart type="bar" [data]="data_topten_detail" [options]="options_topten_detail"></chart>
   </nb-card-body>
 </nb-card>

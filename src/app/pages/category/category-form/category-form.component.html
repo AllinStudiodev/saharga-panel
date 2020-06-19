@@ -1,5 +1,5 @@
 <form aria-labelledby="title">
-  <nb-card accent="info">
+  <nb-card accent="primary">
     <nb-card-header>
       <div class="row">
         <div class="col">
@@ -85,6 +85,19 @@
               <ng-container class="col-sm-9">
                 <p class="caption status-danger" *ngIf="error.img">
                   {{ error.img[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="namaCategory" class="label col-sm-3 col-form-label">Order</label>
+            <div class="col-sm-9">
+              <input type="number" #order [(ngModel)]="category.order" [ngModelOptions]="{standalone: true}"
+                nbInput fullWidth id="namaCategory" placeholder="Input Order" maxlength="100">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.order && !order.value">
+                  {{ error.order[0] }}
                 </p>
               </ng-container>
             </div>

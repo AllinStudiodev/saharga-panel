@@ -1,4 +1,4 @@
-<nb-card accent="info" [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" nbSpinnerMessage="">
+<nb-card accent="primary" [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" nbSpinnerMessage="">
   <nb-card-header>List Category</nb-card-header>
   <nb-card-body>
 
@@ -27,6 +27,7 @@
             <th scope="col" style="cursor: pointer;">Deskripsi</th>
             <th scope="col" style="cursor: pointer;">Group</th>
             <th scope="col" style="cursor: pointer;">Parent</th>
+            <th scope="col" style="cursor: pointer;">Order</th>
             <th scope="col" style="text-align: center">Opsi</th>
           </tr>
         </thead>
@@ -41,6 +42,7 @@
             <td>{{ substring(dt?.description) }}</td>
             <td>{{ dt?.group?.name }}</td>
             <td>{{ dt.parent ? dt.parent.name : 'KELOMPOK UTAMA' }}</td>
+            <td>{{ dt?.order }}</td>
             <td style="text-align: center">
               <button (click)="gotoform(dt.id)" nbButton size="tiny" ghost status="success">
                 <nb-icon icon="edit"></nb-icon>

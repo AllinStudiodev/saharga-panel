@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { APIService } from '../../api.service';
-import { HttpEventType } from '@angular/common/http';
+import { HttpEventType, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -223,6 +223,10 @@ export class ItemService extends APIService {
     this.getToken();
     return this.http.post(this.hostingUrl + "item/exportexcel", data, {
       responseType: "blob",
+      headers: new HttpHeaders({
+        Accept: "application/json",
+        Authorization: "bearer " + this.api_token,
+      })
     });
   }
 
@@ -237,6 +241,28 @@ export class ItemService extends APIService {
     this.getToken();
     return this.http.post(this.hostingUrl + "item/exportpdf", data, {
       responseType: "blob",
+      headers: new HttpHeaders({
+        Accept: "application/json",
+        Authorization: "bearer " + this.api_token,
+      })
+    });
+  }
+
+   /**
+   * export item pdf
+   *
+   * @param {*} data
+   * @returns {Observable<Blob>}
+   * @memberof ItemService
+   */
+  getSatuanPDF(): Observable<Blob> {
+    this.getToken();
+    return this.http.get(this.hostingUrl + "satuan/exportpdf", {
+      responseType: "blob",
+      headers: new HttpHeaders({
+        Accept: "application/json",
+        Authorization: "bearer " + this.api_token,
+      })
     });
   }
 

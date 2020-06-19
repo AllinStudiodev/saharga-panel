@@ -1,4 +1,4 @@
-<nb-card accent="info" [nbSpinner]="loading"
+<nb-card accent="primary" [nbSpinner]="loading"
              nbSpinnerStatus="primary"
              nbSpinnerSize="large"
              nbSpinnerMessage="">
@@ -14,6 +14,7 @@
   </nb-card-header>
   <nb-card-body>
     <a href="assets/format-import-excel.xlsx" class="margin" nbButton size="tiny"><nb-icon icon="download-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Form Format Excel</a>
+    <button (click)="downloadPDF()" class="margin" nbButton size="tiny"><nb-icon icon="download-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon> Download Daftar Satuan</button>
 
     <br /><br />
 

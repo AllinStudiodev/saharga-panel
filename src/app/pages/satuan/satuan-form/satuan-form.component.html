@@ -1,5 +1,5 @@
 <form aria-labelledby="title">
-  <nb-card accent="info">
+  <nb-card accent="primary">
     <nb-card-header>
       <div class="row">
         <div class="col">
@@ -16,7 +16,21 @@
     <nb-card-body>
       <div class="row">
         <div class="col-lg-6">
-          <div class="form-satuan row">
+
+          <div class="form-group row">
+            <label for="namaSatuan" class="label col-sm-3 col-form-label">Kode</label>
+            <div class="col-sm-9">
+              <input type="number" #kode [(ngModel)]="satuan.kode" [ngModelOptions]="{standalone: true}" nbInput
+                fullWidth id="namaSatuan" placeholder="Input Kode" maxlength="100">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.kode && !kode.value">
+                  {{ error.kode[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
             <label for="namaSatuan" class="label col-sm-3 col-form-label">Nama Satuan</label>
             <div class="col-sm-9">
               <input type="text" #satuan_name [(ngModel)]="satuan.name" [ngModelOptions]="{standalone: true}" nbInput
@@ -28,6 +42,20 @@
               </ng-container>
             </div>
           </div>
+
+          <div class="form-group row">
+            <label for="namaSatuan" class="label col-sm-3 col-form-label">Singkatan</label>
+            <div class="col-sm-9">
+              <input type="text" #singkatan [(ngModel)]="satuan.singkatan" [ngModelOptions]="{standalone: true}" nbInput
+                fullWidth id="namaSatuan" placeholder="Input Singkatan" maxlength="100">
+              <ng-container class="col-sm-9">
+                <p class="caption status-danger" *ngIf="error.singkatan && !singkatan.value">
+                  {{ error.singkatan[0] }}
+                </p>
+              </ng-container>
+            </div>
+          </div>
+
         </div>
       </div>
     </nb-card-body>

@@ -1,5 +1,5 @@
 <form aria-labelledby="title">
-  <nb-card accent="info">
+  <nb-card accent="primary">
     <nb-card-header>
       <div class="row">
         <div class="col">
@@ -67,7 +67,7 @@
               <!-- <input type="text" #user_position [(ngModel)]="user.position" [ngModelOptions]="{standalone: true}"
                 nbInput fullWidth id="positionUser" placeholder="Input Posisi User"> -->
               <ng-container class="col-sm-9">
-                <p class="caption status-danger" *ngIf="error.position && !user_position.value">
+                <p class="caption status-danger" *ngIf="error.position">
                   {{ error.position[0] }}
                 </p>
               </ng-container>

@@ -21,6 +21,7 @@ export class Category {
   parent_id?: Number;
   user_id?: Number;
   group?: any[];
+  order?: Number;
 }
 
 @Component({
@@ -71,6 +72,7 @@ export class CategoryFormComponent implements OnInit {
     this.category.img = null;
     this.category.parent_id = 0;
     this.category.user_id = JSON.parse(localStorage.getItem('USER_INFO')).sub;
+    this.category.order = 0;
 
     this.error = new Category();
   }
@@ -109,7 +111,6 @@ export class CategoryFormComponent implements OnInit {
         });
     } else {
       this.loading = true;
-      console.log('wkwkwk', this.category)
       this.service
         .postCategory(this.category)
         .then((result) => {

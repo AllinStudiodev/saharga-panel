@@ -1,4 +1,4 @@
-<nb-card accent="info" [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" nbSpinnerMessage="">
+<nb-card accent="primary" [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" nbSpinnerMessage="">
   <nb-card-header>List Satuan</nb-card-header>
   <nb-card-body>
 
@@ -24,14 +24,16 @@
             <th scope="col">#</th>
             <th scope="col" style="cursor: pointer;">Kode Satuan</th>
             <th scope="col" style="cursor: pointer;">Nama Satuan</th>
+            <th scope="col" style="cursor: pointer;">Singkatan</th>
             <th scope="col" style="text-align: center">Opsi</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let dt of data.data; let i = index;">
             <th scope="row">{{ data.from + i }}.</th>
-             <td>{{ dt?.id }}</td>
-            <td>{{ dt?.name | titlecase }}</td>
+             <td>{{ dt?.kode }}</td>
+            <td>{{ dt?.name }}</td>
+            <td>{{ dt?.singkatan }}</td>
             <td style="text-align: center">
               <button (click)="gotoform(dt.id)" nbButton size="tiny" ghost status="success">
                 <nb-icon icon="edit"></nb-icon>

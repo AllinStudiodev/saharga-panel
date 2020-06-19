@@ -14,6 +14,8 @@ export class Satuan {
   id: Number;
   name?: String;
   user_id?: Number;
+  kode?: Number;
+  singkatan?: String
 }
 
 @Component({
@@ -57,8 +59,9 @@ export class SatuanFormComponent implements OnInit {
   init() {
     this.satuan.id = null;
     this.satuan.name = null;
-    this.satuan.user_id = 1;
-    //this.satuan.user_id = JSON.parse(localStorage.getItem('payload')).id;
+    this.satuan.kode = null;
+    this.satuan.singkatan = null;
+    this.satuan.user_id = JSON.parse(localStorage.getItem('USER_INFO')).sub;
 
     this.error = new Satuan();
   }

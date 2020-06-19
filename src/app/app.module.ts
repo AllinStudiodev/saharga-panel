@@ -64,8 +64,8 @@ firebase.initializeApp(environment.firebase);
 
             key: "token", // this parameter tells where to look for the token
           },
-          //baseEndpoint: 'https://saharga.co.id/api/v1',
-           baseEndpoint: 'http://localhost:81/saharga-api/api/v1',
+          baseEndpoint: 'https://saharga.co.id/api/v1',
+          // baseEndpoint: 'http://localhost:81/saharga-api/api/v1',
           login: {
             // ...
             endpoint: "/login",
